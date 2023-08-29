@@ -18,185 +18,137 @@
   <div class="container">
     <div class="card mt-3">
       <div class="card-body">
-        <div class="m-4">
-          <div class="card text-center">
-            <div class="card-header">
-              <ul class="nav nav-tabs card-header-tabs" id="myTab">
-                <li class="nav-item">
-                  <a href="#profile" class="nav-link active" data-bs-toggle="tab">Perfil</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#address" class="nav-link" data-bs-toggle="tab">Endereço</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#telephone" class="nav-link" data-bs-toggle="tab">Telefone</a>
-                </li>
-              </ul>
+
+        <div v-if="Object.keys(this.messageSuccess).length > 0" class="alert alert-success mt-2" role="alert">
+          {{ this.messageSuccess }}
+        </div>
+
+        <form>
+          <div class="row mb-4">
+            <div class="col">
+              <div class="form-outline">
+                <input type="text" id="nome" v-model="user.nome" class="form-control" placeholder="Nome" required />
+              </div>
+              <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                  {{ this.errorList.nome }}
+              </div>
             </div>
 
-            <div class="card-body">
-              <div class="tab-content">
-                <div class="tab-pane fade show active" id="profile">
-                  <h5 class="card-title">Perfil</h5><hr />
-                 
-                  <form>
-                    <div class="row mb-4">
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="text" id="name" name="nome" class="form-control" placeholder="Nome" required />
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" required />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row mb-4">
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="text" id="cpf" name="cpf" class="form-control" placeholder="CPF" required />
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="password" id="password" name="senha" class="form-control" placeholder="Senha" required />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row mb-4">
-                      <div class="col">
-                        <div class="form-outline">
-                          <label class="form-label" for="form6Example2">Data de Nascimento</label>
-                          <input type="date" id="date" name="dataNascimento" class="form-control" required />
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div class="form-outline">                    
-                          <div class="form-check">
-                            <input type="radio" id="masculino" name="genero" class="form-check-input" checked />
-                            <label class="form-check-label" for="flexRadioDefault1">Masculino</label>
-                          </div>
-                          <div class="form-check">
-                            <input type="radio" id="feminino" name="genero" class="form-check-input" />
-                            <label class="form-check-label" for="flexRadioDefault2">Feminino</label>
-                          </div>
-                          <div class="form-check">
-                            <input type="radio" id="outro" name="genero" class="form-check-input" />
-                            <label class="form-check-label" for="flexRadioDefault2">Outro</label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block mb-4">Enviar</button>
-                  </form>
-                </div>
-
-                <div class="tab-pane fade" id="address">
-                  <h5 class="card-title">Endereço</h5><hr />
-
-                  <form>
-                    <div class="row mb-4">
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="cep" id="cep" name="cep" class="form-control" placeholder="CEP" required />
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="text" id="logradouro" name="logradouro" class="form-control" placeholder="Logradouro" required />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row mb-4">
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="text" id="descricao" name="descricao" class="form-control" placeholder="Descricao" required />
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="text" id="bairro" name="bairro" class="form-control" placeholder="Bairro" required />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row mb-4">
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="text" id="cidade" name="cidade" class="form-control" placeholder="Cidade" required />
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="text" id="uf" name="uf" class="form-control" placeholder="uf" required />
-                        </div>
-                      </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block mb-4">Enviar</button>
-                  </form>
-                </div>
-
-                <div class="tab-pane fade" id="telephone">
-                  <h5 class="card-title">Telefone</h5><hr />
-
-                  <form>
-                    <div class="row mb-4">
-                      <div class="col">
-                        <div class="form-outline">
-                          <select class="form-select" aria-label="Default select example">
-                            <option selected>Escolha o DDD</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div class="form-outline">
-                          <select class="form-select" aria-label="Default select example">
-                            <option selected>Escolha o Tipo</option>
-                            <option value="Celular">Celular</option>
-                            <option value="Fixo">Fixo</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row mb-4">
-                      <div class="col">
-                        <div class="form-outline">
-                          <input type="text" id="numero" name="numero" class="form-control" placeholder="Numero" required />
-                        </div>
-                      </div>
-
-                      <div class="col">
-                        <div class="form-outline">
-                          
-                        </div>
-                      </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-block mb-4">Enviar</button>
-                  </form>
-                </div>
+            <div class="col">
+              <div class="form-outline">
+                <input type="email" id="email" v-model="user.email" class="form-control" placeholder="E-mail" required />
+              </div>
+              <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                  {{ this.errorList.email }}
               </div>
             </div>
           </div>
-        </div>
+
+          <div class="row mb-4">
+            <div class="col">
+              <div class="form-outline">
+                <input type="text" id="cpf" v-model="user.cpf" class="form-control" placeholder="CPF" required />
+              </div>
+              <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                  {{ this.errorList.cpf }}
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-outline">
+                <input type="password" id="password" v-model="user.senha" class="form-control" placeholder="Senha" required />
+              </div>
+              <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                  {{ this.errorList.senha }}
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col">
+              <div class="form-outline">
+                <label class="form-label" for="form6Example2">Data de Nascimento</label>
+                <input type="date" id="date" v-model="user.dataNascimento" class="form-control" required />
+              </div>
+              <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                  {{ this.errorList.dataNascimento }}
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-outline">                    
+                <div class="form-check">
+                  <input type="radio" id="masculino" value="Masculino" v-model="user.genero" class="form-check-input" />
+                  <label class="form-check-label" for="Masculino">Masculino</label>
+                </div>
+
+                <div class="form-check">
+                  <input type="radio" id="feminino" value="Feminino" v-model="user.genero" class="form-check-input" />
+                  <label class="form-check-label" for="Feminino">Feminino</label>
+                </div>
+
+                <div class="form-check">
+                  <input type="radio" id="outro" value="Outro" v-model="user.genero" class="form-check-input" />
+                  <label class="form-check-label" for="Outro">Outro</label>
+                </div>
+              </div>
+              <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                  {{ this.errorList.genero }}
+              </div>
+            </div>
+          </div>
+
+          <button type="button" @click="saveUser" class="btn btn-primary btn-block mb-4">Enviar</button>
+        </form>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+  import api from '@/api';
+
+  export default {
+    name: 'createUser',
+    data() {
+      return {
+        messageSuccess: '',
+        errorList: {},
+        user: {
+          nome: '',
+          email: '',
+          cpf: '',
+          senha: '',
+          dataNascimento: '',
+          genero: 'Outro',
+          eAdmin: false
+        },
+      };
+    },
+    methods: {
+      saveUser() {
+        api.post('/user/save', this.user)
+          .then((response) => {
+            this.user = {
+              nome: '',
+              email: '',
+              cpf: '',
+              senha: '',
+              dataNascimento: '',
+              genero: 'Outro',
+              eAdmin: false
+            }
+
+            if (response.data.status === 200) {
+              this.messageSuccess = response.data.message
+            }
+          })
+          .catch((error) => {
+            if (error.response.data.status === 400) {
+              this.errorList = error.response.data.data
+            }
+          });
+      },
+    },
+};
+</script>
