@@ -126,8 +126,8 @@
       };
     },
     methods: {
-      saveUser() {
-        api.post('/user/save', this.user)
+      async saveUser() {
+        await api.post('/user/save', this.user)
           .then((response) => {
             this.user = {
               nome: '',
