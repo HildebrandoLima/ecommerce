@@ -120,14 +120,14 @@
           cpf: '',
           senha: '',
           dataNascimento: '',
-          genero: 'Outro',
+          genero: '',
           eAdmin: false
         },
       };
     },
     methods: {
-      async saveUser() {
-        await api.post('/user/save', this.user)
+      saveUser() {
+        api.post('/user/save', this.user)
           .then((response) => {
             this.user = {
               nome: '',
@@ -135,7 +135,7 @@
               cpf: '',
               senha: '',
               dataNascimento: '',
-              genero: 'Outro',
+              genero: '',
               eAdmin: false
             }
 

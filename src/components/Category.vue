@@ -1,15 +1,13 @@
-<script setup>
-    import { RouterLink } from 'vue-router'
-</script>
-
 <template>
     <li v-for="(category, index) in categories" :key="index"><RouterLink class="dropdown-item" to="{{ category.nome }}">{{ category.nome }}</RouterLink></li>
 </template>
 
 <script>
+  import { RouterLink } from 'vue-router'
   import api from '@/api';
 
   export default {
+    components: {RouterLink},
     name: 'category',
     errorList: {},
     data() {
