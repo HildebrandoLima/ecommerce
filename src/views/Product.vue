@@ -1,9 +1,3 @@
-<script setup>
-  import { RouterLink } from 'vue-router'
-  import Category from '../components/Category.vue'
-  import Pagination from '../components/Pagination.vue'
-</script>
-
 <template>
   <div class="bg-primary mb-4">
     <div class="container py-4">
@@ -87,9 +81,13 @@
 </template>
 
 <script>
+  import { RouterLink } from 'vue-router'
+  import Category from '@/components/Category.vue'
+  import Pagination from '@/components/Pagination.vue'
   import api from '@/api';
 
   export default {
+    components: {RouterLink, Category, Pagination},
     name: 'product',
     errorList: {},
     data() {
