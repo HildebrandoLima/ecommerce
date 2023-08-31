@@ -2,10 +2,12 @@
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
             <div class="card w-100 my-2 shadow-2-strong">
-                <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/1.webp" class="card-img-top" style="aspect-ratio: 1 / 1">
+                <RouterLink to="/productDetails">
+                    <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/1.webp" class="card-img-top" style="aspect-ratio: 1 / 1">
+                </RouterLink>
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">
-                        <RouterLink to="/product" class="nav-link text-dark">GoPro HERO6 4K Action Camera - Black</RouterLink>
+                        <RouterLink to="/productDetails" class="nav-link text-dark">GoPro HERO6 4K Action Camera - Black</RouterLink>
                     </h5>
                     <p class="card-text">R$790,50</p>
 
