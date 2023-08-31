@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import About from '../views/About.vue'
-import Account from '../views/Account.vue'
-import Cart from '../views/Cart.vue'
-import Checkout from '../views/Checkout.vue'
-import Home from '../views/Home.vue'
-import Payment from '../views/Payment.vue'
-import Product from '../views/Product.vue'
-import ProductDetails from '../views/ ProductDetails.vue'
-import Login from '../views/Login.vue'
+import About from '@/views/About.vue'
+import Account from '@/views/Account.vue'
+import Cart from '@/views/Cart.vue'
+import Checkout from '@/views/Checkout.vue'
+import Home from '@/views/Home.vue'
+import Payment from '@/views/Payment.vue'
+import Product from '@/views/Product.vue'
+import ProductDetails from '@/views/ ProductDetails.vue'
+import Login from '@/views/Login.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
