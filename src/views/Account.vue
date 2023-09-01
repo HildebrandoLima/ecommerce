@@ -47,7 +47,7 @@
           <div class="row mb-4">
             <div class="col">
               <div class="form-outline">
-                <input type="text" id="cpf" v-model="user.cpf" class="form-control" placeholder="CPF" required />
+                <input type="text" id="cpf" v-model="user.cpf" maxlength="14" OnKeyPress="format('###.###.###-##',this)" class="form-control" placeholder="CPF" required />
               </div>
               <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
                   {{ this.errorList.cpf }}
@@ -57,6 +57,9 @@
             <div class="col">
               <div class="form-outline">
                 <input type="password" id="password" v-model="user.senha" class="form-control" placeholder="Senha" required />
+              </div>
+              <div class="form-text text-danger">
+                A senha deve conter no mínino: 08 dígitos, 01 letra maiúscula, 01 letra minúscula, 01 caractere especial, e não pode possuir ordem como, ex (111, aaa).
               </div>
               <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
                   {{ this.errorList.senha }}
@@ -113,6 +116,7 @@
     data() {
       return {
         messageSuccess: '',
+        usuarioId: 0,
         errorList: {},
         user: {
           nome: '',
@@ -140,6 +144,7 @@
             }
 
             if (response.data.status === 200) {
+              this.usuarioId = response.data.data
               this.messageSuccess = response.data.message
             }
           })
