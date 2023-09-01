@@ -6,7 +6,7 @@ import Checkout from '@/views/Checkout.vue'
 import Home from '@/views/Home.vue'
 import Payment from '@/views/Payment.vue'
 import Product from '@/views/Product.vue'
-import ProductDetails from '@/views/ ProductDetails.vue'
+import ProductDetails from '@/views/ProductDetails.vue'
 import Login from '@/views/Login.vue'
 
 const router = createRouter({
