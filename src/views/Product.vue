@@ -31,14 +31,15 @@
 
       <div class="col-lg-9">
         <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
-          <strong class="d-block py-2">32 Items found </strong>
+          <strong class="d-block py-2">{{ this.totalItems }} Itens Encontrados</strong>
           <div class="ms-auto">
             <select class="form-select d-inline-block w-auto border pt-1">
-              <option value="0">Best match</option>
-              <option value="1">Recommended</option>
-              <option value="2">High rated</option>
-              <option value="3">Randomly</option>
+              <option value="">Procurar Por</option>
+              <option value="1">Categorias</option>
+              <option value="2">Recomendados</option>
+              <option value="3">Bem Avaliados</option>
             </select>
+
             <div class="btn-group shadow-0 border">
               <a href="#" class="btn btn-light" title="List view">
                 <i class="fa fa-bars fa-lg"></i>
@@ -54,7 +55,9 @@
           <div v-for="(product, index) in products.list" :key="index" class="col-lg-4 col-md-6 col-sm-6 d-flex">
             <div class="card w-100 my-2 shadow-2-strong">
               <RouterLink to="productDetails">
-                <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/10.webp" class="card-img-top">
+                <ul v-for="(image, index) in product.imagens" :key="index">
+                  <img src="{{ image.caminho }}" class="card-img-top" />
+                </ul>
               </RouterLink>
               <div class="card-body d-flex flex-column">
                 <div class="d-flex flex-row">
@@ -90,6 +93,7 @@
     components: {RouterLink, Category, Pagination},
     name: 'product',
     errorList: {},
+    totalItems: 0,
     data() {
       return {
         products: {},
@@ -102,12 +106,11 @@
       getProduct() {
         api.get('/product/list?page=1&perPage=10&active=1')
           .then((response) => {
-            console.log(response.data.data)
             this.products = response.data.data
+            this.totalItems = this.products.total
           })
           .catch((error) => {
             if (error.response.data.status === 400) {
-                console.log(error.response.data.data)
                 this.errorList = error.response.data.data
             }
           });
