@@ -74,7 +74,7 @@
   import api from '@/api';
 
   export default {
-    components: {RouterLink, CardProduct},
+    components: { RouterLink, CardProduct },
     name: 'product',
     errorList: {},
     data() {

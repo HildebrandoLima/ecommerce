@@ -90,7 +90,7 @@
   import api from '@/api';
 
   export default {
-    components: {RouterLink, Category, Pagination},
+    components: { RouterLink, Category, Pagination },
     name: 'product',
     errorList: {},
     totalItems: 0,
