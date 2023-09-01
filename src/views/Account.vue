@@ -116,7 +116,6 @@
     data() {
       return {
         messageSuccess: '',
-        usuarioId: 0,
         errorList: {},
         user: {
           nome: '',
@@ -144,7 +143,7 @@
             }
 
             if (response.data.status === 200) {
-              this.usuarioId = response.data.data
+              window.localStorage.setItem('usuario', response.data.data);
               this.messageSuccess = response.data.message
             }
           })
