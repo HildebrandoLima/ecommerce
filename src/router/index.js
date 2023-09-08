@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import About from '@/views/About.vue'
 import Account from '@/views/Account.vue'
 import Cart from '@/views/Cart.vue'
+import Category from '@/views/Category.vue'
 import Checkout from '@/views/Checkout.vue'
 import Home from '@/views/Home.vue'
 import Payment from '@/views/Payment.vue'
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/cart',
       name: 'cart',
       component: Cart
+    },
+    {
+      path: '/category',
+      name: 'category',
+      component: Category
     },
     {
       path: '/checkout',
