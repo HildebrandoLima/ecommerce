@@ -1,7 +1,3 @@
-<script setup>
-    import { RouterLink } from 'vue-router'
-</script>
-
 <template>
     <div class="bg-primary mb-4">
         <div class="container py-4">
@@ -24,13 +20,21 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <form>
+                        <form @submit.prevent="logar">
                             <div class="form-outline mb-4">
-                                <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" required />
+                                <input type="email" id="email" v-model="user.email" class="form-control" placeholder="E-mail" required />
                             </div>
+                            <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                                {{ this.errorList.email }}
+                            </div>
+
                             <div class="form-outline mb-4">
-                                <input type="password" id="password" name="senha" class="form-control" placeholder="Senha" required />
+                                <input type="password" id="password" v-model="user.password" class="form-control" placeholder="Senha" required />
                             </div>
+                            <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                                {{ this.errorList.password }}
+                            </div>
+
                             <button type="submit" class="btn btn-outline-primary btn-block mb-4">
                                 <i class="fas fa-sign-in"></i> Entrar
                             </button>
@@ -72,3 +76,35 @@
         </div>
     </div>
 </template>
+
+<script>
+    import { RouterLink } from 'vue-router';
+    import AuthService from '@/services/auth/AuthService';
+
+    export default {
+        components: { RouterLink },
+        name: 'login',
+        data() {
+            return {
+                messageSuccess: '',
+                errorList: {},
+                user: {
+                    email: 'hildebrandolima16@gmail.com',
+                    password: 'HiLd3br@ndo',
+                },
+            };
+        },
+        methods: {
+            async logar() {
+                try {
+                    const user = await AuthService.login(this.user);
+                    this.messageSuccess = user;
+                } catch (error) {
+                    if (error.response && error.response.data.status === 400) {
+                        this.errorList = error.response.data.data;
+                    }
+                }
+            },
+        },
+    };
+</script>
