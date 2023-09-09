@@ -10,10 +10,10 @@ export default class ProductService {
         }
     }
 
-    static async getProductDetails(productId) {
+    static async getProductDetails(id) {
         try {
-          //const response = await api.get(`/product/list?page=${page}&perPage=${perPage}&active=1`);
-          //return response.data.data;
+          const response = await api.get(`/product/list/find?id=${id}&active=1`);
+          return response.data.data;
         } catch (error) {
           throw error;
         }

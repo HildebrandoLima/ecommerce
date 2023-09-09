@@ -18,29 +18,36 @@
     <div class="container-fluid">
         <div class="card mt-3">
           <div class="card-body">
-            <Table :data="category"></Table>
-            <Pagination></Pagination>
+            <Table :data="categories"></Table>
+            <pagination
+            :current-page="currentPage"
+            :total-pages="totalPages"
+            @page-changed="handlePageChange"
+            >
+            </pagination>
           </div>
         </div>
     </div>
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router'
-  import Table from '@/components/Table.vue'
-  import Pagination from '@/components/Pagination.vue'
-  import api from '@/api';
+  import { RouterLink } from 'vue-router';
+  import Table from '@/components/Table.vue';
+  import Pagination from '@/components/Pagination.vue';
+  import CategoryService from '@/services/category/CategoryService';
 
   export default {
     components: { RouterLink, Table, Pagination },
     name: 'category',
     errorList: {},
-    totalItems: 0,
     data() {
       return {
-        category: {},
+        categories: {},
         searchCategory: '',
         search: '',
+        currentPage: 1,
+        perPage: 10,
+        totalItems: 0,
       };
     },
     created() {
@@ -48,23 +55,22 @@
     },
     methods: {
       getSearchCategory() {
-        this.searchCategory = this.$route.query
+        this.searchCategory = this.$route.query;
         for (let chave in this.searchCategory) {
-          this.search += this.searchCategory[chave]
+          this.search += this.searchCategory[chave];
         }
-        return this.search
+        return this.search;
       },
-      getCategory() {
-        api.get('/category/list?page=1&perPage=10&active=1&search=' + this.getSearchCategory())
-          .then((response) => {
-            this.category = response.data.data
-            this.totalItems = this.category.total
-          })
-          .catch((error) => {
-            if (error.response.data.status === 400) {
-                this.errorList = error.response.data.data
-            }
-          });
+      async getCategory() {
+        try {
+          const categories = await CategoryService.getSearchCategory(this.currentPage, this.perPage, this.getSearchCategory());
+          this.categories = categories;
+          this.totalItems = categories.total;
+        } catch (error) {
+          if (error.response && error.response.data.status === 400) {
+            this.errorList = error.response.data.data;
+          }
+        }
       },
     },
   };

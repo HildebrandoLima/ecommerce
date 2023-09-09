@@ -109,10 +109,10 @@
 </template>
 
 <script>
-  import api from '@/api';
+  import UserService from '@/services/user/UserService';
 
   export default {
-    name: 'createUser',
+    name: 'user',
     data() {
       return {
         messageSuccess: '',
@@ -129,29 +129,15 @@
       };
     },
     methods: {
-      saveUser() {
-        api.post('/user/save', this.user)
-          .then((response) => {
-            this.user = {
-              nome: '',
-              email: '',
-              cpf: '',
-              senha: '',
-              dataNascimento: '',
-              genero: '',
-              eAdmin: false
-            }
-
-            if (response.data.status === 200) {
-              window.localStorage.setItem('usuario', response.data.data);
-              this.messageSuccess = response.data.message
-            }
-          })
-          .catch((error) => {
-            if (error.response.data.status === 400) {
-              this.errorList = error.response.data.data
-            }
-          });
+      async saveUser() {
+        try {
+          const user = await UserService.postUser(this.user);
+          this.messageSuccess = user
+        } catch (error) {
+          if (error.response && error.response.data.status === 400) {
+            this.errorList = error.response.data.data;
+          }
+        }
       },
     },
 };
