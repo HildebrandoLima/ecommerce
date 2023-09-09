@@ -54,11 +54,12 @@
         <div class="row">
           <div v-for="(product, index) in products.list" :key="index" class="col-lg-4 col-md-6 col-sm-6 d-flex">
             <div class="card w-100 my-2 shadow-2-strong">
+
               <RouterLink to="productDetails">
-                <ul v-for="(image, index) in product.imagens" :key="index">
-                  <img src="{{ image.caminho }}" class="card-img-top" />
-                </ul>
+                  <!-- <li v-if="product.imagens.length > 0">{{ product.imagens[0].caminho }}</li> -->
+                  <img v-if="product.imagens.length > 0" :src="product.imagens[0].caminho" class="card-img-top" />
               </RouterLink>
+
               <div class="card-body d-flex flex-column">
                 <div class="d-flex flex-row">
                   DE: <h5 class="mb-1 me-1">{{ product.precoCusto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</h5>
@@ -66,54 +67,75 @@
                 </div>
 
                 <p class="card-text">{{ product.nome }}</p>
-                <div class="card-footer d-flex align-items-end pt-3 px-0 pb-3 mt-auto">                  
-                  <RouterLink to="/cart" class="btn btn-outline-primary shadow-0 me-1">Adicionar ao carrinho</RouterLink>
+                <div class="card-footer d-flex align-items-end pt-3 px-0 pb-3 mt-auto">  
+                  <RouterLink to="/cart">
+                    <button class="btn btn-outline-primary shadow-0 me-1">
+                      Adicionar ao carrinho
+                    </button>
+                  </RouterLink>
                   <RouterLink to="/" class="btn btn-danger border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-white px-1"></i></RouterLink>
                 </div>
               </div>
             </div>
-          </div>         
+          </div>
         </div>
 
         <hr />
-        <Pagination></Pagination>
+
+        <pagination
+        :current-page="currentPage"
+        :total-pages="totalPages"
+        @page-changed="handlePageChange"
+        >
+        </pagination>
+
       </div>
     </div>
   </div>            
-</section>
+  </section>
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router'
-  import Category from '@/components/Category.vue'
-  import Pagination from '@/components/Pagination.vue'
-  import api from '@/api';
+  import { RouterLink } from 'vue-router';
+  import Category from '@/components/Category.vue';
+  import Pagination from '@/components/Pagination.vue';
+  import ProductService from '@/services/product/ProductService';
 
   export default {
     components: { RouterLink, Category, Pagination },
     name: 'product',
     errorList: {},
-    totalItems: 0,
     data() {
       return {
         products: {},
+        currentPage: 1,
+        perPage: 10,
+        totalItems: 0,
       };
     },
     created() {
         this.getProduct();
     },
     methods: {
-      getProduct() {
-        api.get('/product/list?page=1&perPage=10&active=1')
-          .then((response) => {
-            this.products = response.data.data
-            this.totalItems = this.products.total
-          })
-          .catch((error) => {
-            if (error.response.data.status === 400) {
-                this.errorList = error.response.data.data
-            }
-          });
+      handlePageChange(newPage) {
+        this.currentPage = newPage;
+        this.getProduct();
+      },
+      async getProduct() {
+        try {
+          const products = await ProductService.getProducts(this.currentPage, this.perPage);
+          this.products = products;
+          this.totalItems = products.total;
+        } catch (error) {
+          if (error.response && error.response.data.status === 400) {
+            this.errorList = error.response.data.data;
+          }
+        }
+      },
+    },
+    computed: {
+      totalPages() {
+        return Math.ceil(this.totalItems / this.perPage);
       },
     },
 };
