@@ -2,20 +2,44 @@
     <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
         <ul class="pagination">
             <li class="page-item disabled">
-                <a class="page-link" href="#" aria-label="Previous">
+                <button class="page-link" @click="previousPage" :disabled="currentPage === 1" id="btn_prev" aria-label="Previous">
                     <span aria-hidden="true">«</span>
-                </a>
+                </button>
             </li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">5</a></li>
+
+            <li v-for="page in totalPages" :key="page" class="page-item">
+                <button @click="setCurrentPage(page)" class="page-link" :class="{ active: currentPage === page }">{{ page }}</button>
+            </li>
+
             <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+                <button class="page-link" @click="nextPage" :disabled="currentPage === totalPages" id="btn_next" aria-label="Next">
                     <span aria-hidden="true">»</span>
-                </a>
+                </button>
             </li>
         </ul>
     </nav>
 </template>
+
+<script>
+export default {
+  props: {
+    currentPage: Number,
+    totalPages: Number,
+  },
+  methods: {
+    previousPage() {
+      if (this.currentPage > 1) {
+        this.$emit('page-changed', this.currentPage - 1);
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.$emit('page-changed', this.currentPage + 1);
+      }
+    },
+    setCurrentPage(page) {
+      this.$emit('page-changed', page);
+    },
+  },
+};
+</script>
