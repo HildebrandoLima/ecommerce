@@ -132,7 +132,7 @@
       async saveUser() {
         try {
           const user = await UserService.postUser(this.user);
-          this.messageSuccess = user
+          this.messageSuccess = user;
         } catch (error) {
           if (error.response && error.response.data.status === 400) {
             this.errorList = error.response.data.data;
