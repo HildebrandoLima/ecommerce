@@ -123,7 +123,7 @@
       },
       async getProduct() {
         try {
-          const products = await ProductService.getProducts(this.currentPage, this.perPage);
+          const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
           this.products = products;
           this.totalItems = products.total;
         } catch (error) {
