@@ -1,6 +1,6 @@
 <template>
     <li v-for="(category, index) in categories" :key="index">
-      <RouterLink class="dropdown-item" :to="{ name: 'category', query: category.nome }">
+      <RouterLink class="dropdown-item" :to="{ name: 'productByCategory', params: { id: category.categoriaId}}">
         {{ category.nome }}
       </RouterLink>
     </li>
