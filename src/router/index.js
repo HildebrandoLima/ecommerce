@@ -7,6 +7,7 @@ import Checkout from '@/views/Checkout.vue'
 import Home from '@/views/Home.vue'
 import Payment from '@/views/Payment.vue'
 import Product from '@/views/Product.vue'
+import ProductByCategory from '@/views/ProductByCategory.vue'
 import ProductDetails from '@/views/ProductDetails.vue'
 import Login from '@/views/Login.vue'
 
@@ -53,6 +54,11 @@ const router = createRouter({
       name: 'product',
       component: Product
     },
+    {
+      path: '/productByCategory/:id',
+      name: 'productByCategory',
+      component:  ProductByCategory
+    }, 
     {
       path: '/productDetails',
       name: 'productDetails',
