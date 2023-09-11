@@ -4,7 +4,7 @@ export default class AuthService {
     static async login(body) {
         try {
             const response = await api.post(`/auth/login`, body);
-            localStorage.setItem('userAuh', response.data.data);
+            localStorage.setItem('userAuh', JSON.stringify(response.data.data));
             return response.data.message;
         } catch (error) {
             throw error;
