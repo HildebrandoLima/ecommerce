@@ -1,19 +1,5 @@
 <template>
-    <div class="bg-primary mb-4">
-        <div class="container py-4">
-            <h3 class="text-white mt-2">Login</h3>
-
-            <nav class="d-flex mb-2">
-                <h6 class="mb-0">
-                    <RouterLink to="/" class="text-white-50">Home</RouterLink>
-                        <span class="text-white-50 mx-2">&gt;</span>
-                    <RouterLink to="/about" class="text-white-50">Sobre</RouterLink>
-                        <span class="text-white-50 mx-2">&gt;</span>
-                    <RouterLink to="/account" class="text-white"><u>Cadastrar Conta</u></RouterLink>
-                </h6>
-            </nav>
-        </div>
-    </div>
+  <Banner :msg="bannerTitleMessage"></Banner>
 
     <div class="container">
         <div class="card mt-3">
@@ -79,15 +65,17 @@
 
 <script>
     import { RouterLink } from 'vue-router';
+    import Banner from '../components/Banner.vue';
     import AuthService from '@/services/auth/AuthService';
 
     export default {
-        components: { RouterLink },
+        components: { RouterLink, Banner },
         name: 'login',
         data() {
             return {
-                messageSuccess: '',
+                bannerTitleMessage: 'Login',
                 errorList: {},
+                messageSuccess: '',
                 user: {
                     email: 'hildebrandolima16@gmail.com',
                     password: 'HiLd3br@ndo',

@@ -1,4 +1,6 @@
 <template>
+  <Banner :msg="bannerTitleMessage"></Banner>
+
   <div class="container">
     <div class="row">
       <div class="col">
@@ -94,3 +96,16 @@
     </div>
   </div>
 </template>
+
+<script>
+  import Banner from '../components/Banner.vue';
+
+  export default {
+    components: { Banner },
+    data() {
+            return {
+              bannerTitleMessage: 'Checkout',
+            };
+        },
+  };
+</script>

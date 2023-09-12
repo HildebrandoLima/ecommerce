@@ -1,4 +1,6 @@
 <template>
+    <Banner :msg="bannerTitleMessage"></Banner>
+
     <section class="bg-light my-5">
         <div class="container">
             <div class="row">
@@ -70,15 +72,17 @@
 
 <script>
   import { RouterLink } from 'vue-router';
+  import Banner from '../components/Banner.vue';
   import CardProduct from '../components/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {
-    components: { RouterLink, CardProduct },
+    components: { RouterLink, Banner, CardProduct },
     name: 'product',
-    errorList: {},
     data() {
       return {
+        bannerTitleMessage: 'Detalhes do Produto',
+        errorList: {},
         product: {},
       };
     },

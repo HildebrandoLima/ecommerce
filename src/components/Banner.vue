@@ -1,17 +1,41 @@
 <template>
-  <div class="bg-primary text-white py-5">
-    <div class="container py-5">
-      <h1>
-        Melhores produtos e &amp;
-        <br>marcas em nossa loja
-      </h1>
-
-      <p>Produtos modernos, preços de fábrica, excelente serviço</p>
-      <button type="button" class="btn btn-outline-light">Ver mais</button>&nbsp;
-
-      <button type="button" class="btn btn-light shadow-0 text-primary pt-2 border border-white">
-        <span class="pt-1">Compre agora</span>
-      </button>
+      <div class="bg-primary mb-4">
+      <div class="container py-4">
+        <h3 class="text-white mt-2">{{ msg }}</h3>
+  
+        <nav class="d-flex mb-2">
+          <h6 class="mb-0">
+            <RouterLink to="/" class="text-white-50">Home</RouterLink>
+              <span class="text-white-50 mx-2">&gt;</span>
+            <RouterLink to="/about" class="text-white-50">Sobre</RouterLink>
+              <span class="text-white-50 mx-2">&gt;</span>
+            <RouterLink to="/product" class="text-white"><u>Produtos</u></RouterLink>
+          </h6>
+        </nav>
+      </div>
     </div>
-  </div>
 </template>
+
+<script>
+  export default {
+    name: 'banner',
+    errorList: {},
+    data() {
+      return {
+        //
+      };
+    },
+    created() {
+        //
+    },
+    props: {
+        msg: {
+            type: String,
+            default: ''
+        }
+    },
+    methods: {
+        //
+    },
+};
+</script>

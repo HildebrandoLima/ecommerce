@@ -1,20 +1,6 @@
 <template>
-    <div class="bg-primary mb-4">
-      <div class="container py-4">
-        <h3 class="text-white mt-2">Produtos</h3>
-  
-        <nav class="d-flex mb-2">
-          <h6 class="mb-0">
-            <RouterLink to="/" class="text-white-50">Home</RouterLink>
-              <span class="text-white-50 mx-2">&gt;</span>
-            <RouterLink to="/about" class="text-white-50">Sobre</RouterLink>
-              <span class="text-white-50 mx-2">&gt;</span>
-            <RouterLink to="/product" class="text-white"><u>Produtos</u></RouterLink>
-          </h6>
-        </nav>
-      </div>
-    </div>
-  
+  <Banner :msg="bannerTitleMessage"></Banner>
+
     <section class="">
     <div class="container">
       <div class="row">
@@ -91,22 +77,24 @@
   
         </div>
       </div>
-    </div>            
+    </div>
     </section>
   </template>
-  
+
   <script>
     import { RouterLink } from 'vue-router';
+    import Banner from '../components/Banner.vue';
     import Category from '@/components/Category.vue';
     import Pagination from '@/components/Pagination.vue';
     import ProductService from '@/services/product/ProductService';
-  
+
     export default {
-      components: { RouterLink, Category, Pagination },
+      components: { RouterLink, Banner, Category, Pagination },
       name: 'product',
-      errorList: {},
       data() {
         return {
+          bannerTitleMessage: 'Produtos Por Categoria',
+          errorList: {},
           products: {},
           productId: 0,
           search: '',

@@ -1,19 +1,5 @@
-<script setup>
-  import CardProduct from '../components/CardProduct.vue'
-</script>
-
 <template>
-    <div class="bg-primary">
-        <div class="container py-4">
-            <nav class="d-flex">
-                <h6 class="mb-0">
-                    <RouterLink to="/" class="text-white-50">Home</RouterLink>
-                    <span class="text-white-50 mx-2"> &gt; </span>
-                    <RouterLink to="/product" class="text-white"><u>Produtos</u></RouterLink>
-                </h6>
-            </nav>
-        </div>
-    </div>
+  <Banner :msg="bannerTitleMessage"></Banner>
 
     <div class="container mt-3">
         <div class="card mb-4 border shadow-0">
@@ -138,3 +124,17 @@
         </div>
     </section>
 </template>
+
+<script>
+  import Banner from '../components/Banner.vue';
+  import CardProduct from '../components/CardProduct.vue';
+
+  export default {
+    components: { Banner, CardProduct },
+    data() {
+            return {
+                bannerTitleMessage: 'Meu Carrinho',
+            };
+        },
+  };
+</script>
