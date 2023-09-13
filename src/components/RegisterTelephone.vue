@@ -18,7 +18,7 @@
 
           <div class="col">
             <div class="form-outline">
-              <!-- -->
+              <button @click="removeTelephone(index)" class="btn btn-danger">X</button>
             </div>
           </div>
         </div>
@@ -87,6 +87,9 @@
           tipo: '',
           usuarioId: this.usuarioId,
         });
+      },
+      removeTelephone(index) {
+        this.telephones.splice(index, 1);
       },
       async saveTelephone() {
         try {
