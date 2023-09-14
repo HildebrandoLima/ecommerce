@@ -59,15 +59,13 @@
         </div>
     </section>
 
-    <section>
-        <div class="container my-5">
-            <header class="mb-4">
-                <h3>Novos Produtos:</h3>
-            </header>
+    <div class="container my-5">
+        <header class="mb-4">
+            <h3>Novos Produtos:</h3>
+        </header>
 
-            <CardProduct></CardProduct>
-        </div>
-    </section>
+        <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+    </div>
 </template>
 
 <script>
@@ -84,6 +82,10 @@
         bannerTitleMessage: 'Detalhes do Produto',
         errorList: {},
         product: {},
+        products: {},
+        currentPage: 1,
+        perPage: 10,
+        totalItems: 0,
       };
     },
     created() {
@@ -94,6 +96,9 @@
             try {
                 const product = await ProductService.getProductDetails(57);
                 this.product = product[0];
+                const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+                this.products = products;
+                this.totalItems = products.total;
             } catch (error) {
                 if (error.response && error.response.data.status === 400) {
                     this.errorList = error.response.data.data;

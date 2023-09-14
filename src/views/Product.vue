@@ -53,7 +53,7 @@
                 </div>
 
                 <p class="card-text">{{ product.nome }}</p>
-                <div class="card-footer d-flex align-items-end pt-3 px-0 pb-3 mt-auto">  
+                <div class="card-footer d-flex align-items-end pt-3 px-0 pb-3 mt-auto">
                   <RouterLink to="/cart">
                     <button class="btn btn-outline-primary shadow-0 me-1">
                       Adicionar ao carrinho
@@ -77,19 +77,30 @@
 
       </div>
     </div>
-  </div>            
+  </div>
   </section>
+
+  <div class="container">
+    <header class="mt-5">
+      <h3>Novos Produtos:</h3>
+    </header>
+
+    <hr />
+
+    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+  </div>
 </template>
 
 <script>
   import { RouterLink } from 'vue-router';
   import Banner from '../components/Banner.vue';
+  import CardProduct from '@/components/CardProduct.vue';
   import Category from '@/components/Category.vue';
   import Pagination from '@/components/Pagination.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {
-    components: { RouterLink, Banner, Category, Pagination },
+    components: { RouterLink, Banner, CardProduct, Category, Pagination },
     name: 'product',
     data() {
       return {

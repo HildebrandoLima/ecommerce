@@ -14,7 +14,7 @@
             </div>
           </div>
         </div>
-  
+
         <div class="col-lg-9">
           <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
             <strong class="d-block py-2">{{ this.totalItems }} Itens Encontrados</strong>
@@ -36,7 +36,7 @@
               </div>
             </div>
           </header>
-  
+
           <div class="row">
             <div v-for="(product, index) in products.list" :key="index" class="col-lg-4 col-md-6 col-sm-6 d-flex">
               <div class="card w-100 my-2 shadow-2-strong">
@@ -53,7 +53,7 @@
                   </div>
   
                   <p class="card-text">{{ product.nome }}</p>
-                  <div class="card-footer d-flex align-items-end pt-3 px-0 pb-3 mt-auto">  
+                  <div class="card-footer d-flex align-items-end pt-3 px-0 pb-3 mt-auto">
                     <RouterLink to="/cart">
                       <button class="btn btn-outline-primary shadow-0 me-1">
                         Adicionar ao carrinho
@@ -65,7 +65,7 @@
               </div>
             </div>
           </div>
-  
+
           <hr />
   
           <pagination
@@ -74,22 +74,33 @@
           @page-changed="handlePageChange"
           >
           </pagination>
-  
+
         </div>
       </div>
     </div>
     </section>
+
+    <div class="container">
+    <header class="mt-5">
+      <h3>Novos Produtos:</h3>
+    </header>
+
+    <hr />
+
+    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+  </div>
   </template>
 
   <script>
     import { RouterLink } from 'vue-router';
     import Banner from '../components/Banner.vue';
+    import CardProduct from '@/components/CardProduct.vue';
     import Category from '@/components/Category.vue';
     import Pagination from '@/components/Pagination.vue';
     import ProductService from '@/services/product/ProductService';
 
     export default {
-      components: { RouterLink, Banner, Category, Pagination },
+      components: { RouterLink, Banner, CardProduct, Category, Pagination },
       name: 'product',
       data() {
         return {
