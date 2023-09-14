@@ -22,34 +22,14 @@
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router';
-  import ProductService from '@/services/product/ProductService';
-
   export default {
-    components: { RouterLink },
     name: 'product',
-    data() {
-      return {
-        errorList: {},
-        products: {},
-        currentPage: 1,
-        perPage: 10,
-      };
-    },
-    created() {
-        this.getProduct();
-    },
-    methods: {
-      async getProduct() {
-        try {
-          const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-          this.products = products;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
-          }
-        }
-      },
+    props: {
+        totalItems: 0,
+        products: {
+            type: Array,
+            default: []
+        },
     },
 };
 </script>

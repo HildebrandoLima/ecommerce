@@ -1,7 +1,3 @@
-<script setup>
-  import CardProduct from '../components/CardProduct.vue'
-</script>
-
 <template>
     <div class="bg-primary text-white py-5">
     <div class="container py-5">
@@ -26,7 +22,43 @@
 
     <hr />
 
-    <CardProduct></CardProduct>
+    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
   </div>
-  
+
 </template>
+
+<script>
+  import { RouterLink } from 'vue-router';
+  import CardProduct from '@/components/CardProduct.vue';
+  import ProductService from '@/services/product/ProductService';
+
+  export default {
+    components: { RouterLink, CardProduct },
+    name: 'home',
+    data() {
+      return {
+        errorList: {},
+        products: {},
+        currentPage: 1,
+        perPage: 10,
+        totalItems: 0,
+      };
+    },
+    created() {
+        this.getProduct();
+    },
+    methods: {
+      async getProduct() {
+        try {
+          const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+          this.products = products;
+          this.totalItems = products.total;
+        } catch (error) {
+          if (error.response && error.response.data.status === 400) {
+            this.errorList = error.response.data.data;
+          }
+        }
+      },
+    },
+};
+</script>

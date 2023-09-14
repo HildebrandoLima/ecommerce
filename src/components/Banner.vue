@@ -1,5 +1,5 @@
 <template>
-      <div class="bg-primary mb-4">
+      <div class="bg-primary mb-4 mt-3">
       <div class="container py-4">
         <h3 class="text-white mt-2">{{ msg }}</h3>
   

@@ -1,8 +1,3 @@
-<script setup>
-    import { RouterLink } from 'vue-router'
-    import Category from './Category.vue'
-</script>
-
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -61,16 +56,17 @@
         </div>
 
         <div class="col-lg-5 col-md-12 col-12">
-          <div class="input-group float-center">
-            <div class="form-outline">
-              <input type="search" id="form1" class="form-control" placeholder="Buscar">
-              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 47.2px;"></div><div class="form-notch-trailing"></div></div>
-            </div>
+          <form>
+            <div class="input-group float-center">
+              <div class="form-outline">
+                <input type="text" v-model="search" class="form-control" placeholder="Qual Produto Você Procura?" />
+              </div>
 
-            <button type="button" class="btn btn-primary shadow-0">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
+              <button type="button" @click="getProduct" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -108,4 +104,47 @@
     </div>
     </div>
   </nav>
+
+  <div class="container" v-if="this.products.list">
+    <div class="card mt-3">
+      <div class="card-body">
+          <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+      </div>
+    </div>
+  </div>
 </template>
+
+<script>
+  import { RouterLink } from 'vue-router';
+  import Category from './Category.vue';
+  import CardProduct from './CardProduct.vue';
+  import ProductService from '@/services/product/ProductService';
+
+  export default {
+    components: { RouterLink, Category, CardProduct },
+    name: 'navbar',
+    errorList: {},
+    data() {
+      return {
+        search: '',
+        totalItems: 0,
+        products: {},
+        currentPage: 1,
+        perPage: 10,
+      };
+    },
+    methods: {
+      async getProduct() {
+        try {
+          const products = await ProductService.getProducts(this.currentPage, this.perPage, this.search, 0);
+          this.products = products;
+          this.totalItems = products.total;
+        } catch (error) {
+          if (error.response && error.response.data.status === 400) {
+            this.errorList = error.response.data.data;
+          }
+        }
+      },
+    },
+  };
+</script>

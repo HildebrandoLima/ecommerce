@@ -24,22 +24,11 @@
     components: { RouterLink },
     name: 'data',
     errorList: {},
-    data() {
-      return {
-        //
-      };
-    },
-    created() {
-        //
-    },
     props: {
         data: {
             type: Array,
             default: []
         }
-    },
-    methods: {
-        //
     },
 };
 </script>
