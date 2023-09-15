@@ -2,21 +2,33 @@
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                <tr v-for="(data, index) in data.list" :key="index">
+                    <th scope="col">{{ data.categoriaId }}</th>
+                    <th scope="col">{{ data.nome }}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>mdo</td>
+                <tr v-for="(data, index) in data.list" :key="index">
+                    <th scope="row">{{ data.categoriaId }}</th>
+                    <td>{{ data.nome }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 </template>
+
+<script>
+  import { RouterLink } from 'vue-router'
+
+  export default {
+    components: { RouterLink },
+    name: 'data',
+    errorList: {},
+    props: {
+        data: {
+            type: Array,
+            default: []
+        }
+    },
+};
+</script>

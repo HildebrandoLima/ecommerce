@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import About from '../views/About.vue'
-import Account from '../views/Account.vue'
-import Cart from '../views/Cart.vue'
-import Checkout from '../views/Checkout.vue'
-import Home from '../views/Home.vue'
-import Payment from '../views/Payment.vue'
-import Product from '../views/Product.vue'
-import ProductDetails from '../views/ ProductDetails.vue'
-import Login from '../views/Login.vue'
+import About from '@/views/About.vue'
+import Account from '@/views/Account.vue'
+import Cart from '@/views/Cart.vue'
+import Category from '@/views/Category.vue'
+import Checkout from '@/views/Checkout.vue'
+import Home from '@/views/Home.vue'
+import Payment from '@/views/Payment.vue'
+import Product from '@/views/Product.vue'
+import ProductByCategory from '@/views/ProductByCategory.vue'
+import ProductDetails from '@/views/ProductDetails.vue'
+import Login from '@/views/Login.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +28,11 @@ const router = createRouter({
       path: '/cart',
       name: 'cart',
       component: Cart
+    },
+    {
+      path: '/category',
+      name: 'category',
+      component: Category
     },
     {
       path: '/checkout',
@@ -47,6 +54,11 @@ const router = createRouter({
       name: 'product',
       component: Product
     },
+    {
+      path: '/productByCategory/:id',
+      name: 'productByCategory',
+      component:  ProductByCategory
+    }, 
     {
       path: '/productDetails',
       name: 'productDetails',

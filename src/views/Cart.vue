@@ -1,19 +1,5 @@
-<script setup>
-  import CardProduct from '../components/CardProduct.vue'
-</script>
-
 <template>
-    <div class="bg-primary">
-        <div class="container py-4">
-            <nav class="d-flex">
-                <h6 class="mb-0">
-                    <RouterLink to="/" class="text-white-50">Home</RouterLink>
-                    <span class="text-white-50 mx-2"> &gt; </span>
-                    <RouterLink to="/product" class="text-white"><u>Produtos</u></RouterLink>
-                </h6>
-            </nav>
-        </div>
-    </div>
+  <Banner :msg="bannerTitleMessage"></Banner>
 
     <div class="container mt-3">
         <div class="card mb-4 border shadow-0">
@@ -128,13 +114,46 @@
         </div>
     </section>
 
-    <section>
-        <div class="container my-5">
-            <header class="mb-4">
-                <h3>Novos Produtos:</h3>
-            </header>
+    <div class="container my-5">
+    <header class="mb-4">
+        <h3>Novos Produtos:</h3>
+    </header>
 
-            <CardProduct></CardProduct>
-        </div>
-    </section>
+    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+  </div>
 </template>
+
+<script>
+  import Banner from '../components/Banner.vue';
+  import CardProduct from '../components/CardProduct.vue';
+  import ProductService from '@/services/product/ProductService';
+
+  export default {
+    components: { Banner, CardProduct },
+    data() {
+        return {
+            bannerTitleMessage: 'Meu Carrinho',
+            products: {},
+            currentPage: 1,
+            perPage: 10,
+            totalItems: 0,
+        };
+    },
+    created() {
+      this.getProduct();
+    },
+    methods: {
+      async getProduct() {
+          try {
+              const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+              this.products = products;
+              this.totalItems = products.total;
+          } catch (error) {
+              if (error.response && error.response.data.status === 400) {
+                  this.errorList = error.response.data.data;
+              }
+          }
+      },
+    },
+  };
+</script>

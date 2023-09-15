@@ -1,19 +1,5 @@
 <template>
-  <div class="bg-primary mb-4">
-    <div class="container py-4">
-      <h3 class="text-white mt-2">Pagamento</h3>
-
-      <nav class="d-flex mb-2">
-        <h6 class="mb-0">
-          <RouterLink to="/" class="text-white-50">Home</RouterLink>
-            <span class="text-white-50 mx-2">&gt;</span>
-          <RouterLink to="/about" class="text-white-50">Sobre</RouterLink>
-            <span class="text-white-50 mx-2">&gt;</span>
-          <RouterLink to="/checkout" class="text-white"><u>Checkout</u></RouterLink>
-        </h6>
-      </nav>
-    </div>
-  </div>
+  <Banner :msg="bannerTitleMessage"></Banner>
 
   <div class="container">
     <div class="card mt-3">
@@ -105,3 +91,16 @@
     </div>
   </div>
 </template>
+
+<script>
+  import Banner from '../components/Banner.vue';
+
+  export default {
+    components: { Banner },
+    data() {
+            return {
+              bannerTitleMessage: 'Pagamento',
+            };
+        },
+  };
+</script>

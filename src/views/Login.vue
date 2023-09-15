@@ -1,36 +1,26 @@
-<script setup>
-    import { RouterLink } from 'vue-router'
-</script>
-
 <template>
-    <div class="bg-primary mb-4">
-        <div class="container py-4">
-            <h3 class="text-white mt-2">Login</h3>
-
-            <nav class="d-flex mb-2">
-                <h6 class="mb-0">
-                    <RouterLink to="/" class="text-white-50">Home</RouterLink>
-                        <span class="text-white-50 mx-2">&gt;</span>
-                    <RouterLink to="/about" class="text-white-50">Sobre</RouterLink>
-                        <span class="text-white-50 mx-2">&gt;</span>
-                    <RouterLink to="/account" class="text-white"><u>Cadastrar Conta</u></RouterLink>
-                </h6>
-            </nav>
-        </div>
-    </div>
+  <Banner :msg="bannerTitleMessage"></Banner>
 
     <div class="container">
         <div class="card mt-3">
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <form>
+                        <form @submit.prevent="auth">
                             <div class="form-outline mb-4">
-                                <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" required />
+                                <input type="email" id="email" v-model="user.email" class="form-control" placeholder="E-mail" required />
                             </div>
+                            <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                                {{ this.errorList.email }}
+                            </div>
+
                             <div class="form-outline mb-4">
-                                <input type="password" id="password" name="senha" class="form-control" placeholder="Senha" required />
+                                <input type="password" id="password" v-model="user.password" class="form-control" placeholder="Senha" required />
                             </div>
+                            <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                                {{ this.errorList.password }}
+                            </div>
+
                             <button type="submit" class="btn btn-outline-primary btn-block mb-4">
                                 <i class="fas fa-sign-in"></i> Entrar
                             </button>
@@ -54,21 +44,105 @@
                         <div class="text-center">
                             <p>Não possue uma conta? <RouterLink to="/account">Registre-se</RouterLink></p>
                             <p>ou cadastre-se com:</p>
-                            <button type="button" class="btn btn-secondary btn-floating mx-1">
+                            <button type="button" @click="oAuth('facebook')" class="btn btn-secondary btn-floating mx-1">
                                 <i class="fab fa-facebook-f px-20"></i>
                             </button>
 
-                            <button type="button" class="btn btn-secondary btn-floating mx-1">
+                            <button type="button" @click="oAuth('google')" class="btn btn-secondary btn-floating mx-1">
                                 <i class="fab fa-google px-20"></i>
                             </button>
 
-                            <button type="button" class="btn btn-secondary btn-floating mx-1">
+                            <button type="button" @click="oAuth('github')" class="btn btn-secondary btn-floating mx-1">
                                 <i class="fab fa-github px-20"></i>
                             </button>
+
+                            <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
+                                {{ this.errorList }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="container my-5">
+        <header class="mb-4">
+            <h3>Novos Produtos:</h3>
+        </header>
+
+        <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+    </div>
 </template>
+
+<script>
+    import { RouterLink } from 'vue-router';
+    import Banner from '@/components/Banner.vue';
+    import CardProduct from '@/components/CardProduct.vue';
+    import AuthService from '@/services/auth/AuthService';
+    import ProductService from '@/services/product/ProductService';
+
+    export default {
+        components: { RouterLink, Banner, CardProduct },
+        name: 'login',
+        data() {
+            return {
+                bannerTitleMessage: 'Login',
+                errorList: {},
+                messageSuccess: '',
+                user: {
+                    email: 'hildebrandolima16@gmail.com',
+                    password: 'HiLd3br@ndo',
+                },
+                provider: {
+                    facebook: 'facebook',
+                    google: 'google',
+                    github: 'github',
+                },
+                products: {},
+                currentPage: 1,
+                perPage: 10,
+                totalItems: 0,
+            };
+        },
+        created() {
+            this.getProduct();
+        },
+        methods: {
+            async getProduct() {
+                try {
+                    const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+                    this.products = products;
+                    this.totalItems = products.total;
+                } catch (error) {
+                    if (error.response && error.response.data.status === 400) {
+                        this.errorList = error.response.data.data;
+                    }
+                }
+            },
+            async auth() {
+                try {
+                    const user = await AuthService.login(this.user);
+                    this.messageSuccess = user;
+                } catch (error) {
+                    if (error.response && error.response.data.status === 400) {
+                        this.errorList = error.response.data.data;
+                    }
+                }
+            },
+            async oAuth(providerName) {
+                try {
+                    const providerValue = this.provider[providerName];
+                    const response = window.location.href = `http://localhost:8000/api/auth/login/social/${providerValue}`;
+                    window.localStorage.setItem('userAuh', JSON.stringify(response.data));
+                    //const provider = await AuthService.loginSocial(providerValue);
+                    //this.messageSuccess = provider;
+                } catch (error) {
+                    if (error.response && error.response.data.status === 400) {
+                        this.errorList = error.response.data.data;
+                    }
+                }
+            },
+        },
+    };
+</script>
