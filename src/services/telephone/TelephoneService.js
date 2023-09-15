@@ -5,7 +5,7 @@ export default class TelephoneService {
     try {
       const response = await api.post(`/telephone/save`, body);
       if (response.data.status === 200) {
-        localStorage.removeItem('userId');
+        window.localStorage.removeItem('userId');
       }
       return response.data.message;
     } catch (error) {
