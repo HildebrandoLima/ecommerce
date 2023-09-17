@@ -38,7 +38,11 @@
                                     <i class="fas fa-star fa-lg px-1"></i>
                                 </p>
 
-                                <button @click="addToCart(product)" class="btn btn-primary mt-5">Adicionar ao carrinho</button>
+                                <div class="mt-5">
+                                    <RouterLink to="/cart">
+                                        <ButtonCart :product="product" />
+                                    </RouterLink>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -73,11 +77,12 @@
 <script>
   import { RouterLink } from 'vue-router';
   import Banner from '../components/Banner.vue';
+  import ButtonCart from '../components/ButtonCart.vue';
   import CardProduct from '../components/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {
-    components: { RouterLink, Banner, CardProduct },
+    components: { RouterLink, Banner, ButtonCart, CardProduct },
     name: 'product',
     data() {
       return {
@@ -106,24 +111,6 @@
                     this.errorList = error.response.data.data;
                 }
             }
-        },
-        addToCart(product) {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const itemIndex = cart.findIndex((item) => item.id === product.produtoId);
-            if (itemIndex !== -1) {
-                cart[itemIndex].quantidade++;
-            } else {
-                cart.push({
-                    'id': product.produtoId,
-                    'nome': product.nome,
-                    'quantidade': 1,
-                    'precoCusto': product.precoCusto,
-                    'precoVenda': product.precoVenda,
-                    'subTotal': product.precoVenda,
-                });
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            alert('Produto Adicionado ao Carrinho!');
         },
     },
 };

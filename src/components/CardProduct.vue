@@ -12,7 +12,9 @@
                     <p class="card-text">{{ product.precoVenda.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
 
                     <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-                        <RouterLink to="/cart" class="btn btn-outline-primary shadow-0 me-1">Adicionar ao carrinho</RouterLink>
+                        <RouterLink to="/cart">
+                            <ButtonCart :product="product" />
+                        </RouterLink>
                         <RouterLink to="/" class="btn btn-danger border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-white px-1"></i></RouterLink>
                     </div>
                 </div>
@@ -22,14 +24,17 @@
 </template>
 
 <script>
-  export default {
-    name: 'product',
-    props: {
+    import ButtonCart from '../components/ButtonCart.vue';
+
+    export default {
+        components: { ButtonCart },
+        name: 'product',
+        props: {
         totalItems: 0,
         products: {
             type: Array,
             default: []
         },
-    },
-};
+        },
+    };
 </script>
