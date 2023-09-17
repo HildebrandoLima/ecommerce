@@ -21,6 +21,8 @@
                                 POR:<span class="text-danger">&nbsp;&nbsp;{{ product.precoVenda.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</span>
                             </div>
 
+                            <h5 class="mt-3">Quantidade: {{ product.quantidade }}</h5>
+
                             <div class="row gy-3 mb-4">
                                 <div class="card mt-5">
                                     <div class="card-body">
@@ -36,7 +38,11 @@
                                     <i class="fas fa-star fa-lg px-1"></i>
                                 </p>
 
-                                <RouterLink to="/cart" class="btn btn-primary mt-5">Adicionar ao carrinho</RouterLink>
+                                <div class="mt-5">
+                                    <RouterLink to="/cart">
+                                        <ButtonCart :product="product" />
+                                    </RouterLink>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -71,11 +77,12 @@
 <script>
   import { RouterLink } from 'vue-router';
   import Banner from '../components/Banner.vue';
+  import ButtonCart from '../components/ButtonCart.vue';
   import CardProduct from '../components/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {
-    components: { RouterLink, Banner, CardProduct },
+    components: { RouterLink, Banner, ButtonCart, CardProduct },
     name: 'product',
     data() {
       return {
@@ -94,7 +101,7 @@
     methods: {
         async getProduct() {
             try {
-                const product = await ProductService.getProductDetails(57);
+                const product = await ProductService.getProductDetails(56);
                 this.product = product[0];
                 const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
                 this.products = products;
@@ -104,7 +111,7 @@
                     this.errorList = error.response.data.data;
                 }
             }
-      },
+        },
     },
 };
 </script>
