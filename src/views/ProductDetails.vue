@@ -21,6 +21,8 @@
                                 POR:<span class="text-danger">&nbsp;&nbsp;{{ product.precoVenda.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</span>
                             </div>
 
+                            <h5 class="mt-3">Quantidade: {{ product.quantidade }}</h5>
+
                             <div class="row gy-3 mb-4">
                                 <div class="card mt-5">
                                     <div class="card-body">
@@ -36,7 +38,7 @@
                                     <i class="fas fa-star fa-lg px-1"></i>
                                 </p>
 
-                                <RouterLink to="/cart" class="btn btn-primary mt-5">Adicionar ao carrinho</RouterLink>
+                                <button @click="addToCart(product)" class="btn btn-primary mt-5">Adicionar ao carrinho</button>
                             </div>
                         </div>
                     </div>
@@ -94,7 +96,7 @@
     methods: {
         async getProduct() {
             try {
-                const product = await ProductService.getProductDetails(57);
+                const product = await ProductService.getProductDetails(56);
                 this.product = product[0];
                 const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
                 this.products = products;
@@ -104,7 +106,25 @@
                     this.errorList = error.response.data.data;
                 }
             }
-      },
+        },
+        addToCart(product) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const itemIndex = cart.findIndex((item) => item.id === product.produtoId);
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantidade++;
+            } else {
+                cart.push({
+                    'id': product.produtoId,
+                    'nome': product.nome,
+                    'quantidade': 1,
+                    'precoCusto': product.precoCusto,
+                    'precoVenda': product.precoVenda,
+                    'subTotal': product.precoVenda,
+                });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Produto Adicionado ao Carrinho!');
+        },
     },
 };
 </script>
