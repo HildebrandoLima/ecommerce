@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import ButtonCart from '../shared/ButtonCart.vue';
+    import ButtonCart from '@/components/shared/ButtonCart.vue';
 
     export default {
         components: { ButtonCart },

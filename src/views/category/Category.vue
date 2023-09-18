@@ -18,7 +18,7 @@
 
 <script>
   import { RouterLink } from 'vue-router';
-  import Banner from '../../components/fixos/Banner.vue';
+  import Banner from '@/components/fixos/Banner.vue';
   import Pagination from '@/components/shared/Pagination.vue';
   import Table from '@/components/fixos/Table.vue';
   import CategoryService from '@/services/category/CategoryService';
