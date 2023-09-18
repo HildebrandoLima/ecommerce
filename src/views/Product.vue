@@ -41,7 +41,7 @@
           <div v-for="(product, index) in products.list" :key="index" class="col-lg-4 col-md-6 col-sm-6 d-flex">
             <div class="card w-100 my-2 shadow-2-strong">
 
-              <RouterLink to="productDetails">
+              <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}">
                   <!-- <li v-if="product.imagens.length > 0">{{ product.imagens[0].caminho }}</li> -->
                   <img v-if="product.imagens.length > 0" :src="product.imagens[0].caminho" class="card-img-top" />
               </RouterLink>
@@ -52,7 +52,10 @@
                   POR: <span class="text-danger"><s>{{ product.precoVenda.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</s></span>
                 </div>
 
-                <p class="card-text">{{ product.nome }}</p>
+                <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}" class="nav-link text-dark">
+                  <p class="card-text">{{ product.nome }}</p>
+                </RouterLink>
+
                 <div class="card-footer d-flex align-items-end pt-3 px-0 pb-3 mt-auto">
                   <RouterLink to="/cart">
                       <ButtonCart :product="product" />

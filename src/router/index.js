@@ -60,7 +60,7 @@ const router = createRouter({
       component:  ProductByCategory
     }, 
     {
-      path: '/productDetails',
+      path: '/productDetails/:id',
       name: 'productDetails',
       component:  ProductDetails
     }, 
@@ -73,4 +73,4 @@ const router = createRouter({
   ]
 })
 
-export default router
+export default router;

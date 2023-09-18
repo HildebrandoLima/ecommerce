@@ -90,6 +90,7 @@
         errorList: {},
         product: {},
         products: {},
+        productId: '',
         currentPage: 1,
         perPage: 10,
         totalItems: 0,
@@ -101,7 +102,8 @@
     methods: {
         async getProduct() {
             try {
-                const product = await ProductService.getProductDetails(56);
+                this.productId = this.$route.params.id;
+                const product = await ProductService.getProductDetails(this.productId);
                 this.product = product[0];
                 const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
                 this.products = products;
