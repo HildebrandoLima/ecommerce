@@ -77,8 +77,8 @@
 
 <script>
     import { RouterLink } from 'vue-router';
-    import Banner from '@/components/Banner.vue';
-    import CardProduct from '@/components/CardProduct.vue';
+    import Banner from '@/components/fixos/Banner.vue';
+    import CardProduct from '@/components/product/CardProduct.vue';
     import AuthService from '@/services/auth/AuthService';
     import ProductService from '@/services/product/ProductService';
 

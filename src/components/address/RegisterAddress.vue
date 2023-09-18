@@ -72,8 +72,8 @@
   </template>
 
 <script>
-  import AlertError from '@/components/AlertError.vue';
-  import AlertSuccess from '@/components/AlertSuccess.vue';
+  import AlertError from '@/components/shared/AlertError.vue';
+  import AlertSuccess from '@/components/shared/AlertSuccess.vue';
   import AddressService from '@/services/address/AddressService';
 
   export default {

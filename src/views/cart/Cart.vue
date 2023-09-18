@@ -134,8 +134,8 @@
 </template>
 
 <script>
-    import Banner from '../components/Banner.vue';
-    import CardProduct from '../components/CardProduct.vue';
+    import Banner from '../../components/fixos/Banner.vue';
+    import CardProduct from '../../components/product/CardProduct.vue';
     import ProductService from '@/services/product/ProductService';
 
     export default {

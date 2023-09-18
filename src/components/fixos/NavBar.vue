@@ -116,8 +116,8 @@
 
 <script>
   import { RouterLink } from 'vue-router';
-  import Category from './Category.vue';
-  import CardProduct from './CardProduct.vue';
+  import Category from '../category/Category.vue';
+  import CardProduct from '../product/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {

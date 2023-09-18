@@ -29,7 +29,7 @@
 
 <script>
   import { RouterLink } from 'vue-router';
-  import CardProduct from '@/components/CardProduct.vue';
+  import CardProduct from '@/components/product/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {
