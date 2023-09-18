@@ -30,11 +30,11 @@
         components: { ButtonCart },
         name: 'product',
         props: {
-        totalItems: 0,
-        products: {
-            type: Array,
-            default: []
-        },
+            totalItems: 0,
+            products: {
+                type: Array,
+                default: []
+            },
         },
     };
 </script>
