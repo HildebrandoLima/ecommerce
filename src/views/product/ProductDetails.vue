@@ -55,7 +55,7 @@
 
                             <div v-if="product.imagens.length > 0" class="row">
                                 <div v-for="(image, index) in product.imagens" :key="index" class="col">
-                                    <img :src="image.caminho" class="card-img-top" style="aspect-ratio: 1 / 1">
+                                    <img :src="'/storage/' + image.caminho" class="card-img-top" style="aspect-ratio: 1 / 1">
                                 </div>
                             </div>
                         </div>
