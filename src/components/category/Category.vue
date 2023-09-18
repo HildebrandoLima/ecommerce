@@ -7,11 +7,9 @@
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router'
   import api from '@/api';
 
   export default {
-    components: { RouterLink },
     name: 'category',
     errorList: {},
     data() {

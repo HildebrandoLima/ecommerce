@@ -25,7 +25,6 @@
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router';
   import Banner from '@/components/fixos/Banner.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
   import SectionProduct from '@/components/product/SectionProduct.vue';
@@ -33,7 +32,7 @@
   import ProductService from '@/services/product/ProductService';
 
   export default {
-    components: { RouterLink, Banner, CardProduct, SectionProduct, Pagination },
+    components: { Banner, CardProduct, SectionProduct, Pagination },
     name: 'product',
     data() {
       return {

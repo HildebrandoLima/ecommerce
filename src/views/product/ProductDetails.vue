@@ -75,14 +75,13 @@
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router';
   import Banner from '@/components/fixos/Banner.vue';
   import ButtonCart from '@/components/shared/ButtonCart.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {
-    components: { RouterLink, Banner, ButtonCart, CardProduct },
+    components: { Banner, ButtonCart, CardProduct },
     name: 'product',
     data() {
       return {

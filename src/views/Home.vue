@@ -28,12 +28,11 @@
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router';
   import CardProduct from '@/components/product/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {
-    components: { RouterLink, CardProduct },
+    components: { CardProduct },
     name: 'home',
     data() {
       return {

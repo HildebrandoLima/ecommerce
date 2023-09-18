@@ -76,14 +76,13 @@
 </template>
 
 <script>
-    import { RouterLink } from 'vue-router';
     import Banner from '@/components/fixos/Banner.vue';
     import CardProduct from '@/components/product/CardProduct.vue';
     import AuthService from '@/services/auth/AuthService';
     import ProductService from '@/services/product/ProductService';
 
     export default {
-        components: { RouterLink, Banner, CardProduct },
+        components: { Banner, CardProduct },
         name: 'login',
         data() {
             return {

@@ -17,14 +17,13 @@
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router';
   import Banner from '@/components/fixos/Banner.vue';
   import Pagination from '@/components/shared/Pagination.vue';
   import Table from '@/components/fixos/Table.vue';
   import CategoryService from '@/services/category/CategoryService';
 
   export default {
-    components: { RouterLink, Banner, Pagination, Table },
+    components: { Banner, Pagination, Table },
     name: 'category',
     data() {
       return {

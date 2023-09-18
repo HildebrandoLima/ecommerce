@@ -72,13 +72,12 @@
 </template>
 
 <script>
-    import { RouterLink } from 'vue-router';
     import ButtonCart from '@/components/shared/ButtonCart.vue';
     import Category from '@/components/category/Category.vue';
 
     export default {
         name: 'product',
-        components: { RouterLink, ButtonCart, Category },
+        components: { ButtonCart, Category },
         props: {
             totalItems: 0,
             products: {
