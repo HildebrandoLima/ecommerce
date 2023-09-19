@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import About from '@/views/About.vue'
 import Account from '@/views/Account.vue'
-import Cart from '@/views/Cart.vue'
-import Category from '@/views/Category.vue'
-import Checkout from '@/views/Checkout.vue'
+import Cart from '@/views/cart/Cart.vue'
+import Category from '@/views/category/Category.vue'
+import Checkout from '@/views/cart/Checkout.vue'
 import Home from '@/views/Home.vue'
-import Payment from '@/views/Payment.vue'
-import Product from '@/views/Product.vue'
-import ProductByCategory from '@/views/ProductByCategory.vue'
-import ProductDetails from '@/views/ProductDetails.vue'
-import Login from '@/views/Login.vue'
+import Payment from '@/views/payment/Payment.vue'
+import Product from '@/views/product/Product.vue'
+import ProductByCategory from '@/views/product/ProductByCategory.vue'
+import ProductDetails from '@/views/product/ProductDetails.vue'
+import Login from '@/views/login/Login.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,7 +60,7 @@ const router = createRouter({
       component:  ProductByCategory
     }, 
     {
-      path: '/productDetails',
+      path: '/productDetails/:id',
       name: 'productDetails',
       component:  ProductDetails
     }, 
@@ -73,4 +73,4 @@ const router = createRouter({
   ]
 })
 
-export default router
+export default router;

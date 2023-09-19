@@ -55,7 +55,7 @@
 
                             <div v-if="product.imagens.length > 0" class="row">
                                 <div v-for="(image, index) in product.imagens" :key="index" class="col">
-                                    <img :src="image.caminho" class="card-img-top" style="aspect-ratio: 1 / 1">
+                                    <img :src="'/storage/' + image.caminho" class="card-img-top" style="aspect-ratio: 1 / 1">
                                 </div>
                             </div>
                         </div>
@@ -75,14 +75,13 @@
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router';
-  import Banner from '../components/Banner.vue';
-  import ButtonCart from '../components/ButtonCart.vue';
-  import CardProduct from '../components/CardProduct.vue';
+  import Banner from '@/components/fixos/Banner.vue';
+  import ButtonCart from '@/components/shared/ButtonCart.vue';
+  import CardProduct from '@/components/product/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {
-    components: { RouterLink, Banner, ButtonCart, CardProduct },
+    components: { Banner, ButtonCart, CardProduct },
     name: 'product',
     data() {
       return {
@@ -90,6 +89,7 @@
         errorList: {},
         product: {},
         products: {},
+        productId: '',
         currentPage: 1,
         perPage: 10,
         totalItems: 0,
@@ -101,7 +101,8 @@
     methods: {
         async getProduct() {
             try {
-                const product = await ProductService.getProductDetails(56);
+                this.productId = this.$route.params.id;
+                const product = await ProductService.getProductDetails(this.productId);
                 this.product = product[0];
                 const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
                 this.products = products;

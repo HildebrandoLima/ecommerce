@@ -19,23 +19,11 @@
 <script>
   export default {
     name: 'banner',
-    errorList: {},
-    data() {
-      return {
-        //
-      };
-    },
-    created() {
-        //
-    },
     props: {
         msg: {
             type: String,
             default: ''
         }
-    },
-    methods: {
-        //
     },
 };
 </script>

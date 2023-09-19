@@ -93,7 +93,7 @@
 </template>
 
 <script>
-  import Banner from '../components/Banner.vue';
+  import Banner from '@/components/fixos/Banner.vue';
 
   export default {
     components: { Banner },

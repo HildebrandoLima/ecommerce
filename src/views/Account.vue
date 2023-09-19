@@ -55,11 +55,11 @@
 </template>
 
 <script>
-  import Banner from '../components/Banner.vue';
-  import CardProduct from '@/components/CardProduct.vue';
-  import RegisterAddress from '@/components/RegisterAddress.vue';
-  import RegisterTelephone from '@/components/RegisterTelephone.vue';
-  import RegisterUser from '@/components/RegisterUser.vue';
+  import Banner from '@/components/fixos/Banner.vue';
+  import CardProduct from '@/components/product/CardProduct.vue';
+  import RegisterAddress from '@/components/address/RegisterAddress.vue';
+  import RegisterTelephone from '@/components/telephone/RegisterTelephone.vue';
+  import RegisterUser from '@/components/user/RegisterUser.vue';
   import ProductService from '@/services/product/ProductService';
 
   export default {

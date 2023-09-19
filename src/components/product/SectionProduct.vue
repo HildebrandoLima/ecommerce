@@ -1,7 +1,5 @@
 <template>
-  <Banner :msg="bannerTitleMessage"></Banner>
-
-  <section class="">
+      <section class="">
   <div class="container">
     <div class="row">
       <div class="col-lg-3">
@@ -41,9 +39,9 @@
           <div v-for="(product, index) in products.list" :key="index" class="col-lg-4 col-md-6 col-sm-6 d-flex">
             <div class="card w-100 my-2 shadow-2-strong">
 
-              <RouterLink to="productDetails">
-                  <!-- <li v-if="product.imagens.length > 0">{{ product.imagens[0].caminho }}</li> -->
-                  <img v-if="product.imagens.length > 0" :src="product.imagens[0].caminho" class="card-img-top" />
+              <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}">
+                  <!-- <li v-if="product.imagens.length > 0">{{ '/storage/' + product.imagens[0].caminho }}</li> -->
+                  <img v-if="product.imagens.length > 0" :src="'/storage/' + product.imagens[0].caminho" class="card-img-top" />
               </RouterLink>
 
               <div class="card-body d-flex flex-column">
@@ -52,7 +50,10 @@
                   POR: <span class="text-danger"><s>{{ product.precoVenda.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</s></span>
                 </div>
 
-                <p class="card-text">{{ product.nome }}</p>
+                <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}" class="nav-link text-dark">
+                  <p class="card-text">{{ product.nome }}</p>
+                </RouterLink>
+
                 <div class="card-footer d-flex align-items-end pt-3 px-0 pb-3 mt-auto">
                   <RouterLink to="/cart">
                       <ButtonCart :product="product" />
@@ -63,78 +64,26 @@
             </div>
           </div>
         </div>
-
-        <hr />
-
-        <pagination
-        :current-page="currentPage"
-        :total-pages="totalPages"
-        @page-changed="handlePageChange"
-        >
-        </pagination>
-
       </div>
     </div>
   </div>
   </section>
 
-  <div class="container">
-    <header class="mt-5">
-      <h3>Novos Produtos:</h3>
-    </header>
-
-    <hr />
-
-    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
-  </div>
 </template>
 
 <script>
-  import { RouterLink } from 'vue-router';
-  import Banner from '../components/Banner.vue';
-  import ButtonCart from '../components/ButtonCart.vue';
-  import CardProduct from '@/components/CardProduct.vue';
-  import Category from '@/components/Category.vue';
-  import Pagination from '@/components/Pagination.vue';
-  import ProductService from '@/services/product/ProductService';
+    import ButtonCart from '@/components/shared/ButtonCart.vue';
+    import Category from '@/components/category/Category.vue';
 
-  export default {
-    components: { RouterLink, Banner, ButtonCart, CardProduct, Category, Pagination },
-    name: 'product',
-    data() {
-      return {
-        bannerTitleMessage: 'Produtos',
-        errorList: {},
-        products: {},
-        currentPage: 1,
-        perPage: 10,
-        totalItems: 0,
-      };
-    },
-    created() {
-        this.getProduct();
-    },
-    methods: {
-      handlePageChange(newPage) {
-        this.currentPage = newPage;
-        this.getProduct();
-      },
-      async getProduct() {
-        try {
-          const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-          this.products = products;
-          this.totalItems = products.total;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
-          }
-        }
-      },
-    },
-    computed: {
-      totalPages() {
-        return Math.ceil(this.totalItems / this.perPage);
-      },
-    },
-};
+    export default {
+        name: 'product',
+        components: { ButtonCart, Category },
+        props: {
+            totalItems: 0,
+            products: {
+                type: Array,
+                default: []
+            },
+        },
+    };
 </script>
