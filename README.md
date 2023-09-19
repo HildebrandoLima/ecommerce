@@ -1,49 +1,58 @@
-# ecommerce
+# E-commerce
 
-This template should help get you started developing with Vue 3 in Vite.
+Projeto desenvolvido com Vue3. Trata-se de um e-commerce, onde é possível, realizar a compra de items online.
 
-## Recommended IDE Setup
+## IDE
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+[VSCode](https://code.visualstudio.com/).
 
-## Customize configuration
+## Configurar Ambiente
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+É usado o framework bootstrap para estilização CSS.
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+```sh
+npm install axios
+```
+
+```sh
+npm install vue
+```
+
+```sh
+npm install vue-router
+```
+
+### Compilar para Desenvolvimento
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Compilar para Producão
 
 ```sh
 npm run build
 ```
 
-### Run Headed Component Tests with [Cypress Component Testing](https://on.cypress.io/component)
+### Execute testes de componentes direcionados com [Cypress Component Testing](https://on.cypress.io/component) (AINDA A DESENVOLVER)
 
 ```sh
 npm run test:unit:dev # or `npm run test:unit` for headless testing
 ```
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+### Execute Testes End-to-End com [Cypress](https://www.cypress.io/)
 
 ```sh
 npm run test:e2e:dev
 ```
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+Isso executa os testes end-to-end no servidor de desenvolvimento Vite. É muito mais rápido que a construção de produção.
 
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+Mas ainda é recomendado testar a construção de produção test:e2eantes da implantação (por exemplo, em ambientes de CI):
 
 ```sh
 npm run build
