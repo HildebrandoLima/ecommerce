@@ -15,7 +15,16 @@
                             </div>
 
                             <div class="form-outline mb-4">
-                                <input type="password" id="password" v-model="user.password" class="form-control" placeholder="Senha" required />
+                                <div class="input-group">
+                                    <input type="password" id="password" v-model="user.password" class="form-control" placeholder="Senha" required />
+
+                                    <div class="input-group-text">
+                                        <span class="toggle-password" @click="togglePasswordVisibility">
+                                        <i v-if="passwordVisible" class="fas fa-eye-slash"></i>
+                                        <i v-else class="fas fa-eye"></i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                             <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
                                 {{ this.errorList.password }}
@@ -87,6 +96,7 @@
         data() {
             return {
                 bannerTitleMessage: 'Login',
+                passwordVisible: false,
                 errorList: {},
                 messageSuccess: '',
                 user: {
@@ -108,6 +118,11 @@
             this.getProduct();
         },
         methods: {
+            togglePasswordVisibility() {
+                const passwordInput = document.getElementById("password");
+                this.passwordVisible = !this.passwordVisible;
+                passwordInput.type = this.passwordVisible ? "text" : "password";
+            },
             async getProduct() {
                 try {
                     const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
