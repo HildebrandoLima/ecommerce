@@ -2,7 +2,7 @@
 
   <AlertSuccess :messageSuccess="this.messageSuccess" />
 
-  <form>
+  <form class="needs-validation mb-5 border-top" novalidate onsubmit="return false">
     <div class="row mb-4">
       <div class="col">
         <div class="form-outline">
@@ -35,10 +35,22 @@
 
       <div class="col">
         <div class="form-outline">
-          <input type="password" id="password" v-model="user.senha" class="form-control" placeholder="Senha" required />
+          <input type="password" id="validationPassword" v-model="user.senha" minlength="8" class="form-control" placeholder="Senha" required />
+
+          <div  class="progress" style="height: 5px;">
+          <div id="progressbar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 10%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+          </div>
+		      </div>
+
+          <div id="feedbackirn" class="invalid-feedback">
+            Atlead 8 characters,
+            Número, special character
+            Caplital Letter and Small letters
+          </div>
         </div>
-        <div class="form-text text-danger">
-          A senha deve conter no mínino: 08 dígitos, 01 letra maiúscula, 01 letra minúscula, 01 caractere especial, e não pode possuir ordem como, ex (111, aaa).
+
+        <div class="form-text text-muted">
+          Sua senha deve ter no mínimo 8 caracteres, deve conter caracteres especiais "!@#$%&*_?", números, letras minúsculas e maiúsculas, e não pode possuir ordem como, ex.: (111, aaa).
         </div>
         <AlertError
         v-if="Object.keys(this.errorList).length > 0"
