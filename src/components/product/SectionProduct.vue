@@ -15,7 +15,7 @@
 
       <div class="col-lg-9">
         <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
-          <strong class="d-block py-2">{{ this.totalItems }} Itens Encontrados</strong>
+          <strong class="d-block py-2">Itens Encontrados {{ totalItems }}</strong>
           <div class="ms-auto">
             <select class="form-select d-inline-block w-auto border pt-1">
               <option value="">Procurar Por</option>
