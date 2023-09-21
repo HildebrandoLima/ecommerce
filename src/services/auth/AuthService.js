@@ -1,10 +1,11 @@
 import api from '@/server/api';
+import { setAuth, removeAuth } from '@/storages/AuthStorage';
 
 export default class AuthService {
     static async login(body) {
         try {
             const response = await api.post(`/auth/login`, body);
-            window.localStorage.setItem('userAuh', JSON.stringify(response.data.data));
+            setAuth(response.data.data);
             return response.data;
         } catch (error) {
             throw error;
@@ -15,7 +16,7 @@ export default class AuthService {
         try {
             const response = await api.post(`/auth/logout`);
             if (response.data.status === 200) {
-                window.localStorage.removeItem('userAuh');
+                removeAuth();
             }
             return response.data.message;
         } catch (error) {
@@ -28,7 +29,7 @@ export default class AuthService {
             const response = await api.get(`/auth/login/social/${provider}`);
             //console.log('oi', response);
             //const response = await api.get(`/auth/login/social/${provider}/callback`);
-            window.localStorage.setItem('userAuh', JSON.stringify(response.data));
+            window.localStorage.setItem('userAuth', JSON.stringify(response.data));
             return response.data.message;
         } catch (error) {
             throw error;

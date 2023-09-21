@@ -123,7 +123,7 @@
   import CardProduct from '@/components/product/CardProduct.vue';
   import AuthService from '@/services/auth/AuthService';
   import ProductService from '@/services/product/ProductService';
-  import { userAuh } from '@/storages/AuthStorage.js';
+  import { userAuth } from '@/storages/AuthStorage.js';
 
   export default {
     components: { Category, CardProduct },
@@ -141,7 +141,7 @@
       };
     },
     created() {
-      const [userName] = userAuh();
+      const [userName] = userAuth();
       this.userName = userName;
     },
     methods: {

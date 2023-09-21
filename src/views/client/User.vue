@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import { userAuh, permissions } from '@/storages/AuthStorage.js';
+    import { userAuth, permissions } from '@/storages/AuthStorage.js';
 
     export default {
         name: 'client',
@@ -23,7 +23,7 @@
             this.message = this.$route.params.message || null;
         },
         created() {
-            const [userId, userName, userEmail] = userAuh();
+            const [userId, userName, userEmail] = userAuth();
             this.userId = userId;
             this.userName = userName;
             this.userEmail = userEmail;
