@@ -1,5 +1,5 @@
 <template>
-    <li v-for="(category, index) in categories" :key="index">
+    <li v-for="(category, index) in categories.list" :key="index">
       <RouterLink class="dropdown-item" :to="{ name: 'productByCategory', params: { id: category.categoriaId}}">
         {{ category.nome }}
       </RouterLink>
@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import api from '@/api';
+  import CategoryService from '@/services/category/CategoryService';
 
   export default {
     name: 'category',
@@ -15,22 +15,23 @@
     data() {
       return {
         categories: {},
+        page: 1,
+        perPage: 10,
       };
     },
     created() {
         this.getCategory();
     },
     methods: {
-      getCategory() {
-        api.get('/category/list?active=1')
-          .then((response) => {
-            this.categories = response.data.data
-          })
-          .catch((error) => {
-            if (error.response.data.status === 400) {
-                this.errorList = error.response.data.data
-            }
-          });
+      async getCategory() {
+        try {
+          const categories = await CategoryService.getCategories(this.page, this.perPage);
+          this.categories = categories;
+        } catch (error) {
+          if (error.response && error.response.data.status === 400) {
+            this.errorList = error.response.data.data;
+          }
+        }
       },
     },
 };

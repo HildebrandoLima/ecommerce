@@ -1,11 +1,11 @@
-import api from '@/api';
+import api from '@/server/api';
 
 export default class AuthService {
     static async login(body) {
         try {
             const response = await api.post(`/auth/login`, body);
             window.localStorage.setItem('userAuh', JSON.stringify(response.data.data));
-            return response.data.message;
+            return response.data;
         } catch (error) {
             throw error;
         }

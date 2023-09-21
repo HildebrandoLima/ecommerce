@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">M D B</a>
+      <RouterLinks class="navbar-brand" :to="{ name: 'home' }">M D B</RouterLinks>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -40,15 +40,19 @@
 
         <div class="order-lg-last col-lg-5 col-sm-8 col-8">
           <div class="d-flex float-end">
-            <RouterLink to="/login" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+            <button v-if="userName" @click="logout" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+              <i class="fas fa-user-alt m-1 me-md-2"></i>
+              <p class="d-none d-md-block mb-0">Logout</p>
+            </button>
+            <RouterLink v-else :to="{ name: 'login' }" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Login</p>
             </RouterLink>
-            <RouterLink to="/" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+            <RouterLink :to="{ name: 'home' }" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
               <i class="fas fa-heart m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Lista de Desejos</p>
             </RouterLink>
-            <RouterLink to="/cart" class="border rounded py-1 px-3 nav-link d-flex align-items-center">
+            <RouterLink :to="{ name: 'cart' }" class="border rounded py-1 px-3 nav-link d-flex align-items-center">
               <i class="fas fa-shopping-cart m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Meu Carrinho</p>
             </RouterLink>
@@ -81,13 +85,13 @@
     <div class="navbar-collapse collapse show" id="navbarLeftAlignExample">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <RouterLink to="/" class="nav-link active text-dark" aria-current="page">Home</RouterLink>
+          <RouterLink :to="{ name: 'home' }" class="nav-link active text-dark" aria-current="page">Home</RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink to="/about" class="nav-link text-dark">Sobre</RouterLink>
+          <RouterLink :to="{ name: 'about' }" class="nav-link text-dark">Sobre</RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink to="/product" class="nav-link text-dark">Produtos</RouterLink>
+          <RouterLink :to="{ name: 'product' }" class="nav-link text-dark">Produtos</RouterLink>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -98,7 +102,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <RouterLink to="/account" class="nav-link text-dark">Criar Conta</RouterLink>
+          <RouterLink :to="{ name: 'account' }" class="nav-link text-dark">Criar Conta</RouterLink>
         </li>
       </ul>
     </div>
@@ -117,7 +121,9 @@
 <script>
   import Category from '@/components/category/Category.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
+  import AuthService from '@/services/auth/AuthService';
   import ProductService from '@/services/product/ProductService';
+  import { userAuh } from '@/storages/AuthStorage.js';
 
   export default {
     components: { Category, CardProduct },
@@ -125,12 +131,18 @@
     errorList: {},
     data() {
       return {
+        messageSuccess: '',
+        userName: '',
         search: '',
         totalItems: 0,
         products: {},
         currentPage: 1,
         perPage: 10,
       };
+    },
+    created() {
+      const [userName] = userAuh();
+      this.userName = userName;
     },
     methods: {
       async getProduct() {
@@ -142,6 +154,24 @@
           if (error.response && error.response.data.status === 400) {
             this.errorList = error.response.data.data;
           }
+        }
+      },
+      async logout() {
+        try {
+            const user = await AuthService.logout();
+            this.messageSuccess = user;
+            setTimeout(() => {
+              this.$router.push({
+                name: 'login',
+                params: {
+                  message: this.messageSuccess
+                }
+              });
+            }, 1000);
+        } catch (error) {
+            if (error.response && error.response.data.status === 400) {
+                this.errorList = error.response.data.data;
+            }
         }
       },
     },

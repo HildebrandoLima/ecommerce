@@ -2,7 +2,7 @@
 
   <Banner :msg="bannerTitleMessage" />
 
-  <SectionProduct :products="products" />
+  <SectionProduct :products="products" :totalItems="totalItems" />
 
   <hr />
 

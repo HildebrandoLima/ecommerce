@@ -18,7 +18,7 @@
           <div class="form-outline">
             <input type="text" id="cep" @keyup.enter="searchCep" v-model="cep" maxlength="9" OnKeyPress="format('#####-###',this)" class="form-control" placeholder="CEP" required />
           </div>
-          <div class="form-text text-danger">
+          <div class="form-text text-muted">
             Digite seu CEP e tecle 'ENTER'
           </div>
           <AlertError

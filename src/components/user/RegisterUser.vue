@@ -2,7 +2,7 @@
 
   <AlertSuccess :messageSuccess="this.messageSuccess" />
 
-  <form>
+  <form class="needs-validation mb-5 border-top" novalidate onsubmit="return false">
     <div class="row mb-4">
       <div class="col">
         <div class="form-outline">
@@ -35,10 +35,27 @@
 
       <div class="col">
         <div class="form-outline">
-          <input type="password" id="password" v-model="user.senha" class="form-control" placeholder="Senha" required />
+          <div class="input-group">
+            <input type="password" id="validationPassword" v-model="user.senha" minlength="8" class="form-control" placeholder="Senha" required />
+
+            <div class="input-group-text">
+              <span class="toggle-password" @click="togglePasswordVisibility">
+                <i v-if="passwordVisible" class="fas fa-eye-slash"></i>
+                <i v-else class="fas fa-eye"></i>
+              </span>
+            </div>
+          </div>
+
+          <div  class="progress" style="height: 5px;">
+            <div id="progressbar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 10%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+            </div>
+		      </div>
+          <div id="feedbackirn" class="invalid-feedback">
+          </div>
         </div>
-        <div class="form-text text-danger">
-          A senha deve conter no mínino: 08 dígitos, 01 letra maiúscula, 01 letra minúscula, 01 caractere especial, e não pode possuir ordem como, ex (111, aaa).
+
+        <div class="form-text text-muted">
+          Sua senha deve ter no mínimo 8-20 caracteres, deve conter caracteres especiais "!@#$%&*_?", números, letras minúsculas e maiúsculas, e não pode possuir ordem como, ex.: (111, aaa).
         </div>
         <AlertError
         v-if="Object.keys(this.errorList).length > 0"
@@ -94,6 +111,7 @@
     components: { AlertError, AlertSuccess },
     data() {
       return {
+        passwordVisible: false,
         messageSuccess: '',
         errorList: {},
         user: {
@@ -108,6 +126,11 @@
       };
     },
     methods: {
+      togglePasswordVisibility() {
+        const passwordInput = document.getElementById("validationPassword");
+        this.passwordVisible = !this.passwordVisible;
+        passwordInput.type = this.passwordVisible ? "text" : "password";
+      },
       async saveUser() {
         try {
           const user = await UserService.postUser(this.user);

@@ -1,4 +1,4 @@
-import api from '@/api';
+import api from '@/server/api';
 
 export default class CategoryService {
     static async getCategories(page, perPage) {
