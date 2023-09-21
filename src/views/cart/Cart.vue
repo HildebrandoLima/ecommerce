@@ -1,17 +1,19 @@
 <template>
   <Banner :msg="bannerTitleMessage"></Banner>
 
-    <div class="container mt-3">
-        <div class="card mb-4 border shadow-0">
-            <div class="p-4 d-flex justify-content-between">
-                <div class="">
-                    <h5>Você já possue uma conta?</h5>
-                    <p class="mb-0 text-wrap">Se já tiver, efetue o login, caso contrário, faça um cadastro.</p>
-                </div>
+    <div v-if="toggleAuthenticationComponentVisibility">
+        <div class="container mt-3" v-if="!userName">
+            <div class="card mb-4 border shadow-0">
+                <div class="p-4 d-flex justify-content-between">
+                    <div class="">
+                        <h5>Você já possue uma conta?</h5>
+                        <p class="mb-0 text-wrap">Se já tiver, efetue o login, caso contrário, faça um cadastro.</p>
+                    </div>
 
-                <div class="d-flex align-items-center justify-content-center flex-column flex-md-row">
-                    <RouterLink to="/account" class="btn btn-outline-primary me-0 me-md-2 mb-2 mb-md-0 w-100">Registrar</RouterLink>
-                    <RouterLink to="/login" class="btn btn-outline-primary shadow-0 text-nowrap w-100">Entrar</RouterLink>
+                    <div class="d-flex align-items-center justify-content-center flex-column flex-md-row">
+                        <RouterLink to="/account" class="btn btn-outline-primary me-0 me-md-2 mb-2 mb-md-0 w-100">Registrar</RouterLink>
+                        <RouterLink to="/login" class="btn btn-outline-primary shadow-0 text-nowrap w-100">Entrar</RouterLink>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,8 +116,8 @@
                             </div>
 
                             <div class="mt-3">
-                                <a href="#" class="btn btn-outline-success w-100 shadow-0 mb-2">Finalizar Compra</a>
-                                <a href="#" class="btn btn-light w-100 border mt-2">Continuar Comprabdo</a>
+                                <button type="button" @click="toggleAuthenticationComponentVisibility = true" class="btn btn-outline-success w-100 shadow-0 mb-2">Finalizar Compra</button>
+                                <RouterLink :to="{ name: 'product' }" class="btn btn-light w-100 border mt-2">Continuar Comprabdo</RouterLink>
                             </div>
                         </div>
                     </div>
@@ -137,6 +139,7 @@
     import Banner from '@/components/fixos/Banner.vue';
     import CardProduct from '@/components/product/CardProduct.vue';
     import ProductService from '@/services/product/ProductService';
+    import { userAuth } from '@/storages/AuthStorage';
 
     export default {
         components: { Banner, CardProduct },
@@ -148,12 +151,16 @@
                 currentPage: 1,
                 perPage: 10,
                 totalItems: 0,
+                userName: '',
+                toggleAuthenticationComponentVisibility: false,
             };
         },
         created() {
             this.getProduct();
             const cart = localStorage.getItem('cart');
             this.cart = cart ? JSON.parse(cart) : [];
+            const [userName] = userAuth();
+            this.userName = userName;
         },
         methods: {
             async getProduct() {

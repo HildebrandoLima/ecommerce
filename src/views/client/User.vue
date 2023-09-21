@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import { userAuth, permissions } from '@/storages/AuthStorage.js';
+    import { userAuth, permissions } from '@/storages/AuthStorage';
 
     export default {
         name: 'client',

@@ -1,12 +1,15 @@
 <template>
     <div class="bg-primary text-white py-5">
     <div class="container py-5">
-      <h1>
+      <h1 v-if="userName">
+        Olá {{ userName }}, seja bem-vindo!
+      </h1>
+      <h1 v-else>
         Melhores produtos e &amp;
         <br>marcas em nossa loja
       </h1>
 
-      <p>Produtos modernos, preços de fábrica, excelente serviço</p>
+      <p v-if="!userName">Produtos modernos, preços de fábrica, excelente serviço</p>
       <button type="button" class="btn btn-outline-light">Ver mais</button>&nbsp;
 
       <button type="button" class="btn btn-light shadow-0 text-primary pt-2 border border-white">
@@ -30,6 +33,7 @@
 <script>
   import CardProduct from '@/components/product/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
+  import { userAuth } from '@/storages/AuthStorage';
 
   export default {
     components: { CardProduct },
@@ -41,10 +45,17 @@
         currentPage: 1,
         perPage: 10,
         totalItems: 0,
+        userId: 0,
+        userName: '',
+        userEmail: '',
       };
     },
     created() {
         this.getProduct();
+        const [userId, userName, userEmail] = userAuth();
+        this.userId = userId;
+        this.userName = userName;
+        this.userEmail = userEmail;
     },
     methods: {
       async getProduct() {

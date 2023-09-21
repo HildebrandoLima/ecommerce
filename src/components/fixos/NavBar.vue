@@ -102,7 +102,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <RouterLink :to="{ name: 'account' }" class="nav-link text-dark">Criar Conta</RouterLink>
+          <RouterLink v-if="!userName" :to="{ name: 'account' }" class="nav-link text-dark">Criar Conta</RouterLink>
         </li>
       </ul>
     </div>
