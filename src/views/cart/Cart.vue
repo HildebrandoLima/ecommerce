@@ -31,7 +31,7 @@
                                     <h4 class="card-title mb-4">Meu Carrinho de Compras</h4>
                                 </div>
                                 <div class="col-lg sm-3">
-                                    <button v-if="cart.length > 0" @click="clearCart()" class="btn btn-light border text-danger icon-hover-danger">Limpar Carrinho</button>
+                                    <button v-if="cart.length > 0" @click="cleanCart()" class="btn btn-light border text-danger icon-hover-danger">Limpar Carrinho</button>
                                 </div>
                             </div>
 
@@ -140,6 +140,7 @@
     import CardProduct from '@/components/product/CardProduct.vue';
     import ProductService from '@/services/product/ProductService';
     import { userAuth } from '@/storages/AuthStorage';
+    import { removeItemToCart, updateCartItemQuantity, cleanCart } from '@/storages/cart';
 
     export default {
         components: { Banner, CardProduct },
@@ -175,29 +176,16 @@
                 }
             },
             removeItem(item) {
-                const cart = JSON.parse(localStorage.getItem('cart')) || [];
-                const itemIndex = cart.findIndex((cartItem) => cartItem.id === item.id);
-                if (itemIndex !== -1) {
-                    cart.splice(itemIndex, 1);
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    this.cart = cart;
-                }
-                alert('Item removido do carrinho!');
+                const cart = this.cart;
+                removeItemToCart(cart, item);
             },
             updateQuantity(item) {
-                item.quantidade = parseInt(item.quantidade);
-                if (item.quantidade <= 0) {
-                    this.cart = this.cart.filter((cartItem) => cartItem !== item);
-                } else {
-                    item.subTotal = item.quantidade * item.precoVenda;
-                }
-                localStorage.setItem('cart', JSON.stringify(this.cart));
-                alert('Quantidade Atualizada!');
+                const cart = this.cart;
+                updateCartItemQuantity(cart, item)
             },
-            clearCart() {
-                this.cart = [];
-                localStorage.removeItem('cart');
-                alert('Carrinho Limpado!');
+            cleanCart() {
+                const cart = this.cart;
+                cleanCart(cart);
             },
         },
     };

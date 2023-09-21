@@ -5,34 +5,20 @@
 </template>
 
 <script>
-  export default {
-    name: 'button',
-    props: {
-        product: {
-            type: Array,
-            default: []
-        }
-    },
-    methods: {
-        addToCart(product) {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const itemIndex = cart.findIndex((item) => item.id === product.produtoId);
-            if (itemIndex !== -1) {
-                cart[itemIndex].quantidade++;
-                cart[itemIndex].subTotal += product.precoVenda;
-            } else {
-                cart.push({
-                    'id': product.produtoId,
-                    'nome': product.nome,
-                    'quantidade': 1,
-                    'precoCusto': product.precoCusto,
-                    'precoVenda': product.precoVenda,
-                    'subTotal': product.precoVenda,
-                });
+    import { addToCart } from '@/storages/cart';
+
+    export default {
+        name: 'button',
+        props: {
+            product: {
+                type: Array,
+                default: []
             }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            alert('Produto Adicionado ao Carrinho!');
         },
-    },
-};
+        methods: {
+            addToCart(product) {
+                addToCart(product);
+            },
+        },
+    };
 </script>
