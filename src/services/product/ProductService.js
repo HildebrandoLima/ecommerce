@@ -1,4 +1,4 @@
-import api from '@/api';
+import api from '@/server/api';
 
 export default class ProductService {
     static async getProducts(page, perPage, search, id) {

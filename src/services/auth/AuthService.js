@@ -1,4 +1,4 @@
-import api from '@/api';
+import api from '@/server/api';
 
 export default class AuthService {
     static async login(body) {
