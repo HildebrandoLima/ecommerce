@@ -1,5 +1,13 @@
+function getCartData() {
+    try {
+        return JSON.parse(localStorage.getItem('cart')) || [];
+    } catch (error) {
+        throw error;
+    }
+}
+
 export function addToCart(product) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cart = getCartData();
     const itemIndex = cart.findIndex((item) => item.id === product.produtoId);
 
     if (itemIndex !== -1) {
@@ -20,7 +28,7 @@ export function addToCart(product) {
 }
 
 export function removeItemToCart(newCart, item) {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cart = getCartData();
     const itemIndex = cart.findIndex((cartItem) => cartItem.id === item.id);
 
     if (itemIndex !== -1) {
