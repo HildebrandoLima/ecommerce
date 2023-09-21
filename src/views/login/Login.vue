@@ -4,6 +4,11 @@
     <div class="container">
         <div class="card mt-3">
             <div class="card-body">
+
+                <div v-if="errorMessage" class="error-message">
+                    {{ errorMessage }}
+                </div>
+
                 <div class="row">
                     <div class="col">
                         <form @submit.prevent="auth">
@@ -97,6 +102,7 @@
             return {
                 bannerTitleMessage: 'Login',
                 passwordVisible: false,
+                errorMessage: null,
                 errorList: {},
                 messageSuccess: '',
                 user: {
@@ -113,6 +119,9 @@
                 perPage: 10,
                 totalItems: 0,
             };
+        },
+        mounted() {
+            this.errorMessage = this.$route.params.errorMessage || null;
         },
         created() {
             this.getProduct();
@@ -138,6 +147,14 @@
                 try {
                     const user = await AuthService.login(this.user);
                     this.messageSuccess = user;
+                    setTimeout(() => {
+                        this.$router.push({
+                        name: 'client',
+                        params: {
+                            message: this.messageSuccess
+                        }
+                    });
+                    }, 1000);
                 } catch (error) {
                     if (error.response && error.response.data.status === 400) {
                         this.errorList = error.response.data.data;

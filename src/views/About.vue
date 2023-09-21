@@ -1,6 +1,7 @@
 <template>
   <Banner :msg="bannerTitleMessage"></Banner>
 
+  {{ auth }}
   <div class="container">
       <div class="card mt-3">
         <div class="card-body">
@@ -33,6 +34,7 @@
     data() {
       return {
         bannerTitleMessage: 'Sobre Nós',
+        auth: {},
         errorList: {},
         products: {},
         currentPage: 1,
@@ -42,6 +44,8 @@
     },
     created() {
         this.getProduct();
+        const auth = localStorage.getItem('userAuh');
+        this.auth = auth ? JSON.parse(auth) : {};
     },
     methods: {
       async getProduct() {

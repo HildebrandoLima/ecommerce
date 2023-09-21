@@ -40,7 +40,11 @@
 
         <div class="order-lg-last col-lg-5 col-sm-8 col-8">
           <div class="d-flex float-end">
-            <RouterLink :to="{ name: 'login' }" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+            <button v-if="userName" @click="logout" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+              <i class="fas fa-user-alt m-1 me-md-2"></i>
+              <p class="d-none d-md-block mb-0">Logout</p>
+            </button>
+            <RouterLink v-else :to="{ name: 'login' }" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
               <i class="fas fa-user-alt m-1 me-md-2"></i>
               <p class="d-none d-md-block mb-0">Login</p>
             </RouterLink>
@@ -117,7 +121,9 @@
 <script>
   import Category from '@/components/category/Category.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
+  import AuthService from '@/services/auth/AuthService';
   import ProductService from '@/services/product/ProductService';
+  import { userAuh } from '@/storages/AuthStorage.js';
 
   export default {
     components: { Category, CardProduct },
@@ -125,12 +131,18 @@
     errorList: {},
     data() {
       return {
+        messageSuccess: '',
+        userName: '',
         search: '',
         totalItems: 0,
         products: {},
         currentPage: 1,
         perPage: 10,
       };
+    },
+    created() {
+      const [userName] = userAuh();
+      this.userName = userName;
     },
     methods: {
       async getProduct() {
@@ -142,6 +154,24 @@
           if (error.response && error.response.data.status === 400) {
             this.errorList = error.response.data.data;
           }
+        }
+      },
+      async logout() {
+        try {
+            const user = await AuthService.logout();
+            this.messageSuccess = user;
+            setTimeout(() => {
+              this.$router.push({
+                name: 'login',
+                params: {
+                  message: this.messageSuccess
+                }
+              });
+            }, 1000);
+        } catch (error) {
+            if (error.response && error.response.data.status === 400) {
+                this.errorList = error.response.data.data;
+            }
         }
       },
     },
