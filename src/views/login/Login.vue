@@ -146,15 +146,26 @@
             async auth() {
                 try {
                     const user = await AuthService.login(this.user);
-                    this.messageSuccess = user;
-                    setTimeout(() => {
-                        this.$router.push({
-                        name: 'client',
-                        params: {
-                            message: this.messageSuccess
-                        }
-                    });
-                    }, 1000);
+                    this.messageSuccess = user.message;
+                    if (!user.data.isAdmin == true) {
+                        setTimeout(() => {
+                            this.$router.push({
+                                name: 'dashboard',
+                                params: {
+                                    message: this.messageSuccess
+                                }
+                            });
+                        }, 1000);
+                    } else {
+                        setTimeout(() => {
+                            this.$router.push({
+                                name: 'client',
+                                params: {
+                                    message: this.messageSuccess
+                                }
+                            });
+                        }, 1000);
+                    }
                 } catch (error) {
                     if (error.response && error.response.data.status === 400) {
                         this.errorList = error.response.data.data;
