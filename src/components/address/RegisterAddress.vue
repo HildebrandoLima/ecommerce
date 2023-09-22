@@ -3,7 +3,6 @@
     <AlertSuccess :messageSuccess="this.messageSuccess" />
 
     <form>
-      <input type="hidden" id="usuarioId" v-model="address.usuarioId" class="form-control" />
       <div class="row mb-4">
         <div class="col">
           <div class="form-outline">
@@ -75,6 +74,7 @@
   import AlertError from '@/components/shared/AlertError.vue';
   import AlertSuccess from '@/components/shared/AlertSuccess.vue';
   import AddressService from '@/services/address/AddressService';
+  import { getUser } from '@/storages/EntityPersonStorage';
 
   export default {
     name: 'address',
@@ -97,7 +97,8 @@
     },
     created() {
         this.searchCep();
-        this.usuarioId = localStorage.getItem('userId');
+        const userId = getUser();
+        this.usuarioId = userId;
     },
     methods: {
       async searchCep() {

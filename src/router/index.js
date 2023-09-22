@@ -12,7 +12,7 @@ import Product from '@/views/product/Product.vue';
 import ProductByCategory from '@/views/product/ProductByCategory.vue';
 import ProductDetails from '@/views/product/ProductDetails.vue';
 import User from '@/views/client/User.vue';
-import { token, userAuh, permissions } from '@/storages/AuthStorage';
+import { token, userAuth, permissions } from '@/storages/AuthStorage';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -100,7 +100,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta?.auth) {
     const accessToken = token();
-    const [userId, userName, userEmail] = userAuh();
+    const [userId, userName, userEmail] = userAuth();
     const userPermissions = permissions();
     if (accessToken && userId && userName && userEmail && userPermissions) {
       next();

@@ -1,17 +1,19 @@
 <template>
   <Banner :msg="bannerTitleMessage"></Banner>
 
-    <div class="container mt-3">
-        <div class="card mb-4 border shadow-0">
-            <div class="p-4 d-flex justify-content-between">
-                <div class="">
-                    <h5>Você já possue uma conta?</h5>
-                    <p class="mb-0 text-wrap">Se já tiver, efetue o login, caso contrário, faça um cadastro.</p>
-                </div>
+    <div v-if="toggleAuthenticationComponentVisibility">
+        <div class="container mt-3" v-if="!userName">
+            <div class="card mb-4 border shadow-0">
+                <div class="p-4 d-flex justify-content-between">
+                    <div class="">
+                        <h5>Você já possue uma conta?</h5>
+                        <p class="mb-0 text-wrap">Se já tiver, efetue o login, caso contrário, faça um cadastro.</p>
+                    </div>
 
-                <div class="d-flex align-items-center justify-content-center flex-column flex-md-row">
-                    <RouterLink to="/account" class="btn btn-outline-primary me-0 me-md-2 mb-2 mb-md-0 w-100">Registrar</RouterLink>
-                    <RouterLink to="/login" class="btn btn-outline-primary shadow-0 text-nowrap w-100">Entrar</RouterLink>
+                    <div class="d-flex align-items-center justify-content-center flex-column flex-md-row">
+                        <RouterLink to="/account" class="btn btn-outline-primary me-0 me-md-2 mb-2 mb-md-0 w-100">Registrar</RouterLink>
+                        <RouterLink to="/login" class="btn btn-outline-primary shadow-0 text-nowrap w-100">Entrar</RouterLink>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,7 +31,7 @@
                                     <h4 class="card-title mb-4">Meu Carrinho de Compras</h4>
                                 </div>
                                 <div class="col-lg sm-3">
-                                    <button v-if="cart.length > 0" @click="clearCart()" class="btn btn-light border text-danger icon-hover-danger">Limpar Carrinho</button>
+                                    <button v-if="cart.length > 0" @click="cleanCart()" class="btn btn-light border text-danger icon-hover-danger">Limpar Carrinho</button>
                                 </div>
                             </div>
 
@@ -114,8 +116,8 @@
                             </div>
 
                             <div class="mt-3">
-                                <a href="#" class="btn btn-outline-success w-100 shadow-0 mb-2">Finalizar Compra</a>
-                                <a href="#" class="btn btn-light w-100 border mt-2">Continuar Comprabdo</a>
+                                <button type="button" @click="toggleAuthenticationComponentVisibility = true" class="btn btn-outline-success w-100 shadow-0 mb-2">Finalizar Compra</button>
+                                <RouterLink :to="{ name: 'product' }" class="btn btn-light w-100 border mt-2">Continuar Comprabdo</RouterLink>
                             </div>
                         </div>
                     </div>
@@ -137,6 +139,8 @@
     import Banner from '@/components/fixos/Banner.vue';
     import CardProduct from '@/components/product/CardProduct.vue';
     import ProductService from '@/services/product/ProductService';
+    import { userAuth } from '@/storages/AuthStorage';
+    import { removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
 
     export default {
         components: { Banner, CardProduct },
@@ -148,12 +152,16 @@
                 currentPage: 1,
                 perPage: 10,
                 totalItems: 0,
+                userName: '',
+                toggleAuthenticationComponentVisibility: false,
             };
         },
         created() {
             this.getProduct();
             const cart = localStorage.getItem('cart');
             this.cart = cart ? JSON.parse(cart) : [];
+            const [userName] = userAuth();
+            this.userName = userName;
         },
         methods: {
             async getProduct() {
@@ -168,29 +176,16 @@
                 }
             },
             removeItem(item) {
-                const cart = JSON.parse(localStorage.getItem('cart')) || [];
-                const itemIndex = cart.findIndex((cartItem) => cartItem.id === item.id);
-                if (itemIndex !== -1) {
-                    cart.splice(itemIndex, 1);
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    this.cart = cart;
-                }
-                alert('Item removido do carrinho!');
+                const cart = this.cart;
+                removeItemToCart(cart, item);
             },
             updateQuantity(item) {
-                item.quantidade = parseInt(item.quantidade);
-                if (item.quantidade <= 0) {
-                    this.cart = this.cart.filter((cartItem) => cartItem !== item);
-                } else {
-                    item.subTotal = item.quantidade * item.precoVenda;
-                }
-                localStorage.setItem('cart', JSON.stringify(this.cart));
-                alert('Quantidade Atualizada!');
+                const cart = this.cart;
+                updateCartItemQuantity(cart, item)
             },
-            clearCart() {
-                this.cart = [];
-                localStorage.removeItem('cart');
-                alert('Carrinho Limpado!');
+            cleanCart() {
+                const cart = this.cart;
+                cleanToCart(cart);
             },
         },
     };

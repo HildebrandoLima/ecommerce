@@ -147,7 +147,7 @@
                 try {
                     const user = await AuthService.login(this.user);
                     this.messageSuccess = user.message;
-                    if (!user.data.isAdmin == true) {
+                    if (user.data.isAdmin == true) {
                         setTimeout(() => {
                             this.$router.push({
                                 name: 'dashboard',
@@ -176,7 +176,7 @@
                 try {
                     const providerValue = this.provider[providerName];
                     const response = window.location.href = `http://localhost:8000/api/auth/login/social/${providerValue}`;
-                    window.localStorage.setItem('userAuh', JSON.stringify(response.data));
+                    window.localStorage.setItem('userAuth', JSON.stringify(response.data));
                     //const provider = await AuthService.loginSocial(providerValue);
                     //this.messageSuccess = provider;
                 } catch (error) {

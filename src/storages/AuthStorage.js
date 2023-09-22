@@ -1,7 +1,23 @@
 function getAuthData() {
   try {
-    const authStorage = localStorage.getItem('userAuh');
+    const authStorage = localStorage.getItem('userAuth');
     return authStorage ? JSON.parse(authStorage) : {};
+  } catch (error) {
+    throw error;
+  }
+}
+
+export function removeAuth() {
+  try {
+    localStorage.removeItem('userAuth');
+  } catch (error) {
+    throw error;
+  }
+}
+
+export function setAuth(data) {
+  try {
+    localStorage.setItem('userAuth', JSON.stringify(data));
   } catch (error) {
     throw error;
   }
@@ -16,7 +32,7 @@ export function token() {
   }
 }
 
-export function userAuh() {
+export function userAuth() {
   try {
     const authData = getAuthData();
     return [authData.userId, authData.userName, authData.userEmail, authData.isAdmin];
