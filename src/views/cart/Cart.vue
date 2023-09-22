@@ -140,7 +140,7 @@
     import CardProduct from '@/components/product/CardProduct.vue';
     import ProductService from '@/services/product/ProductService';
     import { userAuth } from '@/storages/AuthStorage';
-    import { removeItemToCart, updateCartItemQuantity, cleanCart } from '@/storages/cart';
+    import { removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
 
     export default {
         components: { Banner, CardProduct },
@@ -185,7 +185,7 @@
             },
             cleanCart() {
                 const cart = this.cart;
-                cleanCart(cart);
+                cleanToCart(cart);
             },
         },
     };

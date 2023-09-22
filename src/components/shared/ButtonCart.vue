@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import { addToCart } from '@/storages/cart';
+    import { setAddToCart } from '@/storages/CartStorage';
 
     export default {
         name: 'button',
@@ -17,7 +17,7 @@
         },
         methods: {
             addToCart(product) {
-                addToCart(product);
+                setAddToCart(product);
             },
         },
     };

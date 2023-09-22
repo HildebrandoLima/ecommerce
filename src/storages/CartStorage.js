@@ -6,7 +6,7 @@ function getCartData() {
     }
 }
 
-export function addToCart(product) {
+export function setAddToCart(product) {
     const cart = getCartData();
     const itemIndex = cart.findIndex((item) => item.id === product.produtoId);
 
@@ -51,7 +51,7 @@ export function updateCartItemQuantity(newCart, item) {
     alert('Quantidade Atualizada!');
 }
 
-export function cleanCart(newCart) {
+export function cleanToCart(newCart) {
     newCart = [];
     localStorage.removeItem('cart');
     alert('Carrinho Limpado!');
