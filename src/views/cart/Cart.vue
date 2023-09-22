@@ -99,11 +99,11 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Total:</p>
-                                <p class="mb-2">R$329,00</p>
+                                <p class="mb-2">{{ total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Desconto:</p>
-                                <p class="mb-2 text-success">R$-60,00</p>
+                                <s><p class="mb-2 text-danger">R$-00,00</p></s>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Taxa:</p>
@@ -112,7 +112,7 @@
                             <hr />
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Total:</p>
-                                <p class="mb-2 fw-bold">R$283,00</p>
+                                <p class="mb-2 fw-bold">{{ total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
                             </div>
 
                             <div class="mt-3">
@@ -140,7 +140,7 @@
     import CardProduct from '@/components/product/CardProduct.vue';
     import ProductService from '@/services/product/ProductService';
     import { userAuth } from '@/storages/AuthStorage';
-    import { removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
+    import { getCart, calculateTotalCart, removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
 
     export default {
         components: { Banner, CardProduct },
@@ -152,16 +152,17 @@
                 currentPage: 1,
                 perPage: 10,
                 totalItems: 0,
+                total: 0,
                 userName: '',
                 toggleAuthenticationComponentVisibility: false,
             };
         },
         created() {
             this.getProduct();
-            const cart = localStorage.getItem('cart');
-            this.cart = cart ? JSON.parse(cart) : [];
+            this.cart = getCart();
             const [userName] = userAuth();
             this.userName = userName;
+            this.calculateTotal();
         },
         methods: {
             async getProduct() {
@@ -178,14 +179,23 @@
             removeItem(item) {
                 const cart = this.cart;
                 removeItemToCart(cart, item);
+                this.calculateTotal();
             },
             updateQuantity(item) {
                 const cart = this.cart;
-                updateCartItemQuantity(cart, item)
+                updateCartItemQuantity(cart, item);
+                this.calculateTotal();
             },
             cleanCart() {
                 const cart = this.cart;
                 cleanToCart(cart);
+                this.calculateTotal();
+            },
+            calculateTotal() {
+                this.total = this.cart.reduce((acc, item) => {
+                return acc + item.subTotal;
+                }, 0);
+                calculateTotalCart(this.total);
             },
         },
     };
