@@ -62,6 +62,7 @@
   import AlertSuccess from '@/components/shared/AlertSuccess.vue';
   import DDD from '@/assets/js/ddds';
   import TelephoneService from '@/services/telephone/TelephoneService';
+  import { getUser } from '@/storages/EntityPersonStorage';
 
   export default {
     name: 'telephone',
@@ -76,7 +77,8 @@
       };
     },
     created() {
-      this.usuarioId = Number(localStorage.getItem('userId'));
+      const userId = getUser();
+      this.usuarioId = Number(userId);
       this.addTelephone();
     },
     methods: {
