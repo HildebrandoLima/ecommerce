@@ -68,3 +68,7 @@ export function getCart() {
 export function getTotalCart() {
     return localStorage.getItem('cartTotal');
 }
+
+export function removeTotalCart() {
+    return localStorage.removeItem('cartTotal');
+}

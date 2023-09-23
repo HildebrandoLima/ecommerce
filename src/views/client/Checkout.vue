@@ -123,7 +123,7 @@
   import AlertError from '@/components/shared/AlertError.vue';
   import Banner from '@/components/fixos/Banner.vue';
   import OrderService from '@/services/order/OrderService';
-  import { getCart, getTotalCart, cleanToCart } from '@/storages/CartStorage';
+  import { getCart, getTotalCart } from '@/storages/CartStorage';
   import { userAuth } from '@/storages/AuthStorage';
 
   export default {
@@ -178,7 +178,6 @@
         try {
           const order = await OrderService.postOrder(this.order);
             this.messageSuccess = order.data.message;
-            cleanToCart(this.cart);
             this.$router.push({
               name: 'payment'
             });  
