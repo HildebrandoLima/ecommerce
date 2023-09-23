@@ -1,5 +1,5 @@
 <template>
-    <div class="alert alert-danger mt-2" role="alert">
+    <div class="alert alert-danger mt-2 text-center" role="alert">
         {{ errorList }}
     </div>
 </template>
