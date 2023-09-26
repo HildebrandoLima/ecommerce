@@ -8,7 +8,7 @@
 
     <form>
       <div v-for="(phone, index) in telephones" :key="index">
-        <input type="hidden" id="usuarioId" v-model="phone.usuarioId" class="form-control" />
+        <input type="hidden" id="usuarioId" v-model="phone.usuarioId" />
         <div class="row mb-4">
           <div class="col">
             <div class="form-outline">

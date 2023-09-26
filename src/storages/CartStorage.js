@@ -56,3 +56,19 @@ export function cleanToCart(newCart) {
     localStorage.removeItem('cart');
     alert('Carrinho Limpado!');
 }
+
+export function calculateTotalCart(total) {
+    localStorage.setItem('cartTotal', total);
+}
+
+export function getCart() {
+    return getCartData();
+}
+
+export function getTotalCart() {
+    return localStorage.getItem('cartTotal');
+}
+
+export function removeTotalCart() {
+    return localStorage.removeItem('cartTotal');
+}

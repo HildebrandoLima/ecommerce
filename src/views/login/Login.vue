@@ -159,7 +159,7 @@
                     } else {
                         setTimeout(() => {
                             this.$router.push({
-                                name: 'client',
+                                name: 'home',
                                 params: {
                                     message: this.messageSuccess
                                 }

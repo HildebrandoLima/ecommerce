@@ -66,8 +66,7 @@
     <div class="row mb-4">
       <div class="col">
         <div class="form-outline">
-          <label class="form-label" for="form6Example2">Data de Nascimento</label>
-          <input type="date" id="date" v-model="user.dataNascimento" class="form-control" required />
+          <input type="text" id="date" v-model="user.dataNascimento" class="form-control" placeholder="Data de Nascimento" onfocus="(this.type='date')" required />
         </div>
         <AlertError
         v-if="Object.keys(this.errorList).length > 0"
@@ -76,17 +75,17 @@
 
       <div class="col">
         <div class="form-outline">                    
-          <div class="form-check">
+          <div class="form-check form-check-inline">
             <input type="radio" id="masculino" value="Masculino" v-model="user.genero" class="form-check-input" />
             <label class="form-check-label" for="Masculino">Masculino</label>
           </div>
 
-          <div class="form-check">
+          <div class="form-check form-check-inline">
             <input type="radio" id="feminino" value="Feminino" v-model="user.genero" class="form-check-input" />
             <label class="form-check-label" for="Feminino">Feminino</label>
           </div>
 
-          <div class="form-check">
+          <div class="form-check form-check-inline">
             <input type="radio" id="outro" value="Outro" v-model="user.genero" class="form-check-input" />
             <label class="form-check-label" for="Outro">Outro</label>
           </div>

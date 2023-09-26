@@ -1,19 +1,17 @@
 <template>
   <Banner :msg="bannerTitleMessage"></Banner>
 
-    <div v-if="toggleAuthenticationComponentVisibility">
-        <div class="container mt-3" v-if="!userName">
-            <div class="card mb-4 border shadow-0">
-                <div class="p-4 d-flex justify-content-between">
-                    <div class="">
-                        <h5>Você já possue uma conta?</h5>
-                        <p class="mb-0 text-wrap">Se já tiver, efetue o login, caso contrário, faça um cadastro.</p>
-                    </div>
+    <div class="container mt-3" v-if="toggleAuthenticationComponentVisibility">
+        <div class="card mb-4 border bg-light text-dark shadow-0">
+            <div class="p-4 d-flex justify-content-between">
+                <div class="">
+                    <h5>Você já possue uma conta?</h5>
+                    <p class="mb-0 text-wrap">Se já tiver, efetue o login, caso contrário, faça um cadastro.</p>
+                </div>
 
-                    <div class="d-flex align-items-center justify-content-center flex-column flex-md-row">
-                        <RouterLink to="/account" class="btn btn-outline-primary me-0 me-md-2 mb-2 mb-md-0 w-100">Registrar</RouterLink>
-                        <RouterLink to="/login" class="btn btn-outline-primary shadow-0 text-nowrap w-100">Entrar</RouterLink>
-                    </div>
+                <div class="d-flex align-items-center justify-content-center flex-column flex-md-row">
+                    <RouterLink to="/account" class="btn btn-outline-primary me-0 me-md-2 mb-2 mb-md-0 w-100">Registrar</RouterLink>
+                    <RouterLink to="/login" class="btn btn-outline-primary shadow-0 text-nowrap w-100">Entrar</RouterLink>
                 </div>
             </div>
         </div>
@@ -22,6 +20,12 @@
     <section class="bg-light my-5">
         <div class="container">
             <div class="row">
+
+                <AlertError
+                    v-if="this.errorList.length > 0"
+                    :errorList="this.errorList"
+                />
+
                 <div class="col-lg-9">
                     <div class="card border shadow-0">
                         <div class="m-4">
@@ -30,9 +34,14 @@
                                 <div class="col-lg sm-7">
                                     <h4 class="card-title mb-4">Meu Carrinho de Compras</h4>
                                 </div>
+
                                 <div class="col-lg sm-3">
                                     <button v-if="cart.length > 0" @click="cleanCart()" class="btn btn-light border text-danger icon-hover-danger">Limpar Carrinho</button>
                                 </div>
+                            </div>
+
+                            <div class="col-lg sm-7" v-if="!cart.length">
+                                <h4 class="card-title mb-4 text-danger text-center">Não há Produto(s) no Carrinho!</h4>
                             </div>
 
                             <div class="row gy-3 mb-4" v-for="(item, index) in cart" :key="index">
@@ -99,11 +108,11 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Total:</p>
-                                <p class="mb-2">R$329,00</p>
+                                <p class="mb-2">{{ total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Desconto:</p>
-                                <p class="mb-2 text-success">R$-60,00</p>
+                                <s><p class="mb-2 text-danger">R$-00,00</p></s>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Taxa:</p>
@@ -112,12 +121,12 @@
                             <hr />
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Total:</p>
-                                <p class="mb-2 fw-bold">R$283,00</p>
+                                <p class="mb-2 fw-bold">{{ total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
                             </div>
 
                             <div class="mt-3">
-                                <button type="button" @click="toggleAuthenticationComponentVisibility = true" class="btn btn-outline-success w-100 shadow-0 mb-2">Finalizar Compra</button>
-                                <RouterLink :to="{ name: 'product' }" class="btn btn-light w-100 border mt-2">Continuar Comprabdo</RouterLink>
+                                <button type="button" @click="finalizePurchase" class="btn btn-outline-success w-100 shadow-0 mb-2">Finalizar Compra</button>
+                                <RouterLink :to="{ name: 'product' }" class="btn btn-light w-100 border mt-2">Continuar Comprando</RouterLink>
                             </div>
                         </div>
                     </div>
@@ -136,32 +145,35 @@
 </template>
 
 <script>
+    import AlertError from '@/components/shared/AlertError.vue';
     import Banner from '@/components/fixos/Banner.vue';
     import CardProduct from '@/components/product/CardProduct.vue';
     import ProductService from '@/services/product/ProductService';
     import { userAuth } from '@/storages/AuthStorage';
-    import { removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
+    import { getCart, calculateTotalCart, removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
 
     export default {
-        components: { Banner, CardProduct },
+        components: { AlertError, Banner, CardProduct },
         data() {
             return {
                 bannerTitleMessage: 'Meu Carrinho',
+                errorList: '',
                 products: {},
                 cart: [],
                 currentPage: 1,
                 perPage: 10,
                 totalItems: 0,
+                total: 0,
                 userName: '',
                 toggleAuthenticationComponentVisibility: false,
             };
         },
         created() {
             this.getProduct();
-            const cart = localStorage.getItem('cart');
-            this.cart = cart ? JSON.parse(cart) : [];
+            this.cart = getCart();
             const [userName] = userAuth();
             this.userName = userName;
+            this.calculateTotal();
         },
         methods: {
             async getProduct() {
@@ -178,14 +190,38 @@
             removeItem(item) {
                 const cart = this.cart;
                 removeItemToCart(cart, item);
+                this.calculateTotal();
             },
             updateQuantity(item) {
                 const cart = this.cart;
-                updateCartItemQuantity(cart, item)
+                updateCartItemQuantity(cart, item);
+                this.calculateTotal();
             },
             cleanCart() {
                 const cart = this.cart;
                 cleanToCart(cart);
+                this.calculateTotal();
+            },
+            calculateTotal() {
+                this.total = this.cart.reduce((acc, item) => {
+                return acc + item.subTotal;
+                }, 0);
+                calculateTotalCart(this.total);
+            },
+            finalizePurchase() {
+                if (this.cart.length > 0) {
+                    if (this.userName) {
+                        setTimeout(() => {
+                            this.$router.push({
+                                name: 'checkout'
+                            });
+                        }, 1000);
+                    } else {
+                        this.toggleAuthenticationComponentVisibility = true
+                    }
+                } else {
+                    this.errorList = 'Seu Carrinho está vazio.';
+                }
             },
         },
     };
