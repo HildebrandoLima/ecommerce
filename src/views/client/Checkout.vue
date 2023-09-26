@@ -112,12 +112,12 @@
 
             <div class="d-flex justify-content-between">
               <p class="mb-2">Frete:</p>
-              <p class="mb-2">+ R$ 14,00</p>
+              <p class="mb-2">+ R$ 00,00</p>
             </div>
 
             <div class="d-flex justify-content-between">
               <p class="mb-2">Total + Frete:</p>
-              <p class="mb-2 fw-bold">R$ 149,90</p>
+              <p class="mb-2 fw-bold">{{ total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
             </div>
 
             <div class="mt-3">
@@ -163,7 +163,7 @@
     },
     created() {
       this.cart = getCart();
-      this.total = getTotalCart();
+      this.total = parseFloat(getTotalCart());
       const [userId] = userAuth();
       this.userId = userId;
       this.getUser();
