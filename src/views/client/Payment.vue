@@ -5,6 +5,11 @@
 
     <AlertSuccess :messageSuccess="this.messageSuccess" />
 
+    <AlertError
+      v-if="this.errorList.length > 0"
+      :errorList="this.errorList"
+    />
+
     <div class="card mt-3">
       <div class="card-body">
         <div class="m-4">
@@ -53,10 +58,22 @@
                     <div class="row">
                       <div class="col">
                         <div class="mb-3">
-                          <input type="text" id="numeroCartao" v-model="paymentCard.numeroCartao" maxlength="19" OnKeyPress="format('####-####-####-####',this)" class="form-control border" placeholder="Número do Cartão" />
+                          <input type="text" id="numeroCartao" v-model="paymentCard.numeroCartao" maxlength="19" OnKeyPress="format('#### #### #### ####',this)" class="form-control border" placeholder="Número do Cartão" />
                           <AlertError
                           v-if="Object.keys(this.errorList).length > 0"
                           :errorList="this.errorList.numeroCartao" />
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="mb-3">
+                          <select id="tipoCartao" v-model="paymentCard.tipoCartao" class="form-select" required >
+                            <option value="">-- Selecione o Tipo de Cartão --</option>
+                            <option value="Débito">Débito</option>
+                            <option value="Crédito">Crédito</option>
+                          </select>
+                          <AlertError
+                          v-if="Object.keys(this.errorList).length > 0"
+                          :errorList="this.errorList.tipoCartao" />
                         </div>
                       </div>
                       <div class="col">
@@ -71,7 +88,7 @@
                       <div class="col">
                         <div class="mb-3">
                           <select id="parcela" v-model="paymentCard.parcela" class="form-select" required >
-                            <option selected>-- Selecione a Parcelas --</option>
+                            <option value="">-- Selecione a Parcela --</option>
                             <option v-for="parcela in parcelas" :value="parcela" :key="parcela">{{ parcela }}x</option>
                           </select>
                           <AlertError
@@ -138,6 +155,7 @@
         payment: {},
         paymentCard: {
           numeroCartao: '',
+          tipoCartao: '',
           dataValidade: '',
           ccv: '',
           parcela: 0,
@@ -161,14 +179,14 @@
       addPaymentCard() {
         if (this.paymentCard) {
             this.payment = this.paymentCard;
-            this.payment.ccv = Number(this.payment.ccv);
+            this.payment.ccv = this.payment.ccv;
             this.payment.total = parseFloat(this.total);
             this.payment.pedidoId = Number(this.pedidoId);
             this.payment.metodoPagamentoId =  2;
             // 2 - Cartão de Crédito, 3 - Cartão de Débito
           } else {
             this.payment = this.paymentPix;
-            this.payment.ccv = Number(this.payment.ccv);
+            this.payment.ccv = this.payment.ccv;
             this.payment.total = parseFloat(this.total);
             this.payment.pedidoId = Number(this.pedidoId);
             this.payment.metodoPagamentoId = 5;
@@ -183,7 +201,11 @@
           });
         } catch (error) {
           if (error.response && error.response.data.status === 400 || error.response.data.status === 401) {
-            this.errorList = error.response.data.data;
+            if (error.response.data.data.pedidoId) {
+              this.errorList = 'Você não gerou um pedido.';
+            } else {
+              this.errorList = error.response.data.data;
+            }
           }
         }
       },
