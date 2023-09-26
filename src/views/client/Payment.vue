@@ -2,14 +2,6 @@
   <Banner :msg="bannerTitleMessage"></Banner>
 
   <div class="container">
-
-    <AlertSuccess :messageSuccess="this.messageSuccess" />
-
-    <AlertError
-      v-if="this.errorList.length > 0"
-      :errorList="this.errorList"
-    />
-
     <div class="card mt-3">
       <div class="card-body">
         <div class="m-4">
@@ -33,95 +25,17 @@
 
                 <div class="tab-pane fade show active" id="boleto">
                   <h5 class="card-title">Boleto</h5><hr />
-                  <div class="card">
-                    <h1>Boleto</h1>
-                  </div>
-                  <form @submit.prevent="savePayment">
-                    <input type="hidden" name="metodo_pagamento" value="pix" />
-
-                    <button type="submit" class="btn btn-outline-success w-100 shadow-0 mb-2 mt-3">Pagar</button>
-                  </form>
+                  <RegisterTicket :total="total" :pedidoId="pedidoId" />
                 </div>
 
                 <div class="tab-pane fade" id="card">
                   <h5 class="card-title">Cartão</h5><hr />
-
-                  <form @submit.prevent="savePayment">
-                    <input type="hidden" v-model="paymentCard.metodoPagamentoId" />
-                    <div class="mb-3">
-                      <input type="text" name="titular" class="form-control border" placeholder="Nome do Titular" />
-                      <AlertError
-                      v-if="Object.keys(this.errorList).length > 0"
-                      :errorList="this.errorList.titular" />
-                    </div>
-
-                    <div class="row">
-                      <div class="col">
-                        <div class="mb-3">
-                          <input type="text" id="numeroCartao" v-model="paymentCard.numeroCartao" maxlength="19" OnKeyPress="format('#### #### #### ####',this)" class="form-control border" placeholder="Número do Cartão" />
-                          <AlertError
-                          v-if="Object.keys(this.errorList).length > 0"
-                          :errorList="this.errorList.numeroCartao" />
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="mb-3">
-                          <select id="tipoCartao" v-model="paymentCard.tipoCartao" class="form-select" required >
-                            <option value="">-- Selecione o Tipo de Cartão --</option>
-                            <option value="Débito">Débito</option>
-                            <option value="Crédito">Crédito</option>
-                          </select>
-                          <AlertError
-                          v-if="Object.keys(this.errorList).length > 0"
-                          :errorList="this.errorList.tipoCartao" />
-                        </div>
-                      </div>
-                      <div class="col">
-                        <input type="text" id="DataValidade" v-model="paymentCard.dataValidade" class="form-control" placeholder="Data de Validade" onfocus="(this.type='date')" />
-                        <AlertError
-                        v-if="Object.keys(this.errorList).length > 0"
-                        :errorList="this.errorList.dataValidade" />
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col">
-                        <div class="mb-3">
-                          <select id="parcela" v-model="paymentCard.parcela" class="form-select" required >
-                            <option value="">-- Selecione a Parcela --</option>
-                            <option v-for="parcela in parcelas" :value="parcela" :key="parcela">{{ parcela }}x</option>
-                          </select>
-                          <AlertError
-                          v-if="Object.keys(this.errorList).length > 0"
-                          :errorList="this.errorList.parcela" />
-                        </div>
-                      </div>
-                      <div class="col">
-                        <div class="mb-3">
-                          <input type="text" v-model="paymentCard.ccv" maxlength="4" class="form-control border" placeholder="CCV" />
-                          <AlertError
-                          v-if="Object.keys(this.errorList).length > 0"
-                          :errorList="this.errorList.ccv" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="mt-4">
-                      <button type="submit" class="btn btn-outline-success w-100 shadow-0 mb-2">Pagar</button>
-                    </div>
-                  </form>
+                  <RegisterCard :total="total" :pedidoId="pedidoId" />
                 </div>
 
                 <div class="tab-pane fade" id="pix">
                   <h5 class="card-title">PIX</h5><hr />
-                  <div class="card">
-                    <h1>QR CODE</h1>
-                  </div>
-                  <form @submit.prevent="savePayment">
-                    <input type="hidden" name="metodo_pagamento" value="pix" />
-
-                    <button type="submit" class="btn btn-outline-success w-100 shadow-0 mb-2 mt-3">Pagar</button>
-                  </form>
+                  <RegisterPix :total="total" :pedidoId="pedidoId" />
                 </div>
 
               </div>
@@ -135,80 +49,25 @@
 
 <script>
   import Banner from '@/components/fixos/Banner.vue';
-  import AlertSuccess from '@/components/shared/AlertSuccess.vue';
-  import AlertError from '@/components/shared/AlertError.vue';
-  import PaymentService from '@/services/payment/PaymentService';
+  import RegisterCard from '@/components/payment/RegisterCard.vue';
+  import RegisterPix from '@/components/payment/RegisterPix.vue';
+  import RegisterTicket from '@/components/payment/RegisterTicket.vue';
   import { getTotalCart } from '@/storages/CartStorage';
   import { getOrder } from '@/storages/CheckoutStorage';
 
   export default {
     name: 'payment',
-    components: { AlertSuccess, AlertError, Banner },
+    components: { Banner, RegisterCard, RegisterPix, RegisterTicket },
     data() {
       return {
         bannerTitleMessage: 'Pagamento',
-        messageSuccess: '',
-        errorList: {},
         total: 0,
         pedidoId: 0,
-        parcelas: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-        payment: {},
-        paymentCard: {
-          numeroCartao: '',
-          tipoCartao: '',
-          dataValidade: '',
-          ccv: '',
-          parcela: 0,
-          total: 0,
-          metodoPagamentoId: 0,
-          pedidoId: 0,
-        },
-        paymentPix: {
-          total: 0,
-          metodoPagamentoId: 0,
-          pedidoId: 0,
-        },
       };
     },
     created() {
       this.total = getTotalCart();
       this.pedidoId = getOrder();
-      this.addPaymentCard();
-    },
-    methods: {
-      addPaymentCard() {
-        if (this.paymentCard) {
-            this.payment = this.paymentCard;
-            this.payment.ccv = this.payment.ccv;
-            this.payment.total = parseFloat(this.total);
-            this.payment.pedidoId = Number(this.pedidoId);
-            this.payment.metodoPagamentoId =  2;
-            // 2 - Cartão de Crédito, 3 - Cartão de Débito
-          } else {
-            this.payment = this.paymentPix;
-            this.payment.ccv = this.payment.ccv;
-            this.payment.total = parseFloat(this.total);
-            this.payment.pedidoId = Number(this.pedidoId);
-            this.payment.metodoPagamentoId = 5;
-          }
-      },
-      async savePayment() {
-        try {
-          const payment = await PaymentService.postPayment(this.payment);
-          this.messageSuccess = payment.data.message;
-          this.$router.push({
-            name: 'home'
-          });
-        } catch (error) {
-          if (error.response && error.response.data.status === 400 || error.response.data.status === 401) {
-            if (error.response.data.data.pedidoId) {
-              this.errorList = 'Você não gerou um pedido.';
-            } else {
-              this.errorList = error.response.data.data;
-            }
-          }
-        }
-      },
     },
   };
 </script>
