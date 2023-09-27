@@ -1,5 +1,5 @@
 import api from '@/server/api';
-import { messages } from '@/support/messages/Messages';
+import { messages } from '@/support/utils/messages/Messages';
 
 export default class ProductService {
     static async getProducts(page, perPage, search, id) {
