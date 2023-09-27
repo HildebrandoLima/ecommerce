@@ -1,26 +1,33 @@
 import api from '@/server/api';
 import { setAuth, removeAuth } from '@/storages/AuthStorage';
+import { messages } from '@/support/message/Message';
 
 export default class AuthService {
     static async login(body) {
         try {
             const response = await api.post(`/auth/login`, body);
             setAuth(response.data.data);
-            return response.data;
+            return response.data.data;
         } catch (error) {
-            throw error;
+            return messages(
+                error.response.data.status,
+                error.response.data.data,
+                error.response.data.message
+            );
         }
     }
 
     static async logout() {
         try {
             const response = await api.post(`/auth/logout`);
-            if (response.data.status === 200) {
-                removeAuth();
-            }
+            removeAuth();
             return response.data.message;
         } catch (error) {
-            throw error;
+            return messages(
+                error.response.data.status,
+                error.response.data.data,
+                error.response.data.message
+            );
         }
     }
 

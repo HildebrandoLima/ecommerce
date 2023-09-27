@@ -5,19 +5,15 @@
         <div class="card mt-3">
             <div class="card-body">
 
-                <div v-if="errorMessage" class="error-message">
-                    {{ errorMessage }}
-                </div>
-
                 <div class="row">
                     <div class="col">
                         <form @submit.prevent="auth">
                             <div class="form-outline mb-4">
                                 <input type="email" id="email" v-model="user.email" class="form-control" placeholder="E-mail" required />
                             </div>
-                            <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
-                                {{ this.errorList.email }}
-                            </div>
+                            <AlertError
+                            v-if="Object.keys(errorList).length > 0"
+                            :errorList="errorList.email" />
 
                             <div class="form-outline mb-4">
                                 <div class="input-group">
@@ -31,9 +27,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
-                                {{ this.errorList.password }}
-                            </div>
+                            <AlertError
+                            v-if="Object.keys(errorList).length > 0"
+                            :errorList="errorList.password" />
 
                             <button type="submit" class="btn btn-outline-primary btn-block mb-4">
                                 <i class="fas fa-sign-in"></i> Entrar
@@ -69,10 +65,6 @@
                             <button type="button" @click="oAuth('github')" class="btn btn-secondary btn-floating mx-1">
                                 <i class="fab fa-github px-20"></i>
                             </button>
-
-                            <div v-if="Object.keys(this.errorList).length > 0" class="alert alert-danger mt-2" role="alert">
-                                {{ this.errorList }}
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -85,26 +77,29 @@
             <h3>Novos Produtos:</h3>
         </header>
 
-        <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+        <AlertError
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList" />
+
+        <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
     </div>
 </template>
 
 <script>
+    import AlertError from '@/components/shared/AlertError.vue';
     import Banner from '@/components/fixos/Banner.vue';
     import CardProduct from '@/components/product/CardProduct.vue';
     import AuthService from '@/services/auth/AuthService';
     import ProductService from '@/services/product/ProductService';
 
     export default {
-        components: { Banner, CardProduct },
+        components: { AlertError, Banner, CardProduct },
         name: 'login',
         data() {
             return {
                 bannerTitleMessage: 'Login',
                 passwordVisible: false,
-                errorMessage: null,
                 errorList: {},
-                messageSuccess: '',
                 user: {
                     email: 'hildebrandolima16@gmail.com',
                     password: 'HiLd3br@ndo',
@@ -133,43 +128,22 @@
                 passwordInput.type = this.passwordVisible ? "text" : "password";
             },
             async getProduct() {
-                try {
-                    const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-                    this.products = products;
+                const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+                if (products.status === 200) {
+                    this.products = products.data;
                     this.totalItems = products.total;
-                } catch (error) {
-                    if (error.response && error.response.data.status === 400) {
-                        this.errorList = error.response.data.data;
-                    }
+                } else {
+                    this.errorList = 'Podutos Não Encontrados';
                 }
             },
             async auth() {
-                try {
-                    const user = await AuthService.login(this.user);
-                    this.messageSuccess = user.message;
-                    if (user.data.isAdmin == true) {
-                        setTimeout(() => {
-                            this.$router.push({
-                                name: 'dashboard',
-                                params: {
-                                    message: this.messageSuccess
-                                }
-                            });
-                        }, 1000);
-                    } else {
-                        setTimeout(() => {
-                            this.$router.push({
-                                name: 'home',
-                                params: {
-                                    message: this.messageSuccess
-                                }
-                            });
-                        }, 1000);
-                    }
-                } catch (error) {
-                    if (error.response && error.response.data.status === 400) {
-                        this.errorList = error.response.data.data;
-                    }
+                const user = await AuthService.login(this.user);
+                if (user.isAdmin == true) {
+                    this.$router.push({name: 'dashboard'});
+                } else if (user.isAdmin == false) {                    
+                    this.$router.push({name: 'home'});
+                } else {
+                    this.errorList = user;
                 }
             },
             async oAuth(providerName) {
