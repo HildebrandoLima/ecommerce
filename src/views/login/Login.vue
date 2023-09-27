@@ -78,8 +78,8 @@
         </header>
 
         <AlertError
-        v-if="Object.keys(errorList).length > 0"
-        :errorList="errorList" />
+        v-if="errorMessage"
+        :errorList="errorMessage" />
 
         <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
     </div>
@@ -100,6 +100,7 @@
                 bannerTitleMessage: 'Login',
                 passwordVisible: false,
                 errorList: {},
+                errorMessage: null,
                 user: {
                     email: 'hildebrandolima16@gmail.com',
                     password: 'HiLd3br@ndo',
@@ -114,9 +115,6 @@
                 perPage: 10,
                 totalItems: 0,
             };
-        },
-        mounted() {
-            this.errorMessage = this.$route.params.errorMessage || null;
         },
         created() {
             this.getProduct();
@@ -133,7 +131,7 @@
                     this.products = products.data;
                     this.totalItems = products.total;
                 } else {
-                    this.errorList = 'Podutos Não Encontrados';
+                    this.errorMessage = 'Podutos Não Encontrados';
                 }
             },
             async auth() {

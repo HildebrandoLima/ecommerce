@@ -1,6 +1,6 @@
 import api from '@/server/api';
 import { setAuth, removeAuth } from '@/storages/AuthStorage';
-import { messages } from '@/support/message/Message';
+import { messages } from '@/support/messages/Messages';
 
 export default class AuthService {
     static async login(body) {
