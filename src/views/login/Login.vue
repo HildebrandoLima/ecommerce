@@ -79,7 +79,8 @@
 
         <AlertError
         v-if="errorMessage"
-        :errorList="errorMessage" />
+        :errorList="errorMessage"
+        />
 
         <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
     </div>
@@ -91,6 +92,7 @@
     import CardProduct from '@/components/product/CardProduct.vue';
     import AuthService from '@/services/auth/AuthService';
     import ProductService from '@/services/product/ProductService';
+    import { PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
     export default {
         components: { AlertError, Banner, CardProduct },
@@ -129,9 +131,9 @@
                 const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
                 if (products.status === 200) {
                     this.products = products.data;
-                    this.totalItems = products.total;
+                    this.totalItems = products.data.total;
                 } else {
-                    this.errorMessage = 'Podutos Não Encontrados';
+                    this.errorMessage = PRODUCT_NOT_FOUND_MESSAGE;
                 }
             },
             async auth() {

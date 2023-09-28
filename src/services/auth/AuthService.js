@@ -1,6 +1,6 @@
 import api from '@/server/api';
 import { setAuth, removeAuth } from '@/storages/AuthStorage';
-import { messages } from '@/support/utils/messages/Messages';
+import { messages } from '@/support/utils/messages/Message';
 
 export default class AuthService {
     static async login(body) {
@@ -21,7 +21,7 @@ export default class AuthService {
         try {
             const response = await api.post(`/auth/logout`);
             removeAuth();
-            return response.data.message;
+            return response.data;
         } catch (error) {
             return messages(
                 error.response.data.status,

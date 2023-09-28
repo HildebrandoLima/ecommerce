@@ -22,8 +22,8 @@
             <div class="row">
 
                 <AlertError
-                    v-if="this.errorList.length > 0"
-                    :errorList="this.errorList"
+                    v-if="errorList.length > 0"
+                    :errorList="errorList"
                 />
 
                 <div class="col-lg-9">
@@ -140,7 +140,12 @@
         <h3>Novos Produtos:</h3>
     </header>
 
-    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+    <AlertError
+        v-if="errorMessage"
+        :errorList="errorMessage"
+    />
+
+    <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
   </div>
 </template>
 
@@ -151,12 +156,14 @@
     import ProductService from '@/services/product/ProductService';
     import { userAuth } from '@/storages/AuthStorage';
     import { getCart, calculateTotalCart, removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
+    import { CART_NOT_FOUND_MESSAGE, PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
     export default {
         components: { AlertError, Banner, CardProduct },
         data() {
             return {
                 bannerTitleMessage: 'Meu Carrinho',
+                errorMessage: null,
                 errorList: '',
                 products: {},
                 cart: [],
@@ -177,14 +184,12 @@
         },
         methods: {
             async getProduct() {
-                try {
-                    const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-                    this.products = products;
-                    this.totalItems = products.total;
-                } catch (error) {
-                    if (error.response && error.response.data.status === 400) {
-                    this.errorList = error.response.data.data;
-                    }
+                const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+                if (products.status === 200) {
+                    this.products = products.data;
+                    this.totalItems = products.data.total;
+                } else {
+                    this.errorMessage = PRODUCT_NOT_FOUND_MESSAGE;
                 }
             },
             removeItem(item) {
@@ -220,7 +225,7 @@
                         this.toggleAuthenticationComponentVisibility = true
                     }
                 } else {
-                    this.errorList = 'Seu Carrinho está vazio.';
+                    this.errorList = CART_NOT_FOUND_MESSAGE;
                 }
             },
         },

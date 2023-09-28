@@ -66,7 +66,7 @@
                 <input type="text" v-model="search" class="form-control" placeholder="Qual Produto Você Procura?" />
               </div>
 
-              <button type="button" @click="getProduct" class="btn btn-primary">
+              <button type="button" @click="searchProduct" class="btn btn-primary">
                 <i class="fas fa-search"></i>
               </button>
             </div>
@@ -109,29 +109,37 @@
     </div>
   </nav>
 
-  <div class="container" v-if="this.products.list">
+  <AlertError
+    v-if="errorList"
+    :errorList="errorList"
+  />
+
+  <div class="container" v-if="products.list">
     <div class="card mt-3">
       <div class="card-body">
-          <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+
+          <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import AlertError from '@/components/shared/AlertError.vue';
   import Category from '@/components/category/Category.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
   import AuthService from '@/services/auth/AuthService';
   import ProductService from '@/services/product/ProductService';
-  import { userAuth } from '@/storages/AuthStorage.js';
+  import { userAuth } from '@/storages/AuthStorage';
+  import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
   export default {
-    components: { Category, CardProduct },
+    components: { AlertError, Category, CardProduct },
     name: 'navbar',
-    errorList: {},
     data() {
       return {
         messageSuccess: '',
+        errorList: null,
         userName: '',
         search: '',
         totalItems: 0,
@@ -145,33 +153,25 @@
       this.userName = userName;
     },
     methods: {
-      async getProduct() {
-        try {
-          const products = await ProductService.getProducts(this.currentPage, this.perPage, this.search, 0);
-          this.products = products;
-          this.totalItems = products.total;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
-          }
+      async searchProduct() {
+        if (this.search.trim() === '') {
+          this.errorList = SEARCH_PRODUCT_NOT_FOUND_MESSAGE;
+          return;
+        }
+        const products = await ProductService.getProducts(this.currentPage, this.perPage, this.search, 0);
+        if (products.data.total === 0 || products.status !== 200) {
+          this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+        } else {
+          this.products = products.data;
+          this.totalItems = products.data.total;
         }
       },
       async logout() {
-        try {
-            const user = await AuthService.logout();
-            this.messageSuccess = user;
-            setTimeout(() => {
-              this.$router.push({
-                name: 'login',
-                params: {
-                  message: this.messageSuccess
-                }
-              });
-            }, 1000);
-        } catch (error) {
-            if (error.response && error.response.data.status === 400) {
-                this.errorList = error.response.data.data;
-            }
+        const user = await AuthService.logout();
+        if (user.status === 200) {
+          this.$router.push({name: 'login'});
+        } else {
+          this.errorList = user.message;
         }
       },
     },

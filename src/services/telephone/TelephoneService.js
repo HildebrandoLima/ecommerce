@@ -1,16 +1,19 @@
 import api from '@/server/api';
 import { removeUser } from '@/storages/EntityPersonStorage';
+import { messages } from '@/support/utils/messages/Message';
 
 export default class TelephoneService {
   static async postTelephone(body) {
     try {
       const response = await api.post(`/telephone/save`, body);
-      if (response.data.status === 200) {
-        removeUser();
-      }
-      return response.data.message;
+      removeUser();
+      return response.data;
     } catch (error) {
-      throw error;
+      return messages(
+        error.response.data.status,
+        error.response.data.data,
+        error.response.data.message
+      );
     }
   }
 }

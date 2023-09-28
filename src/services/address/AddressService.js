@@ -1,12 +1,17 @@
 import api from '@/server/api';
+import { messages } from '@/support/utils/messages/Message';
 
 export default class AddressService {
   static async postAddress(body) {
     try {
       const response = await api.post(`/address/save`, body);
-      return response.data.message;
+      return response.data;
     } catch (error) {
-      throw error;
+      return messages(
+        error.response.data.status,
+        error.response.data.data,
+        error.response.data.message
+      );
     }
   }
 
@@ -25,7 +30,7 @@ export default class AddressService {
       Object.assign(address, viaCep); 
       return viaCep;
     } catch (error) {
-      throw error;
+      return error;
     }
   }
 }

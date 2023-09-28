@@ -3,22 +3,32 @@
         <h1>QR CODE</h1>
     </div>
 
+    <AlertError
+      v-if="messageError"
+      :errorList="messageError"
+    />
+
+    <AlertError
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList"
+    />
+
     <form @submit.prevent="savePayment">
         <button type="submit" class="btn btn-outline-success w-100 shadow-0 mb-2 mt-3">Pagar</button>
     </form>
 </template>
 
 <script>
-    import AlertSuccess from '@/components/shared/AlertSuccess.vue';
     import AlertError from '@/components/shared/AlertError.vue';
     import PaymentService from '@/services/payment/PaymentService';
+    import { ORDER_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
     export default {
         name: 'payment-ticket',
-        components: { AlertSuccess, AlertError },
+        components: { AlertError },
         data() {
             return {
-                messageSuccess: '',
+                messageError: null,
                 errorList: {},
                 payment: {
                     total: 0,
@@ -44,20 +54,15 @@
         },
         methods: {
             async savePayment() {
-                try {
-                    const payment = await PaymentService.postPayment(this.payment);
-                    this.messageSuccess = payment.data.message;
-                    this.$router.push({
-                        name: 'home'
-                    });
-                } catch (error) {
-                    if (error.response && error.response.data.status === 400 || error.response.data.status === 401) {
-                        if (error.response.data.data.pedidoId) {
-                            this.errorList = 'Você não gerou um pedido.';
-                        } else {
-                            this.errorList = error.response.data.data;
-                        }
-                    }
+                if (!this.pedidoId) {
+                    this.messageError = ORDER_NOT_FOUND_MESSAGE;
+                    return;
+                }
+                const payment = await PaymentService.postPayment(this.payment);
+                if (payment.status === 200) {
+                    this.$router.push({name: 'home'});
+                } else {
+                    this.errorList = payment;
                 }
             },
         },

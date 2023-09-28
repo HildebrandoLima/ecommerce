@@ -44,6 +44,9 @@ const router = createRouter({
       path: '/checkout',
       name: 'checkout',
       component: Checkout,
+      meta: {
+        auth: true,
+      }
     },
     {
       path: '/dashboard',
@@ -105,12 +108,7 @@ router.beforeEach((to, from, next) => {
     if (accessToken && userId && userName && userEmail && userPermissions) {
       next();
     } else {
-      next({
-        name: 'login',
-        params: {
-          errorMessage: 'Você precisa estar autenticado para acessar esta página.'
-        }
-      });
+      next({name: 'login'});
     }
   } else {
     next();

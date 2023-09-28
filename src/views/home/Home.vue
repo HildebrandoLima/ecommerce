@@ -25,6 +25,11 @@
 
     <hr />
 
+    <AlertError
+      v-if="errorList"
+      :errorList="errorList"
+    />
+
     <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
   </div>
 
@@ -34,6 +39,7 @@
   import CardProduct from '@/components/product/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
   import { userAuth } from '@/storages/AuthStorage';
+  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
   export default {
     components: { CardProduct },
@@ -59,14 +65,12 @@
     },
     methods: {
       async getProduct() {
-        try {
-          const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-          this.products = products;
-          this.totalItems = products.total;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
-          }
+        const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+        if (products.status === 200) {
+          this.products = products.data;
+          this.totalItems = products.data.total;
+        } else {
+          this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
         }
       },
     },

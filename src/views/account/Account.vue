@@ -50,23 +50,26 @@
         <h3>Novos Produtos:</h3>
     </header>
 
-    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+    <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
   </div>
 </template>
 
 <script>
+  import AlertError from '@/components/shared/AlertError.vue';
   import Banner from '@/components/fixos/Banner.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
   import RegisterAddress from '@/components/address/RegisterAddress.vue';
   import RegisterTelephone from '@/components/telephone/RegisterTelephone.vue';
   import RegisterUser from '@/components/user/RegisterUser.vue';
   import ProductService from '@/services/product/ProductService';
+  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
   export default {
-    components: { Banner, CardProduct, RegisterAddress, RegisterTelephone, RegisterUser },
+    components: { AlertError, Banner, CardProduct, RegisterAddress, RegisterTelephone, RegisterUser },
     data() {
       return {
         bannerTitleMessage: 'Criar Conta',
+        errorList: null,
         products: {},
         currentPage: 1,
         perPage: 10,
@@ -78,15 +81,13 @@
     },
     methods: {
       async getProduct() {
-          try {
-              const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-              this.products = products;
-              this.totalItems = products.total;
-          } catch (error) {
-              if (error.response && error.response.data.status === 400) {
-                  this.errorList = error.response.data.data;
-              }
-          }
+        const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+        if (products.status === 200) {
+          this.products = products.data;
+          this.totalItems = products.total;
+        } else {
+          this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+        }
       },
     },
   };

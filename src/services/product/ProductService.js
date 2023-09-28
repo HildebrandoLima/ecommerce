@@ -1,5 +1,5 @@
 import api from '@/server/api';
-import { messages } from '@/support/utils/messages/Messages';
+import { messages } from '@/support/utils/messages/Message';
 
 export default class ProductService {
     static async getProducts(page, perPage, search, id) {
@@ -18,9 +18,13 @@ export default class ProductService {
     static async getProductDetails(id) {
         try {
           const response = await api.get(`/product/list/find?id=${id}&active=1`);
-          return response.data.data;
+          return response.data;
         } catch (error) {
-          throw error;
+          return messages(
+            error.response.data.status,
+            error.response.data.data,
+            error.response.data.message
+          );
         }
     }
 }

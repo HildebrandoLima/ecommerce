@@ -1,18 +1,19 @@
 import api from '@/server/api';
-import { cleanToCart } from '@/storages/CartStorage';
 import { setOrder } from '@/storages/CheckoutStorage';
+import { messages } from '@/support/utils/messages/Message';
 
 export default class OrderService {
     static async postOrder(body) {
         try {
             const response = await api.post(`/order/save`, body);
-            if (response.data.status === 200) {
-                setOrder(response.data.data);
-                cleanToCart(this.cart);
-            }
+            setOrder(response.data.data);
             return response.data;
         } catch (error) {
-            throw error;
+            return messages(
+                error.response.data.status,
+                error.response.data.data,
+                error.response.data.message
+            );
         }
     }
 }

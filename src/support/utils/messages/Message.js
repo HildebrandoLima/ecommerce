@@ -1,5 +1,4 @@
 export function messages(status, data, message) {
-  console.log(status, data, message);
   switch (status) {
     case 400:
       return data;

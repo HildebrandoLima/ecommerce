@@ -18,11 +18,17 @@
 
     <hr />
 
-    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+    <AlertError
+      v-if="errorList"
+      :errorList="errorList"
+    />
+
+    <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
   </div>
 </template>
 
 <script>
+  import AlertError from '@/components/shared/AlertError.vue';
   import Banner from '@/components/fixos/Banner.vue';
   import ButtonCart from '@/components/shared/ButtonCart.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
@@ -30,9 +36,10 @@
   import Category from '@/components/category/Category.vue';
   import Pagination from '@/components/shared/Pagination.vue';
   import ProductService from '@/services/product/ProductService';
+  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
   export default {
-    components: { Banner, ButtonCart, CardProduct, SectionProduct, Category, Pagination },
+    components: { AlertError, Banner, ButtonCart, CardProduct, SectionProduct, Category, Pagination },
     name: 'product-by-category',
     data() {
       return {
@@ -55,16 +62,15 @@
         this.getProduct();
       },
       async getProduct() {
-        try {
           this.productId = this.$route.params.id;
+
           const products = await ProductService.getProducts(this.currentPage, this.perPage, '', this.productId);
-          this.products = products;
-          this.totalItems = products.total;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
+          if (products.status === 200) {
+            this.products = products.data;
+            this.totalItems = products.data.total;
+          } else {
+            this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
           }
-        }
       },
     },
     computed: {
@@ -73,4 +79,4 @@
       },
     },
   };
-  </script>
+</script>

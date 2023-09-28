@@ -1,6 +1,11 @@
 <template>
   <Banner :msg="bannerTitleMessage"></Banner>
 
+  <AlertError
+      v-if="messageError"
+      :errorList="messageError"
+  />
+
   <div class="container">
     <div class="card mt-3">
       <div class="card-body">
@@ -48,19 +53,22 @@
 </template>
 
 <script>
+  import AlertError from '@/components/shared/AlertError.vue';
   import Banner from '@/components/fixos/Banner.vue';
   import RegisterCard from '@/components/payment/RegisterCard.vue';
   import RegisterPix from '@/components/payment/RegisterPix.vue';
   import RegisterTicket from '@/components/payment/RegisterTicket.vue';
   import { getTotalCart } from '@/storages/CartStorage';
   import { getOrder } from '@/storages/CheckoutStorage';
+  import { ORDER_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
   export default {
     name: 'payment',
-    components: { Banner, RegisterCard, RegisterPix, RegisterTicket },
+    components: { AlertError, Banner, RegisterCard, RegisterPix, RegisterTicket },
     data() {
       return {
         bannerTitleMessage: 'Pagamento',
+        messageError: null,
         total: 0,
         pedidoId: 0,
       };
@@ -68,6 +76,9 @@
     created() {
       this.total = getTotalCart();
       this.pedidoId = getOrder();
+      if (!this.pedidoId) {
+        this.messageError = ORDER_NOT_FOUND_MESSAGE;
+      }
     },
   };
 </script>

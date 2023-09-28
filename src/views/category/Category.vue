@@ -4,13 +4,19 @@
     <div class="container-fluid">
         <div class="card mt-3">
           <div class="card-body">
+
+            <AlertError
+              v-if="errorList"
+              :errorList="errorList"
+            />
+
             <Table :data="categories"></Table>
+
             <pagination
             :current-page="currentPage"
             :total-pages="totalPages"
             @page-changed="handlePageChange"
-            >
-            </pagination>
+            />
           </div>
         </div>
     </div>
@@ -21,6 +27,7 @@
   import Pagination from '@/components/shared/Pagination.vue';
   import Table from '@/components/fixos/Table.vue';
   import CategoryService from '@/services/category/CategoryService';
+  import { CATEGORY_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
   export default {
     components: { Banner, Pagination, Table },
@@ -49,14 +56,12 @@
         return this.search;
       },
       async getCategory() {
-        try {
-          const categories = await CategoryService.getSearchCategory(this.currentPage, this.perPage, this.getSearchCategory());
-          this.categories = categories;
-          this.totalItems = categories.total;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
-          }
+        const categories = await CategoryService.getSearchCategory(this.currentPage, this.perPage, this.getSearchCategory());
+        if (categories.status === 200) {
+          this.categories = categories.data;
+          this.totalItems = categories.data.total;
+        } else {
+          this.errorList = CATEGORY_NOT_FOUND_MESSAGE;
         }
       },
     },
