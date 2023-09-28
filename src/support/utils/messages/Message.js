@@ -3,14 +3,21 @@ export function messages(status, data, message) {
     case 400:
       return data;
     case 401:
-      throw alert(message);
+      alert(message);
     case 403:
-      throw alert(message);
+      alert(message);
     case 404:
       return message;
     case 500:
-      throw alert(message);
+      alert(message);
     default:
       return 'Status Desconhecido.';
   }
+}
+
+function alert(message) {
+  throw Swal.fire({
+    icon: 'error',
+    title: message,
+  });
 }
