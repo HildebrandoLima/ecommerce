@@ -19,25 +19,32 @@
 
     <hr />
 
-    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+    <AlertError
+      v-if="errorList"
+      :errorList="errorList"
+    />
+
+    <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
   </div>
 
 </template>
 
 <script>
+  import AlertError from '@/components/shared/AlertError.vue';
   import Banner from '@/components/fixos/Banner.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
   import SectionProduct from '@/components/product/SectionProduct.vue';
   import Pagination from '@/components/shared/Pagination.vue';
   import ProductService from '@/services/product/ProductService';
+  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
   export default {
-    components: { Banner, CardProduct, SectionProduct, Pagination },
+    components: { AlertError, Banner, CardProduct, SectionProduct, Pagination },
     name: 'product',
     data() {
       return {
         bannerTitleMessage: 'Produtos',
-        errorList: {},
+        errorList: null,
         products: {},
         currentPage: 1,
         perPage: 10,
@@ -53,14 +60,12 @@
         this.getProduct();
       },
       async getProduct() {
-        try {
-          const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-          this.products = products;
-          this.totalItems = products.total;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
-          }
+        const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+        if (products.status === 200) {
+          this.products = products.data;
+          this.totalItems = products.data.total;
+        } else {
+          this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
         }
       },
     },

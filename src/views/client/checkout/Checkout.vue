@@ -4,8 +4,12 @@
   <div class="container">
 
     <AlertError
-      v-if="Object.keys(this.errorList).length > 0"
-      :errorList="this.errorList"
+      v-if="Object.keys(errorList).length > 0"
+      :errorList="errorList.itens"
+    />
+    <AlertError
+      v-if="messageError"
+      :errorList="messageError"
     />
 
     <div class="row">
@@ -18,8 +22,8 @@
               <h6 class="mb-3">Informe o Envio:</h6><hr />
 
               <AlertError
-                v-if="Object.keys(this.errorList).length > 0"
-                :errorList="this.errorList.tipoEntrega"
+                v-if="Object.keys(errorList).length > 0"
+                :errorList="errorList.tipoEntrega"
               />
 
               <div class="col-lg-4 mb-3">
@@ -72,8 +76,8 @@
               <h6 class="mb-3">Informe o Endereço:</h6><hr />
 
               <AlertError
-                v-if="Object.keys(this.errorList).length > 0"
-                :errorList="this.errorList.enderecoId"
+                v-if="Object.keys(errorList).length > 0"
+                :errorList="errorList.enderecoId"
               />
 
               <div v-for="(address, index) in adresses" :key="index" class="col-lg-4 mb-3">
@@ -137,6 +141,7 @@
   import UserService from '@/services/user/UserService';
   import { getCart, getTotalCart } from '@/storages/CartStorage';
   import { userAuth } from '@/storages/AuthStorage';
+  import { ITEMS_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
   export default {
     name: 'checkout',
@@ -144,7 +149,7 @@
     data() {
       return {
         bannerTitleMessage: 'Checkout',
-        messageSuccess: '',
+        messageError: null,
         errorList: {},
         adresses: {},
         cart: [],
@@ -184,6 +189,9 @@
         this.order.total = this.total;
         this.order.quantidadeItens = this.cart.length;
         this.order.usuarioId = this.userId;
+        if (!this.messageError) {
+          this.messageError = ITEMS_NOT_FOUND_MESSAGE;
+        }
       },
       addItem() {
         this.cart.forEach((item) => {
@@ -197,27 +205,22 @@
         });
       },
       async getUser() {
-        try {
-            const user = await UserService.getUser(this.userId);
-            this.adresses = user[0].enderecos;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400 || error.response.data.status === 401) {
-            this.errorList = error.response.data.data;
-          }
+        const user = await UserService.getUser(this.userId);
+        if (user.status === 200) {
+          this.adresses = user.data[0].enderecos;
+        } else {
+          this.errorMessage = 'Usuário Não Encontrado.';
         }
       },
       async saveOrder() {
-        try {
-          console.log(this.order);
-          const order = await OrderService.postOrder(this.order);
-            this.messageSuccess = order.data.message;
-            this.$router.push({
-              name: 'payment'
-            });  
-        } catch (error) {
-          if (error.response && error.response.data.status === 400 || error.response.data.status === 401) {
-            this.errorList = error.response.data.data;
-          }
+        const order = await OrderService.postOrder(this.order);
+        if (order.status === 200) {
+          this.$router.push({
+            name: 'payment'
+          });
+        } else {
+          this.errorList = order;
+          this.errorList.itens = ITEMS_NOT_FOUND_MESSAGE;
         }
       },
     },

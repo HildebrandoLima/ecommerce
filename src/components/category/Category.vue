@@ -24,13 +24,11 @@
     },
     methods: {
       async getCategory() {
-        try {
-          const categories = await CategoryService.getCategories(this.page, this.perPage);
-          this.categories = categories;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
-          }
+        const categories = await CategoryService.getCategories(this.page, this.perPage);
+        if (categories.status === 200) {
+          this.categories = categories.data;
+        } else {
+          this.errorList = 'Categoria Não Encontrados.';
         }
       },
     },

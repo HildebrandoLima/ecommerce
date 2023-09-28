@@ -70,18 +70,27 @@
             <h3>Novos Produtos:</h3>
         </header>
 
-        <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+        <hr />
+
+        <AlertError
+        v-if="errorList"
+        :errorList="errorList"
+        />
+
+        <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
     </div>
 </template>
 
 <script>
+  import AlertError from '@/components/shared/AlertError.vue';
   import Banner from '@/components/fixos/Banner.vue';
   import ButtonCart from '@/components/shared/ButtonCart.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
+  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
 
   export default {
-    components: { Banner, ButtonCart, CardProduct },
+    components: { AlertError, Banner, ButtonCart, CardProduct },
     name: 'product',
     data() {
       return {
@@ -100,17 +109,21 @@
     },
     methods: {
         async getProduct() {
-            try {
-                this.productId = this.$route.params.id;
-                const product = await ProductService.getProductDetails(this.productId);
-                this.product = product[0];
-                const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-                this.products = products;
-                this.totalItems = products.total;
-            } catch (error) {
-                if (error.response && error.response.data.status === 400) {
-                    this.errorList = error.response.data.data;
-                }
+            this.productId = this.$route.params.id;
+
+            const product = await ProductService.getProductDetails(this.productId);
+            if (product.status === 200) {
+                this.product = product.data[0];
+            } else {
+                this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+            }
+
+            const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+            if (products.status === 200) {
+                this.products = products.data;
+                this.totalItems = products.data.total;
+            } else {
+                this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
             }
         },
     },

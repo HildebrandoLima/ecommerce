@@ -1,18 +1,22 @@
 import api from '@/server/api';
-import { removeTotalCart } from '@/storages/CartStorage';
+import { cleanToCart, removeTotalCart } from '@/storages/CartStorage';
 import { removeOrder } from '@/storages/CheckoutStorage';
+import { messages } from '@/support/utils/messages/Message';
 
 export default class PaymentService {
     static async postPayment(body) {
         try {
             const response = await api.post(`/payment/save`, body);
-            if (response.data.status === 200) {
-                removeTotalCart();
-                removeOrder();
-            }
+            cleanToCart(this.cart);
+            removeTotalCart();
+            removeOrder();
             return response.data;
         } catch (error) {
-            throw error;
+            return messages(
+                error.response.data.status,
+                error.response.data.data,
+                error.response.data.message
+            );
         }
     }
 }

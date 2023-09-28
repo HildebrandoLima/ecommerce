@@ -1,10 +1,6 @@
 <template>
 
-    <AlertSuccess :messageSuccess="this.messageSuccess" />
-    <AlertError
-      v-if="Object.keys(this.errorList).length > 0"
-      :errorList="this.errorList"
-    />
+    <AlertSuccess :messageSuccess="messageSuccess" />
 
     <form>
       <div v-for="(phone, index) in telephones" :key="index">
@@ -14,6 +10,10 @@
             <div class="form-outline">
               <input type="text" id="numero" v-model="phone.numero" maxlength="14" OnKeyPress="format('(##)#####-####',this)" class="form-control" placeholder="Número" required />
             </div>
+            <AlertError
+              v-if="Object.keys(errorList).length > 0"
+              :errorList="errorList['0.numero']"
+            />
           </div>
 
           <div class="col">
@@ -31,6 +31,10 @@
                 <option v-for="ddd in ddds" :value="ddd" :key="ddd">{{ ddd }}</option>
               </select>
             </div>
+            <AlertError
+              v-if="Object.keys(errorList).length > 0"
+              :errorList="errorList['0.ddd']"
+            />
           </div>
 
           <div class="col">
@@ -40,7 +44,11 @@
                 <option value="Fixo">Fixo</option>
                 <option value="Celular">Celular</option>
               </select>
-            </div>     
+            </div>
+            <AlertError
+              v-if="Object.keys(errorList).length > 0"
+              :errorList="errorList['0.tipo']"
+            />
           </div>
         </div>
     </div>
@@ -71,7 +79,7 @@
       return {
         messageSuccess: '',
         errorList: {},
-        ddds: DDD,
+        ddds: [],
         usuarioId: 0,
         telephones: [],
       };
@@ -79,6 +87,7 @@
     created() {
       const userId = getUser();
       this.usuarioId = Number(userId);
+      this.ddds = DDD;
       this.addTelephone();
     },
     methods: {
@@ -94,13 +103,11 @@
         this.telephones.splice(index, 1);
       },
       async saveTelephone() {
-        try {
-          const telephones = await TelephoneService.postTelephone(this.telephones);
-          this.messageSuccess = telephones;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
-          }
+        const telephones = await TelephoneService.postTelephone(this.telephones);
+        if (telephones.status === 200) {
+          this.messageSuccess = telephones.message;
+        } else {
+          this.errorList = telephones;
         }
       },
     },

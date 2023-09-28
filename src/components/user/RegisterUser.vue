@@ -1,6 +1,6 @@
 <template>
 
-  <AlertSuccess :messageSuccess="this.messageSuccess" />
+  <AlertSuccess :messageSuccess="messageSuccess" />
 
   <form class="needs-validation mb-5 border-top" novalidate onsubmit="return false">
     <div class="row mb-4">
@@ -9,8 +9,8 @@
           <input type="text" id="nome" v-model="user.nome" class="form-control" placeholder="Nome" required />
         </div>
         <AlertError
-        v-if="Object.keys(this.errorList).length > 0"
-        :errorList="this.errorList.nome" />
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList.nome" />
       </div>
 
       <div class="col">
@@ -18,8 +18,8 @@
           <input type="email" id="email" v-model="user.email" class="form-control" placeholder="E-mail" required />
         </div>
         <AlertError
-        v-if="Object.keys(this.errorList).length > 0"
-        :errorList="this.errorList.email" />       
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList.email" />       
       </div>
     </div>
 
@@ -29,8 +29,8 @@
           <input type="text" id="cpf" v-model="user.cpf" maxlength="14" OnKeyPress="format('###.###.###-##',this)" class="form-control" placeholder="CPF" required />
         </div>
         <AlertError
-        v-if="Object.keys(this.errorList).length > 0"
-        :errorList="this.errorList.cpf" />
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList.cpf" />
       </div>
 
       <div class="col">
@@ -58,8 +58,8 @@
           Sua senha deve ter no mínimo 8-20 caracteres, deve conter caracteres especiais "!@#$%&*_?", números, letras minúsculas e maiúsculas, e não pode possuir ordem como, ex.: (111, aaa).
         </div>
         <AlertError
-        v-if="Object.keys(this.errorList).length > 0"
-        :errorList="this.errorList.senha" />
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList.senha" />
       </div>
     </div>
 
@@ -69,8 +69,8 @@
           <input type="text" id="date" v-model="user.dataNascimento" class="form-control" placeholder="Data de Nascimento" onfocus="(this.type='date')" required />
         </div>
         <AlertError
-        v-if="Object.keys(this.errorList).length > 0"
-        :errorList="this.errorList.dataNascimento" />
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList.dataNascimento" />
       </div>
 
       <div class="col">
@@ -91,8 +91,8 @@
           </div>
         </div>
         <AlertError
-        v-if="Object.keys(this.errorList).length > 0"
-        :errorList="this.errorList.genero" />
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList.genero" />
       </div>
     </div>
 
@@ -131,14 +131,12 @@
         passwordInput.type = this.passwordVisible ? "text" : "password";
       },
       async saveUser() {
-        try {
           const user = await UserService.postUser(this.user);
-          this.messageSuccess = user;
-        } catch (error) {
-          if (error.response && error.response.data.status === 400) {
-            this.errorList = error.response.data.data;
+          if (user.status === 200) {
+            this.messageSuccess = user.message;
+          } else {
+            this.errorList = user;
           }
-        }
       },
     },
 };
