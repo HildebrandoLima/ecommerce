@@ -102,7 +102,8 @@
           </ul>
         </li>
         <li class="nav-item">
-          <RouterLink v-if="!userName" :to="{ name: 'account' }" class="nav-link text-dark">Criar Conta</RouterLink>
+          <RouterLink v-if="userName" :to="{ name: 'profile' }" class="nav-link text-dark">Meu Perfil</RouterLink>
+          <RouterLink v-else :to="{ name: 'account' }" class="nav-link text-dark">Criar Conta</RouterLink>
         </li>
       </ul>
     </div>
