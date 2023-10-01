@@ -32,7 +32,7 @@
                             :errorList="errorList.password" />
 
                             <button type="submit" class="btn btn-outline-primary btn-block mb-4">
-                                <i class="fas fa-sign-in"></i> Entrar
+                                <i class="fas fa-angle-double-right"></i> Entrar
                             </button>
                         </form>
                     </div>

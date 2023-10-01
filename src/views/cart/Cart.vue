@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <section class="bg-light my-5">
+    <section class="my-5">
         <div class="container">
             <div class="row">
 
