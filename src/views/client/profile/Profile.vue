@@ -47,12 +47,12 @@
                                     </div>
 
                                     <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-                                        <button class="btn btn-outline-primary border px-2 pt-2 icon-hover">
+                                        <button @click="editItem(user)" class="btn btn-outline-primary border px-2 pt-2 icon-hover" data-toggle="modal" data-target="#editUserModal">
                                             <i class="fas fa-user fa-lg text-dark px-1"></i>
                                             Editar
                                         </button>
                                         &nbsp;&nbsp;&nbsp;
-                                        <button @click="showAddress" class="btn btn-outline-danger border px-2 pt-2 icon-hover">
+                                        <button @click="showAddress" class="btn btn-outline-secondary border px-2 pt-2 icon-hover">
                                             <i class="fas fa-address-book fa-lg text-dark px-1"></i>
                                             Endereço
                                         </button>
@@ -95,13 +95,19 @@
 
         </div>
     </section>
+
+  <!-- Modais -->
+  <EditAddress id="editAddressModal" :data="editedItem" />
+  <EditPhone id="editPhoneModal" :data="editedItem" />
+  <EditUser id="editUserModal" :data="editedItem" />
+
 </template>
 
 <script>
     import Banner from '@/components/fixos/Banner.vue';
     import EditAddress from '@/components/address/EditAddress.vue';
     import Table from '@/components/shared/Table.vue';
-    import EditTelephone from '@/components/telephone/EditTelephone.vue';
+    import EditPhone from '@/components/telephone/EditTelephone.vue';
     import EditUser from '@/components/user/EditUser.vue';
     import UserService from '@/services/user/UserService';
     import { userAuth } from '@/storages/AuthStorage';
@@ -109,7 +115,7 @@
 
     export default {
         name: 'profile',
-        components: { Banner, EditAddress, Table, EditTelephone, EditUser },
+        components: { Banner, EditAddress, Table, EditPhone, EditUser },
         data() {
             return {
                 bannerTitleMessage: 'Meu Perfil',
@@ -118,6 +124,7 @@
                 userName: '',
                 userEmail: '',
                 user: {},
+                editedItem: {},
                 toggleAndressComponentVisibility: true,
                 togglePhoneComponentVisibility: false,
                 addressColumns: ['enderecoId', 'logradouro', 'numero', 'bairro', 'cidade', 'uf'],
@@ -157,13 +164,33 @@
                 return age;
             },
             editItem(item) {
-                // Lide com a ação de edição aqui
-                console.log('Editar item:', item);
-                // Você pode abrir um modal de edição, navegar para uma página de edição, etc.
-                Swal.fire({
-                    icon: 'error',
-                    title: 'oi',
-                });
+                if (item.enderecoId) {
+                    this.editedItem.id = item.enderecoId;
+                    this.editedItem.logradouro = item.logradouro;
+                    this.editedItem.numero = item.numero;
+                    this.editedItem.bairro = item.bairro;
+                    this.editedItem.cidade = item.cidade;
+                    this.editedItem.cep = item.cep;
+                    this.editedItem.uf = item.uf;
+                    this.editedItem.usuarioId = item.usuarioId;
+                    this.editedItem.ativo = item.ativo;
+                    $('#editAddressModal').modal('show');
+                } else if (item.telefoneId) {
+                    this.editedItem.id = item.telefoneId;
+                    this.editedItem.ddd = 85;
+                    this.editedItem.numero = item.numero;
+                    this.editedItem.tipo = item.tipo;
+                    this.editedItem.usuarioId = item.usuarioId;
+                    this.editedItem.ativo = item.ativo;
+                    $('#editPhoneModal').modal('show');
+                } else {
+                    this.editedItem.usuarioId = this.userId;
+                    this.editedItem.nome = this.user.nome;
+                    this.editedItem.email = this.user.email;
+                    this.editedItem.genero = this.user.genero;
+                    this.editedItem.ativo = this.user.ativo;
+                    $('#editUserModal').modal('show');
+                }
             },
         },
     };
