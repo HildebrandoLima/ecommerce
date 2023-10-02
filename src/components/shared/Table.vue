@@ -23,6 +23,7 @@
                                 :id="'flexSwitchCheckChecked_' + index"
                                 :checked="item.ativo"
                                 class="form-check-input"
+                                disabled
                             />
                         </div>
                     </td>

@@ -8,12 +8,21 @@
                 </div>
 
                 <div class="modal-body">
-                    {{ data }}
+                    <AlertSuccess :messageSuccess="messageSuccess" />
+
+                    <FormTelephone
+                        :errorList="errorList"
+                        :telephones="[data]"
+                        :isEditMode="true"
+                        @addTelephone="addTelephone"
+                        @removeTelephone="removeTelephone"
+                        @editTelephone="editTelephone"
+                    />
+
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-success">Savar</button>
                 </div>
             </div>
         </div>
@@ -21,9 +30,19 @@
 </template>
 
 <script>
-  export default {
-    name: 'modal-user',
-    errorList: {},
+import AlertSuccess from '@/components/shared/AlertSuccess.vue';
+import FormTelephone from '@/components/telephone/FormTelephone.vue';
+import TelephoneService from '@/services/telephone/TelephoneService';
+
+export default {
+    name: 'modal-telefone',
+    components: { AlertSuccess, FormTelephone },
+    data() {
+        return {
+            errorList: {},
+            messageSuccess: '',
+        }
+    },
     props: {
         data: {
             type: Array,
@@ -31,7 +50,14 @@
         },
     },
     methods: {
-        //
+        async editTelephone() {
+            const telephone = await TelephoneService.putTelephone(this.data);
+            if (telephone.status === 200) {
+                this.messageSuccess = telephone.message;
+            } else {
+                this.errorList = telephone;
+           }
+        },
     },
 };
 </script>

@@ -17,6 +17,19 @@ export default class UserService {
       }
   }
 
+  static async putUser(body) {
+    try {
+      const response = await api.put(`/user/edit`, body);
+      return response.data;
+    } catch (error) {
+      return messages(
+          error.response.data.status,
+          error.response.data.data,
+          error.response.data.message
+      );
+    }
+  }
+
   static async getUser(id) {
     try {
       const response = await api.get(`/user/list/find?id=${id}&active=1`);

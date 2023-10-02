@@ -8,12 +8,19 @@
             </div>
 
             <div class="modal-body">
-                <FormAddress :data="data" />
+
+                <AlertSuccess :messageSuccess="messageSuccess" />
+
+                <FormAddress
+                    :errorList="errorList"
+                    :address="data"
+                    :isEditMode="true"
+                    @editAddress="editAddress"
+                />
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-outline-success">Savar</button>
             </div>
         </div>
     </div>
@@ -21,12 +28,19 @@
 </template>
 
 <script>
+import AlertSuccess from '@/components/shared/AlertSuccess.vue';
 import FormAddress from '@/components/address/FormAddress.vue';
+import AddressService from '@/services/address/AddressService';
 
 export default {
-    name: 'modal-user',
-    components: { FormAddress },
-    errorList: {},
+    name: 'modal-address',
+    components: { AlertSuccess, FormAddress },
+    data() {
+        return {
+            errorList: {},
+            messageSuccess: '',
+        }
+    },
     props: {
         data: {
             type: Array,
@@ -34,10 +48,14 @@ export default {
         },
     },
     methods: {
-        async editAddress() {
-        this.searchCep();
-        this.$emit('edit', this.address);
-      },
+        async editAddress(newAddress) {
+            const address = await AddressService.putAddress(newAddress);
+            if (address.status === 200) {
+                this.messageSuccess = address.message;
+            } else {
+                this.errorList = address;
+            }
+        },
     },
 };
 </script>

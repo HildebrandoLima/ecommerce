@@ -8,12 +8,20 @@
                 </div>
 
                 <div class="modal-body">
-                    {{ data }}
+
+                    <AlertSuccess :messageSuccess="messageSuccess" />
+
+                    <FormRegisterUser
+                        :errorList="errorList"
+                        :user="data"
+                        :isEditMode="true"
+                        @editUser="editUser"
+                    />
+
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-outline-success">Savar</button>
                 </div>
             </div>
         </div>
@@ -21,9 +29,19 @@
 </template>
 
 <script>
-  export default {
+import AlertSuccess from '@/components/shared/AlertSuccess.vue';
+import FormRegisterUser from '@/components/user/FormRegisterUser.vue';
+import UserService from '@/services/user/UserService';
+
+export default {
     name: 'modal-user',
-    errorList: {},
+    components: { AlertSuccess, FormRegisterUser },
+    data() {
+        return {
+            errorList: {},
+            messageSuccess: '',
+        }
+    },
     props: {
         data: {
             type: Array,
@@ -31,7 +49,27 @@
         },
     },
     methods: {
-        //
+        newObjectUser(newUser) {
+            newUser.id = newUser.usuarioId;
+            delete newUser.usuarioId;
+            return newUser;
+        },
+        async editUser(newUser) {
+            if (newUser.ativo == false) {
+                throw Swal.fire({
+                    icon: 'warning',
+                    title:
+                    'Tem certeza que deseja desativar sua conta?<br>' +
+                    'Somente o suporte poderá reativar.',
+                });
+            }
+            const user = await UserService.putUser(this.newObjectUser(newUser));
+            if (user.status === 200) {
+                this.messageSuccess = user.message;
+            } else {
+                this.errorList = user;
+            }
+        },
     },
 };
 </script>

@@ -15,6 +15,19 @@ export default class AddressService {
     }
   }
 
+  static async putAddress(body) {
+    try {
+      const response = await api.put(`/address/edit`, body);
+      return response.data;
+    } catch (error) {
+      return messages(
+        error.response.data.status,
+        error.response.data.data,
+        error.response.data.message
+      );
+    }
+  }
+
   static async searchCep(cep) {
     try {
       const response = await api.get(`https://viacep.com.br/ws/${cep}/json/`);

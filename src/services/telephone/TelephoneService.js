@@ -16,4 +16,17 @@ export default class TelephoneService {
       );
     }
   }
+
+  static async putTelephone(body) {
+    try {
+      const response = await api.put(`/telephone/edit`, body);
+      return response.data;
+    } catch (error) {
+      return messages(
+        error.response.data.status,
+        error.response.data.data,
+        error.response.data.message
+      );
+    }
+  }
 }
