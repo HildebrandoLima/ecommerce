@@ -132,7 +132,7 @@
   import AuthService from '@/services/auth/AuthService';
   import ProductService from '@/services/product/ProductService';
   import { userAuth } from '@/storages/AuthStorage';
-  import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+  import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
   export default {
     components: { AlertError, Category, CardProduct },

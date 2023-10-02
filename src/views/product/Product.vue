@@ -36,7 +36,7 @@
   import SectionProduct from '@/components/product/SectionProduct.vue';
   import Pagination from '@/components/shared/Pagination.vue';
   import ProductService from '@/services/product/ProductService';
-  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
   export default {
     components: { AlertError, Banner, CardProduct, SectionProduct, Pagination },

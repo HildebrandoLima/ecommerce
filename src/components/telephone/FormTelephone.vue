@@ -108,7 +108,7 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import DDD from '@/assets/js/ddds';
-import { REGISTER_REQUIRED_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+import { REGISTER_REQUIRED_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'from-telephone',

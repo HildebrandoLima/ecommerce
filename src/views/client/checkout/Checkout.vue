@@ -141,7 +141,7 @@
   import UserService from '@/services/user/UserService';
   import { getCart, getTotalCart } from '@/storages/CartStorage';
   import { userAuth } from '@/storages/AuthStorage';
-  import { ITEMS_NOT_FOUND_MESSAGE, USER_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+  import { ITEMS_NOT_FOUND_MESSAGE, USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
   export default {
     name: 'checkout',

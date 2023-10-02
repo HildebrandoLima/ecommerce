@@ -1,6 +1,6 @@
 import api from '@/server/api';
 import { setUser } from '@/storages/EntityPersonStorage';
-import { messages } from '@/support/utils/messages/Message';
+import { messages } from '@/utils/messages/Message';
 
 export default class UserService {
   static async postUser(body) {

@@ -21,7 +21,7 @@
 <script>
     import AlertError from '@/components/shared/AlertError.vue';
     import PaymentService from '@/services/payment/PaymentService';
-    import { ORDER_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+    import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
     export default {
         name: 'payment-ticket',

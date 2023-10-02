@@ -111,7 +111,7 @@
     import EditUser from '@/components/user/EditUser.vue';
     import UserService from '@/services/user/UserService';
     import { userAuth } from '@/storages/AuthStorage';
-    import { USER_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+    import { USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
     export default {
         name: 'profile',

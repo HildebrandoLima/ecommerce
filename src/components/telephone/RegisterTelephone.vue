@@ -24,7 +24,7 @@ import AlertSuccess from '@/components/shared/AlertSuccess.vue';
 import FormTelephone from '@/components/telephone/FormTelephone.vue';
 import TelephoneService from '@/services/telephone/TelephoneService';
 import { getUser } from '@/storages/EntityPersonStorage';
-import { REGISTER_REQUIRED_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+import { REGISTER_REQUIRED_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
   name: 'register-telephone',

@@ -156,7 +156,7 @@
     import ProductService from '@/services/product/ProductService';
     import { userAuth } from '@/storages/AuthStorage';
     import { getCart, calculateTotalCart, removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
-    import { CART_NOT_FOUND_MESSAGE, PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+    import { CART_NOT_FOUND_MESSAGE, PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
     export default {
         components: { AlertError, Banner, CardProduct },

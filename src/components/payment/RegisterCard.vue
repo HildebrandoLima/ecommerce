@@ -75,7 +75,7 @@
     import AlertError from '@/components/shared/AlertError.vue';
     import PaymentService from '@/services/payment/PaymentService';
     import { userAuth } from '@/storages/AuthStorage';
-    import { ORDER_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+    import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
     export default {
         name: 'payment-card',
