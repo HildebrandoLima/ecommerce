@@ -60,7 +60,7 @@
   import RegisterTicket from '@/components/payment/RegisterTicket.vue';
   import { getTotalCart } from '@/storages/CartStorage';
   import { getOrder } from '@/storages/CheckoutStorage';
-  import { ORDER_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+  import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
   export default {
     name: 'payment',

@@ -1,10 +1,23 @@
 import api from '@/server/api';
-import { messages } from '@/support/utils/messages/Message';
+import { messages } from '@/utils/messages/Message';
 
 export default class AddressService {
   static async postAddress(body) {
     try {
       const response = await api.post(`/address/save`, body);
+      return response.data;
+    } catch (error) {
+      return messages(
+        error.response.data.status,
+        error.response.data.data,
+        error.response.data.message
+      );
+    }
+  }
+
+  static async putAddress(body) {
+    try {
+      const response = await api.put(`/address/edit`, body);
       return response.data;
     } catch (error) {
       return messages(

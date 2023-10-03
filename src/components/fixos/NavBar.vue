@@ -102,7 +102,8 @@
           </ul>
         </li>
         <li class="nav-item">
-          <RouterLink v-if="!userName" :to="{ name: 'account' }" class="nav-link text-dark">Criar Conta</RouterLink>
+          <RouterLink v-if="userName" :to="{ name: 'profile' }" class="nav-link text-dark">Meu Perfil</RouterLink>
+          <RouterLink v-else :to="{ name: 'account' }" class="nav-link text-dark">Criar Conta</RouterLink>
         </li>
       </ul>
     </div>
@@ -131,7 +132,7 @@
   import AuthService from '@/services/auth/AuthService';
   import ProductService from '@/services/product/ProductService';
   import { userAuth } from '@/storages/AuthStorage';
-  import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+  import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
   export default {
     components: { AlertError, Category, CardProduct },

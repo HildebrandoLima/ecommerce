@@ -1,6 +1,6 @@
 import api from '@/server/api';
 import { setUser } from '@/storages/EntityPersonStorage';
-import { messages } from '@/support/utils/messages/Message';
+import { messages } from '@/utils/messages/Message';
 
 export default class UserService {
   static async postUser(body) {
@@ -15,6 +15,19 @@ export default class UserService {
             error.response.data.message
         );
       }
+  }
+
+  static async putUser(body) {
+    try {
+      const response = await api.put(`/user/edit`, body);
+      return response.data;
+    } catch (error) {
+      return messages(
+          error.response.data.status,
+          error.response.data.data,
+          error.response.data.message
+      );
+    }
   }
 
   static async getUser(id) {

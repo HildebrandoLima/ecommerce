@@ -32,7 +32,7 @@
                             :errorList="errorList.password" />
 
                             <button type="submit" class="btn btn-outline-primary btn-block mb-4">
-                                <i class="fas fa-sign-in"></i> Entrar
+                                <i class="fas fa-angle-double-right"></i> Entrar
                             </button>
                         </form>
                     </div>
@@ -92,7 +92,7 @@
     import CardProduct from '@/components/product/CardProduct.vue';
     import AuthService from '@/services/auth/AuthService';
     import ProductService from '@/services/product/ProductService';
-    import { PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+    import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
     export default {
         components: { AlertError, Banner, CardProduct },

@@ -8,10 +8,10 @@ import Dashboard from '@/views/admin/dashboard/Dashboard.vue';
 import Home from '@/views/home/Home.vue';
 import Login from '@/views/login/Login.vue';
 import Payment from '@/views/client/payment/Payment.vue';
+import Profile from '@/views/client/profile/Profile.vue';
 import Product from '@/views/product/Product.vue';
 import ProductByCategory from '@/views/product/ProductByCategory.vue';
 import ProductDetails from '@/views/product/ProductDetails.vue';
-import User from '@/views/client/User.vue';
 import { token, userAuth, permissions } from '@/storages/AuthStorage';
 
 const router = createRouter({
@@ -75,6 +75,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
+      meta: {
+        auth: true,
+      }
+    },
+    {
       path: '/product',
       name: 'product',
       component: Product,
@@ -88,14 +96,6 @@ const router = createRouter({
       path: '/productDetails/:id',
       name: 'productDetails',
       component:  ProductDetails,
-    },
-    {
-      path: '/client',
-      name: 'client',
-      component:  User,
-      meta: {
-        auth: true,
-      }
     },
   ]
 });

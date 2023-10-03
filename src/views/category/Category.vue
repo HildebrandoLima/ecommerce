@@ -25,9 +25,9 @@
 <script>
   import Banner from '@/components/fixos/Banner.vue';
   import Pagination from '@/components/shared/Pagination.vue';
-  import Table from '@/components/fixos/Table.vue';
+  import Table from '@/components/shared/Table.vue';
   import CategoryService from '@/services/category/CategoryService';
-  import { CATEGORY_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+  import { CATEGORY_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
   export default {
     components: { Banner, Pagination, Table },

@@ -32,7 +32,7 @@
   import Banner from '@/components/fixos/Banner.vue';
   import CardProduct from '@/components/product/CardProduct.vue';
   import ProductService from '@/services/product/ProductService';
-  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
   export default {
     components: { AlertError, Banner, CardProduct },

@@ -1,6 +1,6 @@
 import api from '@/server/api';
 import { setOrder } from '@/storages/CheckoutStorage';
-import { messages } from '@/support/utils/messages/Message';
+import { messages } from '@/utils/messages/Message';
 
 export default class OrderService {
     static async postOrder(body) {

@@ -1,7 +1,7 @@
 import api from '@/server/api';
 import { cleanToCart, removeTotalCart } from '@/storages/CartStorage';
 import { removeOrder } from '@/storages/CheckoutStorage';
-import { messages } from '@/support/utils/messages/Message';
+import { messages } from '@/utils/messages/Message';
 
 export default class PaymentService {
     static async postPayment(body) {

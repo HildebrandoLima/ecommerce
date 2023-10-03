@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <section class="bg-light my-5">
+    <section class="my-5">
         <div class="container">
             <div class="row">
 
@@ -156,7 +156,7 @@
     import ProductService from '@/services/product/ProductService';
     import { userAuth } from '@/storages/AuthStorage';
     import { getCart, calculateTotalCart, removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
-    import { CART_NOT_FOUND_MESSAGE, PRODUCT_NOT_FOUND_MESSAGE } from '@/support/utils/defaultMessages/DefaultMessage';
+    import { CART_NOT_FOUND_MESSAGE, PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
     export default {
         components: { AlertError, Banner, CardProduct },
