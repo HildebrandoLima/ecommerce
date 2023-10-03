@@ -75,7 +75,7 @@
     import AlertError from '@/components/shared/AlertError.vue';
     import PaymentService from '@/services/payment/PaymentService';
     import { userAuth } from '@/storages/AuthStorage';
-    import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
+    import { ORDER_TO_GENERATE_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
     export default {
         name: 'payment-card',
@@ -125,7 +125,7 @@
             },
             async savePayment() {
                 if (!this.pedidoId) {
-                    this.messageError = ORDER_NOT_FOUND_MESSAGE;
+                    this.messageError = ORDER_TO_GENERATE_MESSAGE;
                     return;
                 }
                 const payment = await PaymentService.postPayment(this.payment);

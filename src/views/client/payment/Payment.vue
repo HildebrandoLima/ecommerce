@@ -60,7 +60,7 @@
   import RegisterTicket from '@/components/payment/RegisterTicket.vue';
   import { getTotalCart } from '@/storages/CartStorage';
   import { getOrder } from '@/storages/CheckoutStorage';
-  import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
+  import { ORDER_TO_GENERATE_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
   export default {
     name: 'payment',
@@ -77,7 +77,7 @@
       this.total = getTotalCart();
       this.pedidoId = getOrder();
       if (!this.pedidoId) {
-        this.messageError = ORDER_NOT_FOUND_MESSAGE;
+        this.messageError = ORDER_TO_GENERATE_MESSAGE;
       }
     },
   };
