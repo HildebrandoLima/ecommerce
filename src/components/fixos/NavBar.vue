@@ -105,6 +105,9 @@
           <RouterLink v-if="userName" :to="{ name: 'profile' }" class="nav-link text-dark">Meu Perfil</RouterLink>
           <RouterLink v-else :to="{ name: 'account' }" class="nav-link text-dark">Criar Conta</RouterLink>
         </li>
+        <li class="nav-item">
+          <RouterLink v-if="userName" :to="{ name: 'order' }" class="nav-link text-dark">Meus Pedidos</RouterLink>
+        </li>
       </ul>
     </div>
     </div>
