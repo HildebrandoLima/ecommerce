@@ -131,8 +131,8 @@ export default {
             editedItem: {},
             toggleAndressComponentVisibility: true,
             togglePhoneComponentVisibility: false,
-            addressColumns: ['enderecoId', 'logradouro', 'numero', 'bairro', 'cidade', 'uf'],
-            telephoneColumns: ['telefoneId', 'numero', 'tipo'],
+            addressColumns: ['logradouro', 'numero', 'bairro', 'cidade', 'uf'],
+            telephoneColumns: ['numero', 'tipo'],
         };
     },
     created() {
