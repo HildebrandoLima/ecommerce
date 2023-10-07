@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <th v-for="(column, index) in columns" :key="index">{{ formatColumn(column) }}</th>
-                    <th>Ação</th>
+                    <th v-if="displayEdit && displayModal">Ação</th>
                 </tr>
             </thead>
             <tbody>
@@ -12,10 +12,17 @@
                     <td v-for="(column, columnIndex) in columns" :key="columnIndex">
                         {{ item[column] }}
                     </td>
-                    <td>
-                        <button @click="editItem(item)" class="btn btn-outline-primary border px-2 pt-2 icon-hover">Editar</button>   
+
+                    <td v-if="displayEdit">
+                        <button
+                            @click="editItem(item)"
+                            class="btn btn-outline-primary border px-2 pt-2 icon-hover"
+                        >
+                        Editar
+                        </button>   
                     </td>
-                    <td>
+
+                    <td v-if="displayEdit">
                         <div class="form-check form-switch">
                             <input
                                 type="checkbox"
@@ -27,6 +34,19 @@
                             />
                         </div>
                     </td>
+
+                    <td v-if="displayModal">
+                        <button
+                            @click="itemModal(item.itens)"
+                            class="btn btn-outline-primary border px-2 pt-2 icon-hover"
+                            data-toggle="modal"
+                            data-target="#editUserModal"
+                        >
+                        <i class="fas fa-sitemap fa-lg text-dark px-1"></i>
+                        Item
+                        </button>
+                    </td>
+<!-- money -->
                 </tr>
             </tbody>
         </table>
@@ -34,7 +54,7 @@
 </template>
 
 <script>
-  export default {
+export default {
     name: 'data-table',
     errorList: {},
     props: {
@@ -45,15 +65,26 @@
         columns: {
             type: Array,
             required: true,
-        }
+        },
+        displayEdit: {
+            type: Boolean,
+            required: true,
+        },
+        displayModal: {
+            type: Boolean,
+            required: true,
+        },
     },
     methods: {
-    formatColumn(column) {
-      return column.charAt(0).toUpperCase() + column.slice(1);
+        formatColumn(column) {
+            return column.charAt(0).toUpperCase() + column.slice(1);
+        },
+        editItem(item) {
+            this.$emit('edit', item);
+        },
+        itemModal(item) {
+            this.$emit('modal', item);
+        },
     },
-    editItem(item) {
-      this.$emit('edit', item);
-    },
-  },
 };
 </script>

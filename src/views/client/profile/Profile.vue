@@ -79,6 +79,7 @@
                                     v-if="toggleAndressComponentVisibility"
                                     :data="user.enderecos"
                                     :columns="addressColumns"
+                                    :displayEdit="true"
                                     @edit="editItem"
                                 />
 
@@ -86,6 +87,7 @@
                                     v-if="togglePhoneComponentVisibility"
                                     :data="user.telefones"
                                     :columns="telephoneColumns"
+                                    :displayEdit="true"
                                     @edit="editItem"
                                 />
                             </div>
