@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <th v-for="(column, index) in columns" :key="index">{{ formatColumn(column) }}</th>
-                    <th v-if="displayEdit && displayModal">Ação</th>
+                    <th v-if="displayEdit">Ação</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,7 +46,19 @@
                         Item
                         </button>
                     </td>
-<!-- money -->
+
+                    <td v-if="displayModal">
+                        <button
+                            @click="paymentModal(item.pagamento)"
+                            class="btn btn-outline-primary border px-2 pt-2 icon-hover"
+                            data-toggle="modal"
+                            data-target="#editUserModal"
+                        >
+                        <i class="fas fa-credit-card fa-lg text-dark px-1"></i>
+                        Payment
+                        </button>
+                    </td>
+
                 </tr>
             </tbody>
         </table>
@@ -83,7 +95,10 @@ export default {
             this.$emit('edit', item);
         },
         itemModal(item) {
-            this.$emit('modal', item);
+            this.$emit('itemModal', item);
+        },
+        paymentModal(item) {
+            this.$emit('paymentModal', item);
         },
     },
 };
