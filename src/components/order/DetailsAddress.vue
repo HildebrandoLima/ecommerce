@@ -1,9 +1,9 @@
 <template>
-<div class="modal fade" id="detailsItemModal" tabindex="-1" aria-labelledby="detailsItemModal" aria-hidden="true">
+<div class="modal fade" id="detailsAddressModal" tabindex="-1" aria-labelledby="detailsAddressModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detailsItemModal">Itens</h5>
+                <h5 class="modal-title" id="detailsAddressModal">Endereço</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -11,7 +11,7 @@
 
                 <Table
                     :data="data"
-                    :columns="itensColumns"
+                    :columns="addressColumns"
                 />
 
             </div>
@@ -28,11 +28,11 @@
 import Table from '@/components/shared/Table.vue';
 
 export default {
-    name: 'modal-items',
+    name: 'modal-address',
     components: { Table },
     data() {
         return {
-            itensColumns: ['quantidadeItem', 'subTotal'],
+            addressColumns: ['logradouro', 'numero', 'bairro', 'cidade', 'uf'],
         }
     },
     props: {

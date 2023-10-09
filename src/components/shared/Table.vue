@@ -37,6 +37,18 @@
 
                     <td v-if="displayModal">
                         <button
+                            @click="addressModal(item.endereco)"
+                            class="btn btn-outline-primary border px-2 pt-2 icon-hover"
+                            data-toggle="modal"
+                            data-target="#editUserModal"
+                        >
+                        <i class="fas fa-address-book fa-lg text-dark px-1"></i>
+                        Endereço
+                        </button>
+                    </td>
+
+                    <td v-if="displayModal">
+                        <button
                             @click="itemModal(item.itens)"
                             class="btn btn-outline-primary border px-2 pt-2 icon-hover"
                             data-toggle="modal"
@@ -93,6 +105,9 @@ export default {
         },
         editItem(item) {
             this.$emit('edit', item);
+        },
+        addressModal(item) {
+            this.$emit('addressModal', item);
         },
         itemModal(item) {
             this.$emit('itemModal', item);

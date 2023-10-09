@@ -75,6 +75,7 @@
                                     :displayModal="true"
                                     @itemModal="itemModal"
                                     @paymentModal="paymentModal"
+                                    @addressModal="addressModal"
                                 />
 
                                 <Pagination
@@ -93,6 +94,7 @@
 </section>
 
 <!-- Modais -->
+<DetailsAddress id="detailsAddressModal" :data="address" />
 <DetailsItem id="detailsItemModal" :data="itens" />
 <DetailsPayment id="detailsPaymentModal" :data="payment" />
 
@@ -101,6 +103,7 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
+import DetailsAddress from '@/components/order/DetailsAddress.vue';
 import DetailsItem from '@/components/order/DetailsItem.vue';
 import DetailsPayment from '@/components/order/DetailsPayment.vue';
 import Table from '@/components/shared/Table.vue';
@@ -111,14 +114,15 @@ import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage'
 
 export default {
     name: 'order',
-    components: { AlertError, Banner, DetailsItem, DetailsPayment, Pagination, Table },
+    components: { AlertError, Banner, DetailsAddress, DetailsItem, DetailsPayment, Pagination, Table },
     data() {
         return {
             bannerTitleMessage: 'Meus Pedidos',
             messageError: null,
             userId: 0,
-            orders: {},
+            address: {},
             itens: {},
+            orders: {},
             payment: {},
             currentPage: 1,
             perPage: 10,
@@ -144,6 +148,10 @@ export default {
             } else {
                 this.messageError = ORDER_NOT_FOUND_MESSAGE;
             }
+        },
+        addressModal(item) {
+            this.address = item;
+            $('#detailsAddressModal').modal('show');
         },
         itemModal(item) {
             this.itens = item;
