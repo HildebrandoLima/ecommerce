@@ -7,6 +7,7 @@ import Checkout from '@/views/client/checkout/Checkout.vue';
 import Dashboard from '@/views/admin/dashboard/Dashboard.vue';
 import Home from '@/views/home/Home.vue';
 import Login from '@/views/login/Login.vue';
+import Order from '@/views/client/order/Order.vue';
 import Payment from '@/views/client/payment/Payment.vue';
 import Profile from '@/views/client/profile/Profile.vue';
 import Product from '@/views/product/Product.vue';
@@ -65,6 +66,14 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: Login,
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: Order,
+      meta: {
+        auth: true,
+      }
     },
     {
       path: '/payment',

@@ -1,29 +1,29 @@
 <template>
-  <Banner :msg="bannerTitleMessage"></Banner>
+<Banner :msg="bannerTitleMessage"></Banner>
 
-  <div class="container">
-      <div class="card mt-3">
-        <div class="card-body">
-          <p>Melhores produtos e marcas em nossa loja.</p>
-          <p>Produtos modernos, preços de fábrica, excelente serviço.</p>
-        </div>
+<div class="container">
+    <div class="card mt-3">
+      <div class="card-body">
+        <p>Melhores produtos e marcas em nossa loja.</p>
+        <p>Produtos modernos, preços de fábrica, excelente serviço.</p>
       </div>
-  </div>
+    </div>
+</div>
 
-  <div class="container">
-    <header class="mt-5">
-      <h3>Novos Produtos:</h3>
-    </header>
+<div class="container">
+  <header class="mt-5">
+    <h3>Novos Produtos:</h3>
+  </header>
 
-    <hr />
+  <hr />
 
-    <AlertError
-      v-if="errorList"
-      :errorList="errorList"
-    />
+  <AlertError
+    v-if="errorList"
+    :errorList="errorList"
+  />
 
-    <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
-  </div>
+  <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
+</div>
 
 </template>
 

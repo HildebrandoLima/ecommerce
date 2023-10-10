@@ -1,7 +1,7 @@
 <template>
-    <div v-if="Object.keys(messageSuccess).length > 0" class="alert alert-success mt-2" role="alert">
-    {{ messageSuccess }}
-  </div>
+<div v-if="Object.keys(messageSuccess).length > 0" class="alert alert-success mt-2" role="alert">
+  {{ messageSuccess }}
+</div>
 </template>
 
 <script>

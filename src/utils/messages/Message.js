@@ -1,3 +1,5 @@
+import { removeAuth } from '@/storages/AuthStorage';
+
 export function messages(status, data, message) {
   switch (status) {
     case 400:
@@ -16,6 +18,7 @@ export function messages(status, data, message) {
 }
 
 function alert(message) {
+  removeAuth();
   throw Swal.fire({
     icon: 'error',
     title: message,

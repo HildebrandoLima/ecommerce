@@ -16,4 +16,17 @@ export default class OrderService {
             );
         }
     }
+
+    static async getOrders(page, perPage, id) {
+        try {
+          const response = await api.get(`/order/list?page=${page}&perPage=${perPage}&id=${id}&active=1`);
+          return response.data;
+        } catch (error) {
+          return messages(
+            error.response.data.status,
+            error.response.data.data,
+            error.response.data.message
+          );
+        }
+      }
 }

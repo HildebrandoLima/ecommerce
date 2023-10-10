@@ -1,107 +1,107 @@
 <template>
 <form>
-    <div v-for="(phone, index) in telephones" :key="index">
-        <input type="hidden" id="usuarioId" v-model="phone.usuarioId" />
-
-        <div class="row mb-4">
-            <div class="col">
-                <div class="form-outline">
-                    <input
-                        type="text"
-                        id="numero"
-                        v-model="phone.numero"
-                        maxlength="14"
-                        OnKeyPress="format('(##)#####-####',this)"
-                        placeholder="Número"
-                        class="form-control" 
-                        required
-                    />
-                </div>
-                <AlertError
-                    v-if="Object.keys(errorList).length > 0"
-                    :errorList="errorList['0.numero'] ? errorList['0.numero'] : fieldRequired"
-                />
-            </div>
-
-            <div class="col">
-                <div class="form-outline">
-                    <button
-                        @click="removeTelephone(index)"
-                        class="btn btn-outline-danger"
-                        :disabled="isEditMode"
-                    >
-                    X
-                    </button>
-                </div>
-            </div>
-        </div>
+<div v-for="(phone, index) in telephones" :key="index">
+    <input type="hidden" id="usuarioId" v-model="phone.usuarioId" />
 
     <div class="row mb-4">
         <div class="col">
             <div class="form-outline">
-                <select id="ddd" v-model="phone.ddd" class="form-select" aria-label="DDD" required >
-                    <option value="">-- Selecione o DDD --</option>
-                    <option v-for="ddd in ddds" :value="ddd" :key="ddd">{{ ddd }}</option>
-                </select>
+                <input
+                    type="text"
+                    id="numero"
+                    v-model="phone.numero"
+                    maxlength="14"
+                    OnKeyPress="format('(##)#####-####',this)"
+                    placeholder="Número"
+                    class="form-control" 
+                    required
+                />
             </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList['0.ddd'] ? errorList['0.numero'] : fieldRequired"
+                :errorList="errorList['0.numero'] ? errorList['0.numero'] : fieldRequired"
             />
         </div>
 
         <div class="col">
             <div class="form-outline">
-                <select id="tipo" v-model="phone.tipo" class="form-select" aria-label="Tipo" required >
-                    <option value="">-- Selecione o Tipo --</option>
-                    <option value="Fixo">Fixo</option>
-                    <option value="Celular">Celular</option>
-                </select>
+                <button
+                    @click="removeTelephone(index)"
+                    class="btn btn-outline-danger"
+                    :disabled="isEditMode"
+                >
+                X
+                </button>
             </div>
-            <AlertError
-                v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList['0.tipo'] ? errorList['0.numero'] : fieldRequired"
-            />
         </div>
+    </div>
+
+<div class="row mb-4">
+    <div class="col">
+        <div class="form-outline">
+            <select id="ddd" v-model="phone.ddd" class="form-select" aria-label="DDD" required >
+                <option value="">-- Selecione o DDD --</option>
+                <option v-for="ddd in ddds" :value="ddd" :key="ddd">{{ ddd }}</option>
+            </select>
+        </div>
+        <AlertError
+            v-if="Object.keys(errorList).length > 0"
+            :errorList="errorList['0.ddd'] ? errorList['0.numero'] : fieldRequired"
+        />
     </div>
 
     <div class="col">
-        <div class="form-check form-switch">
-            <input
-                v-if="isEditMode"
-                type="checkbox"
-                v-model="phone.ativo"
-                :id="'flexSwitchCheckChecked_' + index"
-                :checked="phone.ativo"
-                class="form-check-input"
-            />
+        <div class="form-outline">
+            <select id="tipo" v-model="phone.tipo" class="form-select" aria-label="Tipo" required >
+                <option value="">-- Selecione o Tipo --</option>
+                <option value="Fixo">Fixo</option>
+                <option value="Celular">Celular</option>
+            </select>
         </div>
+        <AlertError
+            v-if="Object.keys(errorList).length > 0"
+            :errorList="errorList['0.tipo'] ? errorList['0.numero'] : fieldRequired"
+        />
+    </div>
+</div>
+
+<div class="col">
+    <div class="form-check form-switch">
+        <input
+            v-if="isEditMode"
+            type="checkbox"
+            v-model="phone.ativo"
+            :id="'flexSwitchCheckChecked_' + index"
+            :checked="phone.ativo"
+            class="form-check-input"
+        />
+    </div>
+</div>
+
+</div>
+
+<div class="row mb-4 mt-3">
+    <div class="col">
+        <button
+            type="button"
+            @click="addTelephone"
+            class="btn btn-outline-success btn-block mb-4"
+            :disabled="isEditMode"
+        >
+        +
+        </button>
     </div>
 
+    <div class="col">
+        <button
+            type="button"
+            @click="handleButtonClick"
+            class="btn btn-outline-primary btn-block mb-4"
+        >
+        {{ buttonText }}
+        </button>
     </div>
-
-    <div class="row mb-4 mt-3">
-        <div class="col">
-            <button
-                type="button"
-                @click="addTelephone"
-                class="btn btn-outline-success btn-block mb-4"
-                :disabled="isEditMode"
-            >
-            +
-            </button>
-        </div>
-
-        <div class="col">
-            <button
-                type="button"
-                @click="handleButtonClick"
-                class="btn btn-outline-primary btn-block mb-4"
-            >
-            {{ buttonText }}
-            </button>
-        </div>
-    </div>
+</div>
 </form>
 </template>
 
