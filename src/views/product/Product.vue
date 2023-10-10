@@ -2,7 +2,7 @@
 
 <Banner :msg="bannerTitleMessage" />
 
-<SectionProduct :products="products" :totalItems="totalItems" />
+<ProductSection :products="products" :totalItems="totalItems" />
 
 <hr />
 
@@ -31,13 +31,13 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
-import SectionProduct from '@/components/product/SectionProduct.vue';
+import ProductSection from '@/components/product/ProductSection.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, SectionProduct, Pagination },
+  components: { AlertError, Banner, ProductSection, Pagination },
   name: 'product',
   data() {
     return {

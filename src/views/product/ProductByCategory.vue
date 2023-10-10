@@ -1,7 +1,7 @@
 <template>
 <Banner :msg="bannerTitleMessage"></Banner>
 
-<SectionProduct :products="products" :totalItems="totalItems" />
+<ProductSection :products="products" :totalItems="totalItems" />
 
 <hr />
 
@@ -30,14 +30,14 @@
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import ButtonCart from '@/components/shared/ButtonCart.vue';
-import SectionProduct from '@/components/product/SectionProduct.vue';
+import ProductSection from '@/components/product/ProductSection.vue';
 import Category from '@/components/category/Category.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, ButtonCart, SectionProduct, Category, Pagination },
+  components: { AlertError, Banner, ButtonCart, ProductSection, Category, Pagination },
   name: 'product-by-category',
   data() {
     return {
