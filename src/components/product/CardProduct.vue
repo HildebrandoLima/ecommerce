@@ -5,11 +5,13 @@
             <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}">
                 <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/1.webp" class="card-img-top" style="aspect-ratio: 1 / 1">
             </RouterLink>
+
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title">
                     <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}" class="nav-link text-dark">{{ product.nome }}</RouterLink>
                 </h5>
-                <p class="card-text">{{ product.precoVenda.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
+
+                <p class="card-text">{{ formatPrice(product.precoVenda) }}</p>
 
                 <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
                     <RouterLink to="/cart">
@@ -25,6 +27,7 @@
 
 <script>
 import ButtonCart from '@/components/shared/ButtonCart.vue';
+import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {
     components: { ButtonCart },
@@ -34,6 +37,11 @@ export default {
         products: {
             type: Array,
             default: []
+        },
+    },
+    computed: {
+        formatPrice() {
+            return formatPrice;
         },
     },
 };

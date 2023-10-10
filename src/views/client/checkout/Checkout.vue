@@ -107,7 +107,7 @@
 
           <div class="d-flex justify-content-between">
             <p class="mb-2">Total:</p>
-            <p class="mb-2">{{ total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
+            <p class="mb-2">{{ formatPrice(total) }}</p>
           </div>
 
           <div class="d-flex justify-content-between">
@@ -122,7 +122,7 @@
 
           <div class="d-flex justify-content-between">
             <p class="mb-2">Total + Frete:</p>
-            <p class="mb-2 fw-bold">{{ total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
+            <p class="mb-2 fw-bold">{{ formatPrice(total) }}</p>
           </div>
 
           <div class="mt-3">
@@ -143,6 +143,7 @@ import UserService from '@/services/user/UserService';
 import { getCart, getTotalCart } from '@/storages/CartStorage';
 import { userAuth } from '@/storages/AuthStorage';
 import { ITEMS_NOT_FOUND_MESSAGE, USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
+import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {
   name: 'checkout',
@@ -230,6 +231,11 @@ export default {
         this.errorList.itens = ITEMS_NOT_FOUND_MESSAGE;
       }
     },
+  },
+  computed: {
+        formatPrice() {
+            return formatPrice;
+        },
   },
   watch: {
     'order.tipoEntrega': 'onTypeDeliveryChange',

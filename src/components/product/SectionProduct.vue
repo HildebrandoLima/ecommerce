@@ -46,8 +46,8 @@
 
               <div class="card-body d-flex flex-column">
                 <div class="d-flex flex-row">
-                  DE: <h5 class="mb-1 me-1">{{ product.precoCusto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</h5>
-                  POR: <span class="text-danger"><s>{{ product.precoVenda.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</s></span>
+                  DE: <h5 class="mb-1 me-1">{{ formatPrice(product.precoCusto) }}</h5>
+                  POR: <span class="text-danger"><s>{{ formatPrice(product.precoVenda) }}</s></span>
                 </div>
 
                 <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}" class="nav-link text-dark">
@@ -74,6 +74,7 @@
 <script>
 import ButtonCart from '@/components/shared/ButtonCart.vue';
 import Category from '@/components/category/Category.vue';
+import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {
     name: 'product',
@@ -83,6 +84,11 @@ export default {
         products: {
             type: Array,
             default: []
+        },
+    },
+    computed: {
+        formatPrice() {
+            return formatPrice;
         },
     },
 };

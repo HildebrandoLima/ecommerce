@@ -51,7 +51,7 @@
                                         <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp" class="border rounded me-3" style="width: 96px; height: 96px;">
                                         <div class="">
                                             <a href="#" class="nav-link">{{ item.nome }}</a>
-                                            <b>Sub Total:</b><p class="text-muted"> {{ item.subTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
+                                            <b>Sub Total:</b><p class="text-muted"> {{ formatPrice(item.subTotal) }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -62,8 +62,8 @@
                                     <input type="number" v-model="item.quantidade" @keyup.enter="updateQuantity(item)" style="width: 100px;" />&nbsp;&nbsp;
                                 </div>
                                 <div class="">
-                                    <text class="h6">POR: {{ item.precoVenda.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</text><br>
-                                    <small class="text-muted text-nowrap"><s>DE: {{ item.precoCusto.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</s></small>
+                                    <text class="h6">POR: {{ formatPrice(item.precoVenda) }}</text><br>
+                                    <small class="text-muted text-nowrap"><s>DE: {{ formatPrice(item.precoCusto) }}</s></small>
                                 </div>
                             </div>
 
@@ -108,7 +108,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">Total:</p>
-                            <p class="mb-2">{{ total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
+                            <p class="mb-2">{{ formatPrice(total) }}</p>
                         </div>
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">Desconto:</p>
@@ -121,7 +121,7 @@
                         <hr />
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">Total:</p>
-                            <p class="mb-2 fw-bold">{{ total.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }}</p>
+                            <p class="mb-2 fw-bold">{{ formatPrice(total) }}</p>
                         </div>
 
                         <div class="mt-3">
@@ -157,6 +157,7 @@ import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';
 import { getCart, calculateTotalCart, removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
 import { CART_NOT_FOUND_MESSAGE, PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
+import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {
     components: { AlertError, Banner, CardProduct },
@@ -227,6 +228,11 @@ export default {
             } else {
                 this.errorList = CART_NOT_FOUND_MESSAGE;
             }
+        },
+    },
+    computed: {
+        formatPrice() {
+            return formatPrice;
         },
     },
 };
