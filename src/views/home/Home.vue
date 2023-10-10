@@ -1,78 +1,79 @@
 <template>
-    <div class="bg-primary text-white py-5">
-    <div class="container py-5">
-      <h1 v-if="userName">
-        Olá {{ userName }}, seja bem-vindo!
-      </h1>
-      <h1 v-else>
-        Melhores produtos e &amp;
-        <br>marcas em nossa loja
-      </h1>
+<div class="bg-primary text-white py-5">
+  <div class="container py-5">
+    <h1 v-if="userName">
+      Olá {{ userName }}, seja bem-vindo!
+    </h1>
+    <h1 v-else>
+      Melhores produtos e &amp;
+      <br>marcas em nossa loja
+    </h1>
 
-      <p v-if="!userName">Produtos modernos, preços de fábrica, excelente serviço</p>
-      <button type="button" class="btn btn-outline-light">Ver mais</button>&nbsp;
+    <p v-if="!userName">Produtos modernos, preços de fábrica, excelente serviço</p>
+    <button type="button" class="btn btn-outline-light">Ver mais</button>&nbsp;
 
-      <button type="button" class="btn btn-light shadow-0 text-primary pt-2 border border-white">
-        <span class="pt-1">Compre agora</span>
-      </button>
-    </div>
+    <button type="button" class="btn btn-light shadow-0 text-primary pt-2 border border-white">
+      <span class="pt-1">Compre agora</span>
+    </button>
   </div>
+</div>
 
-  <div class="container">
-    <header class="mt-5">
-      <h3>Novos Produtos:</h3>
-    </header>
+<div class="container">
+  <header class="mt-5">
+    <h3>Novos Produtos:</h3>
+  </header>
 
-    <hr />
+  <hr />
 
-    <AlertError
-      v-if="errorList"
-      :errorList="errorList"
-    />
+  <AlertError
+    v-if="errorList"
+    :errorList="errorList"
+  />
 
-    <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
-  </div>
+  <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+
+</div>
 
 </template>
 
 <script>
-  import CardProduct from '@/components/product/CardProduct.vue';
-  import ProductService from '@/services/product/ProductService';
-  import { userAuth } from '@/storages/AuthStorage';
-  import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
+import CardProduct from '@/components/product/CardProduct.vue';
+import ProductService from '@/services/product/ProductService';
+import { userAuth } from '@/storages/AuthStorage';
+import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
-  export default {
-    components: { CardProduct },
-    name: 'home',
-    data() {
-      return {
-        errorList: {},
-        products: {},
-        currentPage: 1,
-        perPage: 10,
-        totalItems: 0,
-        userId: 0,
-        userName: '',
-        userEmail: '',
-      };
+export default {
+  components: { CardProduct },
+  name: 'home',
+  data() {
+    return {
+      errorList: {},
+      products: {},
+      currentPage: 1,
+      perPage: 10,
+      totalItems: 0,
+      userId: 0,
+      userName: '',
+      userEmail: '',
+    };
+  },
+  created() {
+      this.getProduct();
+      const [userId, userName, userEmail] = userAuth();
+      this.userId = userId;
+      this.userName = userName;
+      this.userEmail = userEmail;
+  },
+  methods: {
+    async getProduct() {
+      const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+      if (products.status === 200) {
+        this.products = products.data;
+        this.totalItems = products.data.total;
+      } else {
+        this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+      }
     },
-    created() {
-        this.getProduct();
-        const [userId, userName, userEmail] = userAuth();
-        this.userId = userId;
-        this.userName = userName;
-        this.userEmail = userEmail;
-    },
-    methods: {
-      async getProduct() {
-        const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-        if (products.status === 200) {
-          this.products = products.data;
-          this.totalItems = products.data.total;
-        } else {
-          this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
-        }
-      },
-    },
+  },
 };
 </script>

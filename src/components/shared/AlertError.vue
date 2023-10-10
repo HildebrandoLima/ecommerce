@@ -1,7 +1,7 @@
 <template>
-    <div class="alert alert-danger mt-2 text-center" role="alert">
-        {{ errorList }}
-    </div>
+<div class="alert alert-danger mt-2 text-center" role="alert">
+  {{ errorList }}
+</div>
 </template>
 
 <script>

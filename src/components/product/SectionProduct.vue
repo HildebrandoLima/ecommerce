@@ -1,5 +1,5 @@
 <template>
-      <section class="">
+<section class="">
   <div class="container">
     <div class="row">
       <div class="col-lg-3">
@@ -67,23 +67,23 @@
       </div>
     </div>
   </div>
-  </section>
+</section>
 
 </template>
 
 <script>
-    import ButtonCart from '@/components/shared/ButtonCart.vue';
-    import Category from '@/components/category/Category.vue';
+import ButtonCart from '@/components/shared/ButtonCart.vue';
+import Category from '@/components/category/Category.vue';
 
-    export default {
-        name: 'product',
-        components: { ButtonCart, Category },
-        props: {
-            totalItems: 0,
-            products: {
-                type: Array,
-                default: []
-            },
+export default {
+    name: 'product',
+    components: { ButtonCart, Category },
+    props: {
+        totalItems: 0,
+        products: {
+            type: Array,
+            default: []
         },
-    };
+    },
+};
 </script>

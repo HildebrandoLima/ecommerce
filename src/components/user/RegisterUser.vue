@@ -1,13 +1,13 @@
 <template>
 
-  <AlertSuccess :messageSuccess="messageSuccess" />
+<AlertSuccess :messageSuccess="messageSuccess" />
 
-  <FormRegisterUser
-    :errorList="errorList"
-    :user="user"
-    :isEditMode="false"
-    @saveUser="saveUser"
-  />
+<FormRegisterUser
+  :errorList="errorList"
+  :user="user"
+  :isEditMode="false"
+  @saveUser="saveUser"
+/>
 
 </template>
 

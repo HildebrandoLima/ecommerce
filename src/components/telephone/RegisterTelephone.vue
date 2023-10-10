@@ -1,20 +1,20 @@
 <template>
 
-  <AlertSuccess :messageSuccess="messageSuccess" />
+<AlertSuccess :messageSuccess="messageSuccess" />
 
-  <AlertError
-    v-if="messageError"
-    :errorList="messageError"
-  />
+<AlertError
+  v-if="messageError"
+  :errorList="messageError"
+/>
 
-  <FormTelephone
-    :errorList="errorList"
-    :telephones="telephones"
-    :isEditMode="false"
-    @addTelephone="addTelephone"
-    @removeTelephone="removeTelephone"
-    @saveTelephone="saveTelephone"
-  />
+<FormTelephone
+  :errorList="errorList"
+  :telephones="telephones"
+  :isEditMode="false"
+  @addTelephone="addTelephone"
+  @removeTelephone="removeTelephone"
+  @saveTelephone="saveTelephone"
+/>
 
 </template>
 
