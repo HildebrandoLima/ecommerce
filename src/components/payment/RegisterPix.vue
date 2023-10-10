@@ -1,6 +1,8 @@
 <template>
 <div class="card">
-    <h1>QR CODE</h1>
+    <p class="text-center mt-2">
+        <img src="../../assets/image/qrcode.png" width="300" height="300">
+    </p>
 </div>
 
 <AlertError
@@ -14,7 +16,7 @@
 />
 
 <form @submit.prevent="savePayment">
-    <button type="submit" class="btn btn-outline-success w-100 shadow-0 mb-2 mt-3">Pagar</button>
+    <button type="submit" class="btn btn-outline-success w-100 shadow-0 mb-2 mt-3">Confirmar</button>
 </form>
 </template>
 
