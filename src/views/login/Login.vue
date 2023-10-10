@@ -82,20 +82,20 @@
     :errorList="errorMessage"
     />
 
-    <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
+    <ProductCard v-if="products.list" :products="products" :totalItems="totalItems" />
 </div>
 </template>
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
-import CardProduct from '@/components/product/CardProduct.vue';
+import ProductCard from '@/components/product/ProductCard.vue';
 import AuthService from '@/services/auth/AuthService';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-    components: { AlertError, Banner, CardProduct },
+    components: { AlertError, Banner, ProductCard },
     name: 'login',
     data() {
         return {

@@ -50,14 +50,14 @@
       <h3>Novos Produtos:</h3>
   </header>
 
-  <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
+  <ProductCard v-if="products.list" :products="products" :totalItems="totalItems" />
 </div>
 </template>
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
-import CardProduct from '@/components/product/CardProduct.vue';
+import ProductCard from '@/components/product/ProductCard.vue';
 import RegisterAddress from '@/components/address/RegisterAddress.vue';
 import RegisterTelephone from '@/components/telephone/RegisterTelephone.vue';
 import RegisterUser from '@/components/user/RegisterUser.vue';
@@ -65,7 +65,7 @@ import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, CardProduct, RegisterAddress, RegisterTelephone, RegisterUser },
+  components: { AlertError, Banner, ProductCard, RegisterAddress, RegisterTelephone, RegisterUser },
   data() {
     return {
       bannerTitleMessage: 'Criar Conta',

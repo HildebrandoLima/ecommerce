@@ -122,7 +122,7 @@
   <div class="card mt-3">
     <div class="card-body">
 
-        <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
+        <ProductCard v-if="products.list" :products="products" :totalItems="totalItems" />
     </div>
   </div>
 </div>
@@ -131,14 +131,14 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Category from '@/components/category/Category.vue';
-import CardProduct from '@/components/product/CardProduct.vue';
+import ProductCard from '@/components/product/ProductCard.vue';
 import AuthService from '@/services/auth/AuthService';
 import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';
 import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Category, CardProduct },
+  components: { AlertError, Category, ProductCard },
   name: 'navbar',
   data() {
     return {

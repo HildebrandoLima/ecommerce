@@ -30,20 +30,20 @@
     :errorList="errorList"
   />
 
-  <CardProduct v-if="this.products.list" :products="products" :totalItems="totalItems" />
+  <ProductCard v-if="this.products.list" :products="products" :totalItems="totalItems" />
 
 </div>
 
 </template>
 
 <script>
-import CardProduct from '@/components/product/CardProduct.vue';
+import ProductCard from '@/components/product/ProductCard.vue';
 import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { CardProduct },
+  components: { ProductCard },
   name: 'home',
   data() {
     return {

@@ -23,8 +23,6 @@
     :errorList="errorList"
   />
 
-  <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
-
 </div>
 </template>
 
@@ -32,7 +30,6 @@
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import ButtonCart from '@/components/shared/ButtonCart.vue';
-import CardProduct from '@/components/product/CardProduct.vue';
 import SectionProduct from '@/components/product/SectionProduct.vue';
 import Category from '@/components/category/Category.vue';
 import Pagination from '@/components/shared/Pagination.vue';
@@ -40,12 +37,12 @@ import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, ButtonCart, CardProduct, SectionProduct, Category, Pagination },
+  components: { AlertError, Banner, ButtonCart, SectionProduct, Category, Pagination },
   name: 'product-by-category',
   data() {
     return {
       bannerTitleMessage: 'Produtos Por Categoria',
-      errorList: {},
+      errorList: null,
       products: {},
       productId: 0,
       search: '',
