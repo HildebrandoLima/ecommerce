@@ -12,7 +12,16 @@
     <div class="row">
         <div class="col">
             <div class="mb-3">
-                <input type="text" id="numeroCartao" v-model="payment.numeroCartao" maxlength="19" OnKeyPress="format('#### #### #### ####',this)" class="form-control border" placeholder="Número do Cartão" required />
+                <input
+                    type="text"
+                    id="numeroCartao"
+                    v-model="payment.numeroCartao"
+                    maxlength="19"
+                    @input="formatCardNumber"
+                    placeholder="Número do Cartão"
+                    class="form-control border" 
+                    required
+                />
                 <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.numeroCartao" />
@@ -33,7 +42,15 @@
         </div>
 
         <div class="col">
-            <input type="text" id="DataValidade" v-model="payment.dataValidade" class="form-control" placeholder="Data de Validade" onfocus="(this.type='date')" required />
+            <input
+                type="text"
+                id="DataValidade"
+                v-model="payment.dataValidade"
+                onfocus="(this.type='date')"
+                placeholder="Data de Validade"
+                class="form-control"
+                required
+            />
             <AlertError
             v-if="Object.keys(errorList).length > 0"
             :errorList="errorList.dataValidade" />
@@ -56,7 +73,15 @@
 
         <div class="col">
             <div class="mb-3">
-                <input type="text" v-model="payment.ccv" maxlength="4" class="form-control border" placeholder="CCV" required />
+                <input
+                    type="text"
+                    v-model="payment.ccv"
+                    maxlength="4"
+                    @input="formatCCV"
+                    placeholder="CCV"
+                    class="form-control border"
+                    required
+                />
                 <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.ccv" />
@@ -125,6 +150,13 @@ export default {
             } else {
                 this.payment.metodoPagamento = 'Débito';
             }
+        },
+        formatCardNumber() {
+            this.payment.numeroCartao = this.payment.numeroCartao.replace(/\D/g, '');
+            this.payment.numeroCartao = this.payment.numeroCartao.replace(/(\d{4})(?=\d{4,})/g,'$1 ');
+        },
+        formatCCV() {
+            this.payment.ccv = this.payment.ccv.replace(/\D/g, '');
         },
         async savePayment() {
             if (!this.pedidoId) {
