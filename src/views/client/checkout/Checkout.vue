@@ -14,123 +14,8 @@
   />
 
   <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-body">
-
-          <form>
-          <div class="row mb-3">
-            <h6 class="mb-3">Informe o Envio:</h6><hr />
-
-            <AlertError
-              v-if="Object.keys(errorList).length > 0"
-              :errorList="errorList.tipoEntrega"
-            />
-
-            <div class="col-lg-4 mb-3">
-              <div class="form-check h-100 border rounded-3">
-                <div class="p-3">
-                  <input type="radio" id="expresso" value="Expresso" v-model="order.tipoEntrega" class="form-check-input" />
-                  <label class="form-check-label" for="Expresso">
-                    Entrega Expressa<br>
-                    <small class="text-muted">3-4 dias via Fedex</small><br />
-                    <small class="text-muted">
-                      R$20,00
-                    </small>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 mb-3">
-              <div class="form-check h-100 border rounded-3">
-                <div class="p-3">
-                  <input type="radio" id="correio" value="Correio" v-model="order.tipoEntrega" class="form-check-input" />
-                  <label class="form-check-label" for="Correio">
-                    Correios<br>
-                    <small class="text-muted">20-30 dias via Correio</small><br />
-                    <small class="text-muted">
-                      R$15,50
-                    </small>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 mb-3">
-              <div class="form-check h-100 border rounded-3">
-                <div class="p-3">
-                  <input type="radio" id="retirada" value="Retirada" v-model="order.tipoEntrega" class="form-check-input" />
-                  <label class="form-check-label" for="Retirada">
-                    Auto-Retirada<br>
-                    <small class="text-muted">Retire em nossa Loja</small><br />
-                    <small class="text-muted">
-                      R$00,00
-                    </small>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <h6 class="mb-3">Informe o Endereço:</h6><hr />
-
-            <AlertError
-              v-if="Object.keys(errorList).length > 0"
-              :errorList="errorList.enderecoId"
-            />
-
-            <div v-for="(address, index) in adresses" :key="index" class="col-lg-4 mb-3">
-              <div class="form-check h-100 border rounded-3">
-                <div class="p-3">
-                  <input type="radio" id="endereco" :value="address.enderecoId" v-model="order.enderecoId" class="form-check-input" />
-                  <label class="form-check-label" for="Endereco">
-                    {{ address.logradouro }}, N° {{ address.numero }}<br />
-                    {{ address.bairro }}<br />
-                    <small class="text-muted">{{ address.cidade }} - {{ address.uf }}</small>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card">
-        <div class="card-body">
-          <h6 class="mb-3">Resumo:</h6><hr />
-
-          <div class="d-flex justify-content-between">
-            <p class="mb-2">Total:</p>
-            <p class="mb-2">{{ formatPrice(total) }}</p>
-          </div>
-
-          <div class="d-flex justify-content-between">
-            <p class="mb-2">Desconto:</p>
-            <p class="mb-2 text-danger">- R$ 00,00</p>
-          </div>
-
-          <div class="d-flex justify-content-between">
-            <p class="mb-2">Frete:</p>
-            <p class="mb-2">+ R$ 00,00</p>
-          </div>
-
-          <div class="d-flex justify-content-between">
-            <p class="mb-2">Total + Frete:</p>
-            <p class="mb-2 fw-bold">{{ formatPrice(total) }}</p>
-          </div>
-
-          <div class="mt-3">
-            <button type="button" @click="saveOrder" class="btn btn-outline-success w-100 shadow-0 mb-2">Finalizar Compra</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <CheckoutForm :errorList="errorList" :adresses="adresses" :order="order" />
+    <CheckoutSummary :errorList="errorList" :total="total" :order="order" @saveOrder="saveOrder" />
   </div>
 </div>
 </template>
@@ -138,22 +23,23 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
+import CheckoutForm from '@/components/checkout/CheckoutForm.vue';
+import CheckoutSummary from '@/components/checkout/CheckoutSummary.vue';
 import OrderService from '@/services/order/OrderService';
 import UserService from '@/services/user/UserService';
 import { getCart, getTotalCart } from '@/storages/CartStorage';
 import { userAuth } from '@/storages/AuthStorage';
 import { ITEMS_NOT_FOUND_MESSAGE, USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
-import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {
   name: 'checkout',
-  components: { AlertError, Banner },
+  components: { AlertError, Banner, CheckoutForm, CheckoutSummary },
   data() {
     return {
       bannerTitleMessage: 'Checkout',
       messageError: null,
       errorList: {},
-      adresses: {},
+      adresses: [],
       cart: [],
       total: 0,
       userId: 0,
@@ -231,11 +117,6 @@ export default {
         this.errorList.itens = ITEMS_NOT_FOUND_MESSAGE;
       }
     },
-  },
-  computed: {
-        formatPrice() {
-            return formatPrice;
-        },
   },
   watch: {
     'order.tipoEntrega': 'onTypeDeliveryChange',
