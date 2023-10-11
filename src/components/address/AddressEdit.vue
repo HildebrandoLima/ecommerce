@@ -11,7 +11,7 @@
 
                 <AlertSuccess :messageSuccess="messageSuccess" />
 
-                <FormAddress
+                <AddressForm
                     :errorList="errorList"
                     :address="data"
                     :isEditMode="true"
@@ -29,12 +29,12 @@
 
 <script>
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
-import FormAddress from '@/components/address/FormAddress.vue';
+import AddressForm from '@/components/address/AddressForm.vue';
 import AddressService from '@/services/address/AddressService';
 
 export default {
     name: 'modal-address',
-    components: { AlertSuccess, FormAddress },
+    components: { AlertSuccess, AddressForm },
     data() {
         return {
             errorList: {},

@@ -28,7 +28,7 @@
 
                   <div class="tab-pane fade" id="address">
                   <h5 class="card-title">Endereço</h5><hr />
-                    <RegisterAddress></RegisterAddress>
+                    <AddressRegister />
                   </div>
 
                   <div class="tab-pane fade" id="telephone">
@@ -58,14 +58,14 @@
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import ProductCard from '@/components/product/ProductCard.vue';
-import RegisterAddress from '@/components/address/RegisterAddress.vue';
+import AddressRegister from '@/components/address/AddressRegister.vue';
 import RegisterTelephone from '@/components/telephone/RegisterTelephone.vue';
 import RegisterUser from '@/components/user/RegisterUser.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, ProductCard, RegisterAddress, RegisterTelephone, RegisterUser },
+  components: { AlertError, Banner, ProductCard, AddressRegister, RegisterTelephone, RegisterUser },
   data() {
     return {
       bannerTitleMessage: 'Criar Conta',

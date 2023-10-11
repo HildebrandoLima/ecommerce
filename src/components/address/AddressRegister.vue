@@ -2,7 +2,7 @@
 
 <AlertSuccess :messageSuccess="messageSuccess" />
 
-<FormAddress
+<AddressForm
   :errorList="errorList"
   :address="address"
   :isEditMode="false"
@@ -13,13 +13,13 @@
 
 <script>
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
-import FormAddress from '@/components/address/FormAddress.vue';
+import AddressForm from '@/components/address/AddressForm.vue';
 import AddressService from '@/services/address/AddressService';
 import { getUser } from '@/storages/EntityPersonStorage';
 
 export default {
   name: 'register-address',
-  components: { AlertSuccess, FormAddress },
+  components: { AlertSuccess, AddressForm },
   data() {
     return {
       messageSuccess: '',

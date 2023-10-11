@@ -101,7 +101,7 @@
 </section>
 
 <!-- Modais -->
-<EditAddress id="editAddressModal" :data="editedItem" />
+<AddressEdit id="editAddressModal" :data="editedItem" />
 <EditPhone id="editPhoneModal" :data="editedItem" />
 <EditUser id="editUserModal" :data="editedItem" />
 
@@ -109,7 +109,7 @@
 
 <script>
 import Banner from '@/components/fixos/Banner.vue';
-import EditAddress from '@/components/address/EditAddress.vue';
+import AddressEdit from '@/components/address/AddressEdit.vue';
 import Table from '@/components/shared/Table.vue';
 import EditPhone from '@/components/telephone/EditTelephone.vue';
 import EditUser from '@/components/user/EditUser.vue';
@@ -119,7 +119,7 @@ import { USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'profile',
-    components: { Banner, EditAddress, Table, EditPhone, EditUser },
+    components: { Banner, AddressEdit, Table, EditPhone, EditUser },
     data() {
         return {
             bannerTitleMessage: 'Meu Perfil',
