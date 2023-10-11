@@ -11,7 +11,7 @@
 
                 <AlertSuccess :messageSuccess="messageSuccess" />
 
-                <FormRegisterUser
+                <UserForm
                     :errorList="errorList"
                     :user="data"
                     :isEditMode="true"
@@ -30,12 +30,12 @@
 
 <script>
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
-import FormRegisterUser from '@/components/user/FormRegisterUser.vue';
+import UserForm from '@/components/user/UserForm.vue';
 import UserService from '@/services/user/UserService';
 
 export default {
     name: 'modal-user',
-    components: { AlertSuccess, FormRegisterUser },
+    components: { AlertSuccess, UserForm },
     data() {
         return {
             errorList: {},

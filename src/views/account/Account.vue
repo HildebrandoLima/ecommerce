@@ -23,7 +23,7 @@
                 <div class="tab-content">
                   <div class="tab-pane fade show active" id="user">
                   <h5 class="card-title">Perfil</h5><hr />
-                    <RegisterUser></RegisterUser>
+                    <UserRegister />
                   </div>
 
                   <div class="tab-pane fade" id="address">
@@ -60,12 +60,12 @@ import Banner from '@/components/fixos/Banner.vue';
 import ProductCard from '@/components/product/ProductCard.vue';
 import AddressRegister from '@/components/address/AddressRegister.vue';
 import TelephoneRegister from '@/components/telephone/TelephoneRegister.vue';
-import RegisterUser from '@/components/user/RegisterUser.vue';
+import UserRegister from '@/components/user/UserRegister.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, ProductCard, AddressRegister, TelephoneRegister, RegisterUser },
+  components: { AlertError, Banner, ProductCard, AddressRegister, TelephoneRegister, UserRegister },
   data() {
     return {
       bannerTitleMessage: 'Criar Conta',

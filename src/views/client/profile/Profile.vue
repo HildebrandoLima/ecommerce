@@ -103,7 +103,7 @@
 <!-- Modais -->
 <AddressEdit id="editAddressModal" :data="editedItem" />
 <TelephoneEdit id="editPhoneModal" :data="editedItem" />
-<EditUser id="editUserModal" :data="editedItem" />
+<UserEdit id="editUserModal" :data="editedItem" />
 
 </template>
 
@@ -112,14 +112,14 @@ import Banner from '@/components/fixos/Banner.vue';
 import AddressEdit from '@/components/address/AddressEdit.vue';
 import Table from '@/components/shared/Table.vue';
 import TelephoneEdit from '@/components/telephone/TelephoneEdit.vue';
-import EditUser from '@/components/user/EditUser.vue';
+import UserEdit from '@/components/user/UserEdit.vue';
 import UserService from '@/services/user/UserService';
 import { userAuth } from '@/storages/AuthStorage';
 import { USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'profile',
-    components: { Banner, AddressEdit, Table, TelephoneEdit, EditUser },
+    components: { Banner, AddressEdit, Table, TelephoneEdit, UserEdit },
     data() {
         return {
             bannerTitleMessage: 'Meu Perfil',

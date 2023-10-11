@@ -2,7 +2,7 @@
 
 <AlertSuccess :messageSuccess="messageSuccess" />
 
-<FormRegisterUser
+<UserForm
   :errorList="errorList"
   :user="user"
   :isEditMode="false"
@@ -13,12 +13,12 @@
 
 <script>
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
-import FormRegisterUser from '@/components/user/FormRegisterUser.vue';
+import UserForm from '@/components/user/UserForm.vue';
 import UserService from '@/services/user/UserService';
 
 export default {
   name: 'register-user',
-  components: { AlertSuccess, FormRegisterUser },
+  components: { AlertSuccess, UserForm },
   data() {
     return {
       messageSuccess: '',
