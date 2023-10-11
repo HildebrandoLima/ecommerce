@@ -32,7 +32,7 @@ export default {
     components: { Table },
     data() {
         return {
-            paymentColumns: ['numeroCartao', 'tipoCartao', 'ccv', 'dataValidade', 'parcela', 'metodoPagamentoId', 'pedidoId'],
+            paymentColumns: ['numeroCartao', 'tipoCartao', 'ccv', 'dataValidade', 'parcela', 'metodoPagamento'],
         }
     },
     props: {
