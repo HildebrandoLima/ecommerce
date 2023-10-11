@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <AlertSuccess :messageSuccess="messageSuccess" />
 
-                <FormTelephone
+                <TelephoneForm
                     :errorList="errorList"
                     :telephones="[data]"
                     :isEditMode="true"
@@ -31,12 +31,12 @@
 
 <script>
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
-import FormTelephone from '@/components/telephone/FormTelephone.vue';
+import TelephoneForm from '@/components/telephone/TelephoneForm.vue';
 import TelephoneService from '@/services/telephone/TelephoneService';
 
 export default {
     name: 'modal-telefone',
-    components: { AlertSuccess, FormTelephone },
+    components: { AlertSuccess, TelephoneForm },
     data() {
         return {
             errorList: {},

@@ -33,7 +33,7 @@
 
                   <div class="tab-pane fade" id="telephone">
                   <h5 class="card-title">Telefone</h5><hr />
-                    <RegisterTelephone></RegisterTelephone>
+                    <TelephoneRegister />
                   </div>
                 </div>
               </div>
@@ -59,13 +59,13 @@ import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import ProductCard from '@/components/product/ProductCard.vue';
 import AddressRegister from '@/components/address/AddressRegister.vue';
-import RegisterTelephone from '@/components/telephone/RegisterTelephone.vue';
+import TelephoneRegister from '@/components/telephone/TelephoneRegister.vue';
 import RegisterUser from '@/components/user/RegisterUser.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, ProductCard, AddressRegister, RegisterTelephone, RegisterUser },
+  components: { AlertError, Banner, ProductCard, AddressRegister, TelephoneRegister, RegisterUser },
   data() {
     return {
       bannerTitleMessage: 'Criar Conta',

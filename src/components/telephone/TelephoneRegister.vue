@@ -7,7 +7,7 @@
   :errorList="messageError"
 />
 
-<FormTelephone
+<TelephoneForm
   :errorList="errorList"
   :telephones="telephones"
   :isEditMode="false"
@@ -21,14 +21,14 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
-import FormTelephone from '@/components/telephone/FormTelephone.vue';
+import TelephoneForm from '@/components/telephone/TelephoneForm.vue';
 import TelephoneService from '@/services/telephone/TelephoneService';
 import { getUser } from '@/storages/EntityPersonStorage';
 import { REGISTER_REQUIRED_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
   name: 'register-telephone',
-  components: { AlertError, AlertSuccess, FormTelephone },
+  components: { AlertError, AlertSuccess, TelephoneForm },
   data() {
     return {
       messageError: null,
