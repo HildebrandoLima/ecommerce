@@ -23,8 +23,16 @@
 <script>
 export default {
   props: {
-    currentPage: Number,
-    totalPages: Number,
+    currentPage: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    totalPages: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
   },
   methods: {
     previousPage() {
