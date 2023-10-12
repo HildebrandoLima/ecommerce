@@ -8,7 +8,7 @@
 <Pagination
   :current-page="currentPage"
   :total-pages="totalPages"
-  @page-changed="handlePageChange"
+  @pageChanged="handlePageChange"
 />
 
 <div class="container">

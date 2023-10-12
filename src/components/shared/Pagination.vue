@@ -29,16 +29,16 @@ export default {
   methods: {
     previousPage() {
       if (this.currentPage > 1) {
-        this.$emit('page-changed', this.currentPage - 1);
+        this.$emit('pageChanged', this.currentPage - 1);
       }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.$emit('page-changed', this.currentPage + 1);
+        this.$emit('pageChanged', this.currentPage + 1);
       }
     },
     setCurrentPage(page) {
-      this.$emit('page-changed', page);
+      this.$emit('pageChanged', page);
     },
   },
 };

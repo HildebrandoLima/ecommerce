@@ -25,7 +25,7 @@
                     @itemModal="itemModal"
                     @paymentModal="paymentModal"
                     @addressModal="addressModal"
-                    @page-changed="handlePageChange"
+                    @pageChanged="handlePageChange"
                 />
             </div>
         </div>
