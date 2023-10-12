@@ -45,37 +45,29 @@
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
-import AuthService from '@/services/auth/AuthService';
 
 export default {
     components: { AlertError },
     name: 'login',
-    data() {
-        return {
-            passwordVisible: false,
-            errorList: {},
-            user: {
-                email: 'hildebrandolima16@gmail.com',
-                password: 'HiLd3br@ndo',
-            },
-        };
+    props: {
+        errorList: {
+            type: Object,
+            required: true,
+            default: null,
+        },
+        user: {
+            type: Object,
+            required: true,
+            default: {},
+        },
     },
     methods: {
         togglePasswordVisibility() {
-            const passwordInput = document.getElementById("password");
-            this.passwordVisible = !this.passwordVisible;
-            passwordInput.type = this.passwordVisible ? "text" : "password";
+            this.$emit('togglePasswordVisibility');
         },
-        async auth() {
-            const user = await AuthService.login(this.user);
-            if (user.isAdmin == true) {
-                this.$router.push({name: 'dashboard'});
-            } else if (user.isAdmin == false) {                    
-                this.$router.push({name: 'home'});
-            } else {
-                this.errorList = user;
-            }
-        },
+        auth() {
+            this.$emit('auth', this.user);
+        }
     },
 };
 </script>

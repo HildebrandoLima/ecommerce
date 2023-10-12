@@ -16,35 +16,25 @@
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
-import AuthService from '@/services/auth/AuthService';
 
 export default {
     components: { AlertError },
     name: 'login-social',
-    data() {
-        return {
-            errorList: {},
-            errorMessage: null,
-            provider: {
-                facebook: 'facebook',
-                google: 'google',
-                github: 'github',
-            },
-        };
+    props: {
+        errorList: {
+            type: Object,
+            required: true,
+            default: null,
+        },
+        provider: {
+            type: Object,
+            required: true,
+            default: {},
+        },
     },
     methods: {
-        async oAuth(providerName) {
-            try {
-                const providerValue = this.provider[providerName];
-                const response = window.location.href = `http://localhost:8000/api/auth/login/social/${providerValue}`;
-                window.localStorage.setItem('userAuth', JSON.stringify(response.data));
-                //const provider = await AuthService.loginSocial(providerValue);
-                //this.messageSuccess = provider;
-            } catch (error) {
-                if (error.response && error.response.data.status === 400) {
-                    this.errorList = error.response.data.data;
-                }
-            }
+        async oAuth() {
+            this.$emit('oAuth', this.provider);
         },
     },
 };
