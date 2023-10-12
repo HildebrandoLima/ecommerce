@@ -20,8 +20,6 @@
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
-import PaymentService from '@/services/payment/PaymentService';
-import { ORDER_TO_GENERATE_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'payment-ticket',
@@ -30,43 +28,35 @@ export default {
         return {
             messageError: null,
             errorList: {},
-            payment: {
-                total: 0,
-                metodoPagamento: '',
-                pedidoId: 0,
-            },
         };
-    },
-    created() {
-        this.createObjectPayment();
     },
     props: {
         total: {
             type: Number,
+            required: true,
             default: 0
         },
         pedidoId: {
             type: Number,
+            required: true,
             default: 0
-        }
+        },
+        payment: {
+            type: Object,
+            required: true,
+            default: {}
+        },
     },
     methods: {
         createObjectPayment() {
             this.payment.total = parseFloat(this.total);
             this.payment.pedidoId = Number(this.pedidoId);
             this.payment.metodoPagamento = 'Boleto Bancário';
+            return this.payment;
         },
         async savePayment() {
-            if (!this.pedidoId) {
-                this.messageError = ORDER_TO_GENERATE_MESSAGE;
-                return;
-            }
-            const payment = await PaymentService.postPayment(this.payment);
-            if (payment.status === 200) {
-                this.$router.push({name: 'home'});
-            } else {
-                this.errorList = payment;
-            }
+            this.createObjectPayment();
+            this.$emit('savePayment', this.payment);
         },
     },
 };
