@@ -10,12 +10,12 @@
           :errorList="errorList"
         />
 
-        <Table :data="categories"></Table>
+        <Table :data="categories" />
 
-        <pagination
-        :current-page="currentPage"
-        :total-pages="totalPages"
-        @pagechanged="handlePageChange"
+        <Pagination
+          :currentPage="currentPage"
+          :totalPages="totalPages"
+          @pagechanged="handlePageChange"
         />
       </div>
     </div>

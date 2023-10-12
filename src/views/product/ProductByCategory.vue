@@ -6,8 +6,8 @@
 <hr />
 
 <Pagination
-  :current-page="currentPage"
-  :total-pages="totalPages"
+  :currentPage="currentPage"
+  :totalPages="totalPages"
   @pageChanged="handlePageChange"
 />
 
