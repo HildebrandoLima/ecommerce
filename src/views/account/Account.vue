@@ -45,50 +45,22 @@
     </div>
 </div>
 
-<div class="container my-5">
-  <header class="mb-4">
-      <h3>Novos Produtos:</h3>
-  </header>
-
-  <ProductCard v-if="products.list" :products="products" :totalItems="totalItems" />
-</div>
+<ProductNewGrid />
 </template>
 
 <script>
-import AlertError from '@/components/shared/AlertError.vue';
-import Banner from '@/components/fixos/Banner.vue';
-import ProductCard from '@/components/product/ProductCard.vue';
 import AddressRegister from '@/components/address/AddressRegister.vue';
+import Banner from '@/components/fixos/Banner.vue';
+import ProductNewGrid from '@/components/product/ProductNewGrid.vue';
 import TelephoneRegister from '@/components/telephone/TelephoneRegister.vue';
 import UserRegister from '@/components/user/UserRegister.vue';
-import ProductService from '@/services/product/ProductService';
-import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, ProductCard, AddressRegister, TelephoneRegister, UserRegister },
+  components: { AddressRegister, Banner, ProductNewGrid, TelephoneRegister, UserRegister },
   data() {
     return {
       bannerTitleMessage: 'Criar Conta',
-      errorList: null,
-      products: {},
-      currentPage: 1,
-      perPage: 10,
-      totalItems: 0,
     };
-  },
-  created() {
-    this.getProduct();
-  },
-  methods: {
-    async getProduct() {
-      const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-      if (products.status === 200) {
-        this.products = products.data;
-        this.totalItems = products.total;
-      } else {
-        this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
-      }
-    },
   },
 };
 </script>

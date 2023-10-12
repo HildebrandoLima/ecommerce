@@ -18,62 +18,24 @@
   </div>
 </div>
 
-<div class="container">
-  <header class="mt-5">
-    <h3>Novos Produtos:</h3>
-  </header>
-
-  <hr />
-
-  <AlertError
-    v-if="errorList"
-    :errorList="errorList"
-  />
-
-  <ProductCard v-if="this.products.list" :products="products" :totalItems="totalItems" />
-
-</div>
-
+<ProductNewGrid />
 </template>
 
 <script>
-import ProductCard from '@/components/product/ProductCard.vue';
-import ProductService from '@/services/product/ProductService';
+import ProductNewGrid from '@/components/product/ProductNewGrid.vue';
 import { userAuth } from '@/storages/AuthStorage';
-import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { ProductCard },
+  components: { ProductNewGrid },
   name: 'home',
   data() {
     return {
-      errorList: {},
-      products: {},
-      currentPage: 1,
-      perPage: 10,
-      totalItems: 0,
-      userId: 0,
       userName: '',
-      userEmail: '',
     };
   },
   created() {
-      this.getProduct();
       const [userId, userName, userEmail] = userAuth();
-      this.userId = userId;
       this.userName = userName;
-      this.userEmail = userEmail;
-  },
-  methods: {
-    async getProduct() {
-      const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-      if (products.status === 200) {
-        this.products = products.data;
-        this.totalItems = products.data.total;
-      } else {
-        this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
-      }
-    },
   },
 };
 </script>
