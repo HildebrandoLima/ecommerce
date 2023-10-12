@@ -6,8 +6,8 @@
 
 <template>
   <header>
-    <NavBar></NavBar>
+    <NavBar />
   </header>
   <RouterView />
-  <Footer></Footer>
+  <Footer />
 </template>
