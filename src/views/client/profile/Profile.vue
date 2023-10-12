@@ -33,7 +33,6 @@
 <AddressEdit id="editAddressModal" :data="editedItem" />
 <TelephoneEdit id="editPhoneModal" :data="editedItem" />
 <UserEdit id="editUserModal" :data="editedItem" />
-
 </template>
 
 <script>
