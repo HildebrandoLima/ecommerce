@@ -97,32 +97,41 @@ export default {
             const age = Math.floor(differenceInMilliseconds / (365.25 * 24 * 60 * 60 * 1000));
             return age;
         },
+        mapperAddress(item) {
+            this.editedItem.id = item.enderecoId;
+            this.editedItem.logradouro = item.logradouro;
+            this.editedItem.numero = item.numero;
+            this.editedItem.bairro = item.bairro;
+            this.editedItem.cidade = item.cidade;
+            this.editedItem.cep = item.cep;
+            this.editedItem.uf = item.uf;
+            this.editedItem.usuarioId = item.usuarioId;
+            this.editedItem.ativo = item.ativo;
+        },
+        mapperTelefone(item) {
+            this.editedItem.id = item.telefoneId;
+            this.editedItem.ddd = 85;
+            this.editedItem.numero = item.numero;
+            this.editedItem.tipo = item.tipo;
+            this.editedItem.usuarioId = item.usuarioId;
+            this.editedItem.ativo = item.ativo;
+        },
+        mapperUser() {
+            this.editedItem.usuarioId = this.userId;
+            this.editedItem.nome = this.user.nome;
+            this.editedItem.email = this.user.email;
+            this.editedItem.genero = this.user.genero;
+            this.editedItem.ativo = this.user.ativo;
+        },
         editItem(item) {
             if (item.enderecoId) {
-                this.editedItem.id = item.enderecoId;
-                this.editedItem.logradouro = item.logradouro;
-                this.editedItem.numero = item.numero;
-                this.editedItem.bairro = item.bairro;
-                this.editedItem.cidade = item.cidade;
-                this.editedItem.cep = item.cep;
-                this.editedItem.uf = item.uf;
-                this.editedItem.usuarioId = item.usuarioId;
-                this.editedItem.ativo = item.ativo;
+                this.mapperAddress(item);
                 $('#editAddressModal').modal('show');
             } else if (item.telefoneId) {
-                this.editedItem.id = item.telefoneId;
-                this.editedItem.ddd = 85;
-                this.editedItem.numero = item.numero;
-                this.editedItem.tipo = item.tipo;
-                this.editedItem.usuarioId = item.usuarioId;
-                this.editedItem.ativo = item.ativo;
+                this.mapperTelefone(item);
                 $('#editPhoneModal').modal('show');
             } else {
-                this.editedItem.usuarioId = this.userId;
-                this.editedItem.nome = this.user.nome;
-                this.editedItem.email = this.user.email;
-                this.editedItem.genero = this.user.genero;
-                this.editedItem.ativo = this.user.ativo;
+                this.mapperUser(item);
                 $('#editUserModal').modal('show');
             }
         },
