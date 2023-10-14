@@ -22,9 +22,9 @@
                     :orderColumns="orderColumns"
                     :currentPage="currentPage"
                     :totalPages="totalPages"
+                    @addressModal="addressModal"
                     @itemModal="itemModal"
                     @paymentModal="paymentModal"
-                    @addressModal="addressModal"
                     @pageChanged="handlePageChange"
                 />
             </div>
@@ -32,31 +32,27 @@
     </div>
 </section>
 
-<!-- Modais -->
-<DetailsAddress id="detailsAddressModal" :data="address" />
-<DetailsItem id="detailsItemModal" :data="itens" />
-<DetailsPayment id="detailsPaymentModal" :data="payment" />
-
+<ModalDetails :modalId="modalId" :modalTitle="modalTitle">
+    <Table :data="modalData" :columns="modalColumns" />
+</ModalDetails>
 </template>
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
-import DetailsAddress from '@/components/order/DetailsAddress.vue';
-import DetailsItem from '@/components/order/DetailsItem.vue';
-import DetailsPayment from '@/components/order/DetailsPayment.vue';
 import OrderDetails from '@/components/order/OrderDetails.vue';
 import OrderStatus from '@/components/order/OrderStatus.vue';
 import OrderSummary from '@/components/order/OrderSummary.vue';
 import Table from '@/components/shared/Table.vue';
 import Pagination from '@/components/shared/Pagination.vue';
+import ModalDetails from '@/components/shared/ModalDetails.vue';
 import OrderService from '@/services/order/OrderService';
 import { userAuth } from '@/storages/AuthStorage';
 import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'order',
-    components: { AlertError, Banner, DetailsAddress, DetailsItem, DetailsPayment, OrderDetails, OrderStatus, OrderSummary, Pagination, Table },
+    components: { AlertError, Banner, OrderDetails, OrderStatus, OrderSummary, Pagination, ModalDetails, Table },
     data() {
         return {
             bannerTitleMessage: 'Meus Pedidos',
@@ -70,6 +66,10 @@ export default {
             perPage: 10,
             totalItems: 0,
             orderColumns: ['numeroPedido', 'quantidadeItem', 'total', 'tipoEnrega', 'valorEntrega'],
+            modalId: 'detailsModal',
+            modalTitle: '',
+            modalData: [],
+            modalColumns: [],
         }
     },
     created() {
@@ -92,16 +92,22 @@ export default {
             }
         },
         addressModal(item) {
-            this.address = item;
-            $('#detailsAddressModal').modal('show');
+            this.modalTitle = 'Detalhes do Endereço';
+            this.modalData = item;
+            this.modalColumns = ['logradouro', 'numero', 'bairro', 'cidade', 'uf'];
+            $('#detailsModal').modal('show');
         },
         itemModal(item) {
-            this.itens = item;
-            $('#detailsItemModal').modal('show');
+            this.modalTitle = 'Detalhes do Item';
+            this.modalData = item;
+            this.modalColumns = ['quantidadeItem', 'subTotal'];
+            $('#detailsModal').modal('show');
         },
         paymentModal(item) {
-            this.payment = item;
-            $('#detailsPaymentModal').modal('show');
+            this.modalTitle = 'Detalhes do Pagamento';
+            this.modalData = item;
+            this.modalColumns = ['numeroCartao', 'tipoCartao', 'ccv', 'dataValidade', 'parcela', 'metodoPagamento'];
+            $('#detailsModal').modal('show');
         },
     },
     computed: {
