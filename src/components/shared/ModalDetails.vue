@@ -1,19 +1,14 @@
 <template>
-<div class="modal fade" id="detailsItemModal" tabindex="-1" aria-labelledby="detailsItemModal" aria-hidden="true">
+<div class="modal fade" :id="modalId" tabindex="-1" :aria-labelledby="modalId" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detailsItemModal">Itens</h5>
+                <h5 class="modal-title" :id="modalId">{{ modalTitle }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body">
-
-                <Table
-                    :data="data"
-                    :columns="itensColumns"
-                />
-
+                <slot></slot>
             </div>
 
             <div class="modal-footer">
@@ -25,20 +20,17 @@
 </template>
 
 <script>
-import Table from '@/components/shared/Table.vue';
-
 export default {
-    name: 'modal-items',
-    components: { Table },
-    data() {
-        return {
-            itensColumns: ['quantidadeItem', 'subTotal'],
-        }
-    },
     props: {
-        data: {
-            type: Array,
+        modalId: {
+            type: String,
             required: true,
+            default: '',
+        },
+        modalTitle: {
+            type: String,
+            required: true,
+            default: '',
         },
     },
 };

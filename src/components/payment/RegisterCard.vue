@@ -6,7 +6,12 @@
 
 <form @submit.prevent="savePayment">
     <div class="mb-3">
-        <input type="text" :value="userName" class="form-control border" placeholder="Nome do Titular" required />
+        <input type="text"
+            :value="userName"
+            placeholder="Nome do Titular"
+            class="form-control border"
+            required
+        />
     </div>
 
     <div class="row">
@@ -91,16 +96,19 @@
     </div>
 
     <div class="mt-4">
-        <button type="submit" class="btn btn-outline-success w-100 shadow-0 mb-2">Pagar</button>
+        <button
+            type="submit"
+            class="btn btn-outline-success w-100 shadow-0 mb-2"
+        >
+            Pagar
+        </button>
     </div>
 </form>
 </template>
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
-import PaymentService from '@/services/payment/PaymentService';
 import { userAuth } from '@/storages/AuthStorage';
-import { ORDER_TO_GENERATE_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'payment-card',
@@ -111,16 +119,6 @@ export default {
             errorList: {},
             userName: '',
             parcelas: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-            payment: {
-                numeroCartao: '',
-                tipoCartao: '',
-                dataValidade: '',
-                ccv: '',
-                parcela: 0,
-                total: 0,
-                metodoPagamento: '',
-                pedidoId: 0,
-            },
         };
     },
     created() {
@@ -130,12 +128,19 @@ export default {
     props: {
         total: {
             type: Number,
+            required: true,
             default: 0
         },
         pedidoId: {
             type: Number,
+            required: true,
             default: 0
-        }
+        },
+        payment: {
+            type: Object,
+            required: true,
+            default: {},
+        },
     },
     methods: {
         getStorages() {
@@ -159,16 +164,7 @@ export default {
             this.payment.ccv = this.payment.ccv.replace(/\D/g, '');
         },
         async savePayment() {
-            if (!this.pedidoId) {
-                this.messageError = ORDER_TO_GENERATE_MESSAGE;
-                return;
-            }
-            const payment = await PaymentService.postPayment(this.payment);
-            if (payment.status === 200) {
-                this.$router.push({name: 'home'});
-            } else {
-                this.errorList = payment;
-            }
+            this.$emit('savePayment', this.payment);
         },
     },
 };

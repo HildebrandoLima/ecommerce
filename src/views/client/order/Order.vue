@@ -8,113 +8,51 @@
                 <div class="card border shadow-0" style="border-radius: 16px;">
                     <div class="m-4">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <b>Pagamento </b><span class="text-primary font-weight-bold">#OK</span>
-                                </div>
-
-                                <div class="col-lg-4">
-                                    <b>Previsão: </b><span class="font-weight-bold">01/12/19</span><br />
-                                    <b>Pedido: </b><span class="font-weight-bold">0123456789</span>
-                                </div>
-                            </div>
-
-                            <div class="card mt-5">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-xl-3 col-md-6">
-                                            <b class="text-muted"><span>CONFIRMADO</span></b>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xl-3 col-md-6">
-                                            <b class="text-muted"><span>SEPARADO</span></b>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xl-3 col-md-6">
-                                            <b class="text-muted"><span>EM TRÂNSITO</span></b>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-xl-3 col-md-6">
-                                            <b class="text-muted"><span>ENTREGUE</span></b>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <OrderSummary />
+                            <OrderStatus />
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-6">
-                <div class="card border shadow-0" style="border-radius: 16px;">
-                    <div class="m-4">
-                        <div class="card-body">
-                            <div class="table-responsive">
-
-                                <AlertError
-                                    v-if="errorList"
-                                    :errorList="errorList"
-                                />
-
-                                <Table
-                                    :data="orders.list"
-                                    :columns="orderColumns"
-                                    :displayModal="true"
-                                    @itemModal="itemModal"
-                                    @paymentModal="paymentModal"
-                                    @addressModal="addressModal"
-                                />
-
-                                <Pagination
-                                    :current-page="currentPage"
-                                    :total-pages="totalPages"
-                                    @page-changed="handlePageChange"
-                                />
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <OrderDetails
+                    :errorList="errorList"
+                    :orders="orders"
+                    :orderColumns="orderColumns"
+                    :currentPage="currentPage"
+                    :totalPages="totalPages"
+                    @addressModal="addressModal"
+                    @itemModal="itemModal"
+                    @paymentModal="paymentModal"
+                    @pageChanged="handlePageChange"
+                />
             </div>
         </div>
     </div>
 </section>
 
-<!-- Modais -->
-<DetailsAddress id="detailsAddressModal" :data="address" />
-<DetailsItem id="detailsItemModal" :data="itens" />
-<DetailsPayment id="detailsPaymentModal" :data="payment" />
-
+<ModalDetails :modalId="modalId" :modalTitle="modalTitle">
+    <Table :data="modalData" :columns="modalColumns" />
+</ModalDetails>
 </template>
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
-import DetailsAddress from '@/components/order/DetailsAddress.vue';
-import DetailsItem from '@/components/order/DetailsItem.vue';
-import DetailsPayment from '@/components/order/DetailsPayment.vue';
+import OrderDetails from '@/components/order/OrderDetails.vue';
+import OrderStatus from '@/components/order/OrderStatus.vue';
+import OrderSummary from '@/components/order/OrderSummary.vue';
 import Table from '@/components/shared/Table.vue';
 import Pagination from '@/components/shared/Pagination.vue';
+import ModalDetails from '@/components/shared/ModalDetails.vue';
 import OrderService from '@/services/order/OrderService';
 import { userAuth } from '@/storages/AuthStorage';
 import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'order',
-    components: { AlertError, Banner, DetailsAddress, DetailsItem, DetailsPayment, Pagination, Table },
+    components: { AlertError, Banner, OrderDetails, OrderStatus, OrderSummary, Pagination, ModalDetails, Table },
     data() {
         return {
             bannerTitleMessage: 'Meus Pedidos',
@@ -128,6 +66,10 @@ export default {
             perPage: 10,
             totalItems: 0,
             orderColumns: ['numeroPedido', 'quantidadeItem', 'total', 'tipoEnrega', 'valorEntrega'],
+            modalId: 'detailsModal',
+            modalTitle: '',
+            modalData: [],
+            modalColumns: [],
         }
     },
     created() {
@@ -150,16 +92,22 @@ export default {
             }
         },
         addressModal(item) {
-            this.address = item;
-            $('#detailsAddressModal').modal('show');
+            this.modalTitle = 'Detalhes do Endereço';
+            this.modalData = item;
+            this.modalColumns = ['logradouro', 'numero', 'bairro', 'cidade', 'uf'];
+            $('#detailsModal').modal('show');
         },
         itemModal(item) {
-            this.itens = item;
-            $('#detailsItemModal').modal('show');
+            this.modalTitle = 'Detalhes do Item';
+            this.modalData = item;
+            this.modalColumns = ['quantidadeItem', 'subTotal'];
+            $('#detailsModal').modal('show');
         },
         paymentModal(item) {
-            this.payment = item;
-            $('#detailsPaymentModal').modal('show');
+            this.modalTitle = 'Detalhes do Pagamento';
+            this.modalData = item;
+            this.modalColumns = ['numeroCartao', 'tipoCartao', 'ccv', 'dataValidade', 'parcela', 'metodoPagamento'];
+            $('#detailsModal').modal('show');
         },
     },
     computed: {

@@ -22,21 +22,14 @@
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
-import PaymentService from '@/services/payment/PaymentService';
-import { ORDER_TO_GENERATE_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-    name: 'payment-ticket',
+    name: 'payment-pix',
     components: { AlertError },
     data() {
         return {
             messageError: null,
             errorList: {},
-            payment: {
-                total: 0,
-                metodoPagamento: '',
-                pedidoId: 0,
-            },
         };
     },
     created() {
@@ -50,7 +43,12 @@ export default {
         pedidoId: {
             type: Number,
             default: 0
-        }
+        },
+        payment: {
+            type: Object,
+            required: true,
+            default: {},
+        },
     },
     methods: {
         createObjectPayment(){
@@ -59,16 +57,8 @@ export default {
             this.payment.metodoPagamento = 'Pix';
         },
         async savePayment() {
-            if (!this.pedidoId) {
-                this.messageError = ORDER_TO_GENERATE_MESSAGE;
-                return;
-            }
-            const payment = await PaymentService.postPayment(this.payment);
-            if (payment.status === 200) {
-                this.$router.push({name: 'home'});
-            } else {
-                this.errorList = payment;
-            }
+            this.createObjectPayment();
+            this.$emit('savePayment', this.payment);
         },
     },
 };

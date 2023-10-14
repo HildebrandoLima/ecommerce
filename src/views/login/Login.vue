@@ -7,64 +7,22 @@
 
             <div class="row">
                 <div class="col">
-                    <form @submit.prevent="auth">
-                        <div class="form-outline mb-4">
-                            <input type="email" id="email" v-model="user.email" class="form-control" placeholder="E-mail" required />
-                        </div>
-                        <AlertError
-                        v-if="Object.keys(errorList).length > 0"
-                        :errorList="errorList.email" />
-
-                        <div class="form-outline mb-4">
-                            <div class="input-group">
-                                <input type="password" id="password" v-model="user.password" class="form-control" placeholder="Senha" required />
-
-                                <div class="input-group-text">
-                                    <span class="toggle-password" @click="togglePasswordVisibility">
-                                    <i v-if="passwordVisible" class="fas fa-eye-slash"></i>
-                                    <i v-else class="fas fa-eye"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <AlertError
-                        v-if="Object.keys(errorList).length > 0"
-                        :errorList="errorList.password" />
-
-                        <button type="submit" class="btn btn-outline-primary btn-block mb-4">
-                            <i class="fas fa-angle-double-right"></i> Entrar
-                        </button>
-                    </form>
+                    <Login
+                        :errorList="errorList"
+                        :user="user"
+                        @togglePasswordVisibility="togglePasswordVisibility"
+                        @auth="auth"
+                    />
                 </div>
 
                 <div class="col">
-                    <div class="row mb-4">
-                        <div class="col d-flex justify-content-center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="form2Example34" checked />
-                                <label class="form-check-label" for="form2Example34">Lembre-me</label>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <RouterLink to="/">Esqueci minha senha?</RouterLink>
-                        </div>
-                    </div>
+                    <IForgotMyPassword />
 
                     <div class="text-center">
-                        <p>Não possue uma conta? <RouterLink to="/account">Registre-se</RouterLink></p>
-                        <p>ou cadastre-se com:</p>
-                        <button type="button" @click="oAuth('facebook')" class="btn btn-secondary btn-floating mx-1">
-                            <i class="fab fa-facebook-f px-20"></i>
-                        </button>
-
-                        <button type="button" @click="oAuth('google')" class="btn btn-secondary btn-floating mx-1">
-                            <i class="fab fa-google px-20"></i>
-                        </button>
-
-                        <button type="button" @click="oAuth('github')" class="btn btn-secondary btn-floating mx-1">
-                            <i class="fab fa-github px-20"></i>
-                        </button>
+                        <LoginSocial
+                            :errorList="errorList"
+                            @auth="auth()"
+                        />
                     </div>
                 </div>
             </div>
@@ -72,34 +30,24 @@
     </div>
 </div>
 
-<div class="container my-5">
-    <header class="mb-4">
-        <h3>Novos Produtos:</h3>
-    </header>
-
-    <AlertError
-    v-if="errorMessage"
-    :errorList="errorMessage"
-    />
-
-    <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
-</div>
+<ProductNewGrid />
 </template>
 
 <script>
-import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
-import CardProduct from '@/components/product/CardProduct.vue';
+import IForgotMyPassword from '@/components/login/IForgotMyPassword.vue';
+import Login from '@/components/login/Login.vue';
+import LoginSocial from '@/components/login/LoginSocial.vue';
+import ProductNewGrid from '@/components/product/ProductNewGrid.vue';
 import AuthService from '@/services/auth/AuthService';
-import ProductService from '@/services/product/ProductService';
-import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-    components: { AlertError, Banner, CardProduct },
+    components: { Banner, IForgotMyPassword, Login, LoginSocial, ProductNewGrid },
     name: 'login',
     data() {
         return {
             bannerTitleMessage: 'Login',
+            passwordVisible: false,
             passwordVisible: false,
             errorList: {},
             errorMessage: null,
@@ -112,29 +60,13 @@ export default {
                 google: 'google',
                 github: 'github',
             },
-            products: {},
-            currentPage: 1,
-            perPage: 10,
-            totalItems: 0,
         };
-    },
-    created() {
-        this.getProduct();
     },
     methods: {
         togglePasswordVisibility() {
             const passwordInput = document.getElementById("password");
             this.passwordVisible = !this.passwordVisible;
             passwordInput.type = this.passwordVisible ? "text" : "password";
-        },
-        async getProduct() {
-            const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
-            if (products.status === 200) {
-                this.products = products.data;
-                this.totalItems = products.data.total;
-            } else {
-                this.errorMessage = PRODUCT_NOT_FOUND_MESSAGE;
-            }
         },
         async auth() {
             const user = await AuthService.login(this.user);

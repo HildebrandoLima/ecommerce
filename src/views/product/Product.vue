@@ -2,14 +2,14 @@
 
 <Banner :msg="bannerTitleMessage" />
 
-<SectionProduct :products="products" :totalItems="totalItems" />
+<ProductSection :products="products" :totalItems="totalItems" />
 
 <hr />
 
 <Pagination
-  :current-page="currentPage"
-  :total-pages="totalPages"
-  @page-changed="handlePageChange"
+  :currentPage="currentPage"
+  :totalPages="totalPages"
+  @pageChanged="handlePageChange"
 />
 
 <div class="container">
@@ -24,7 +24,6 @@
     :errorList="errorList"
   />
 
-  <CardProduct v-if="products.list" :products="products" :totalItems="totalItems" />
 </div>
 
 </template>
@@ -32,14 +31,13 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
-import CardProduct from '@/components/product/CardProduct.vue';
-import SectionProduct from '@/components/product/SectionProduct.vue';
+import ProductSection from '@/components/product/ProductSection.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, CardProduct, SectionProduct, Pagination },
+  components: { AlertError, Banner, ProductSection, Pagination },
   name: 'product',
   data() {
     return {

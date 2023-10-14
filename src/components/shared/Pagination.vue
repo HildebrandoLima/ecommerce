@@ -23,22 +23,30 @@
 <script>
 export default {
   props: {
-    currentPage: Number,
-    totalPages: Number,
+    currentPage: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    totalPages: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
   },
   methods: {
     previousPage() {
       if (this.currentPage > 1) {
-        this.$emit('page-changed', this.currentPage - 1);
+        this.$emit('pageChanged', this.currentPage - 1);
       }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.$emit('page-changed', this.currentPage + 1);
+        this.$emit('pageChanged', this.currentPage + 1);
       }
     },
     setCurrentPage(page) {
-      this.$emit('page-changed', page);
+      this.$emit('pageChanged', page);
     },
   },
 };

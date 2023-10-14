@@ -30,17 +30,32 @@
 
               <div class="tab-pane fade show active" id="boleto">
                 <h5 class="card-title">Boleto</h5><hr />
-                <RegisterTicket :total="total" :pedidoId="pedidoId" />
+                <RegisterTicket
+                  :total="total"
+                  :pedidoId="pedidoId"
+                  :payment="payment"
+                  @savePayment="savePayment"
+                />
               </div>
 
               <div class="tab-pane fade" id="card">
                 <h5 class="card-title">Cartão</h5><hr />
-                <RegisterCard :total="total" :pedidoId="pedidoId" />
+                <RegisterCard
+                  :total="total"
+                  :pedidoId="pedidoId"
+                  :payment="payment"
+                  @savePayment="savePayment"
+                />
               </div>
 
               <div class="tab-pane fade" id="pix">
                 <h5 class="card-title">PIX</h5><hr />
-                <RegisterPix :total="total" :pedidoId="pedidoId" />
+                <RegisterPix
+                  :total="total"
+                  :pedidoId="pedidoId"
+                  :payment="payment"
+                  @savePayment="savePayment"
+                />
               </div>
 
             </div>
@@ -58,6 +73,7 @@ import Banner from '@/components/fixos/Banner.vue';
 import RegisterCard from '@/components/payment/RegisterCard.vue';
 import RegisterPix from '@/components/payment/RegisterPix.vue';
 import RegisterTicket from '@/components/payment/RegisterTicket.vue';
+import PaymentService from '@/services/payment/PaymentService';
 import { getTotalCart } from '@/storages/CartStorage';
 import { getOrder } from '@/storages/CheckoutStorage';
 import { ORDER_TO_GENERATE_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
@@ -71,14 +87,29 @@ export default {
       messageError: null,
       total: 0,
       pedidoId: 0,
+      payment: {},
     };
   },
   created() {
     this.total = getTotalCart();
     this.pedidoId = getOrder();
-    if (!this.pedidoId) {
-      this.messageError = ORDER_TO_GENERATE_MESSAGE;
-    }
+    this.validateIfOrderIdExists();
+  },
+  methods: {
+    validateIfOrderIdExists() {
+      if (!this.pedidoId) {
+        this.messageError = ORDER_TO_GENERATE_MESSAGE;
+        return;
+      }
+    },
+    async savePayment() {
+      const payment = await PaymentService.postPayment(this.payment);
+      if (payment.status === 200) {
+          this.$router.push({name: 'home'});
+      } else {
+          this.errorList = payment;
+      }
+    },
   },
 };
 </script>
