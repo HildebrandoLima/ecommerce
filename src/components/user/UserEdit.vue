@@ -1,45 +1,31 @@
 <template>
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editUserModal">Editar Perfil</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+<ModalDetails :modal-id="modalId" :modal-title="modalTitle">
+    <AlertSuccess :messageSuccess="messageSuccess" />
 
-            <div class="modal-body">
-
-                <AlertSuccess :messageSuccess="messageSuccess" />
-
-                <UserForm
-                    :errorList="errorList"
-                    :user="data"
-                    :isEditMode="true"
-                    @editUser="editUser"
-                />
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
+    <UserForm
+        :errorList="errorList"
+        :user="data"
+        :isEditMode="true"
+        @editUser="editUser"
+    />
+</ModalDetails>
 </template>
 
 <script>
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
 import UserForm from '@/components/user/UserForm.vue';
+import ModalDetails from '@/components/shared/ModalDetails.vue';
 import UserService from '@/services/user/UserService';
 
 export default {
     name: 'modal-user',
-    components: { AlertSuccess, UserForm },
+    components: { AlertSuccess, UserForm, ModalDetails },
     data() {
         return {
             errorList: {},
             messageSuccess: '',
+            modalId: 'detailsModal',
+            modalTitle: 'Editar Perfil',
         }
     },
     props: {
@@ -49,13 +35,13 @@ export default {
         },
     },
     methods: {
-        newObjectUser(newUser) {
-            newUser.id = newUser.usuarioId;
-            delete newUser.usuarioId;
-            return newUser;
+        newObjectUser() {
+            this.data.id = this.data.usuarioId;
+            delete this.data.usuarioId;
+            return this.data;
         },
-        async editUser(newUser) {
-            if (newUser.ativo == false) {
+        async editUser() {
+            if (this.data.ativo == false) {
                 throw Swal.fire({
                     icon: 'warning',
                     title:
@@ -63,7 +49,7 @@ export default {
                     'Somente o suporte poderá reativar.',
                 });
             }
-            const user = await UserService.putUser(this.newObjectUser(newUser));
+            const user = await UserService.putUser(this.newObjectUser(this.data));
             if (user.status === 200) {
                 this.messageSuccess = user.message;
             } else {

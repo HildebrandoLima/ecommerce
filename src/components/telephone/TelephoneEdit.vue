@@ -1,46 +1,33 @@
 <template>
-<div class="modal fade" id="editPhoneModal" tabindex="-1" aria-labelledby="editPhoneModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editPhoneModal">Editar Telefone</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+<ModalDetails :modal-id="modalId" :modal-title="modalTitle">
+    <AlertSuccess :messageSuccess="messageSuccess" />
 
-            <div class="modal-body">
-                <AlertSuccess :messageSuccess="messageSuccess" />
-
-                <TelephoneForm
-                    :errorList="errorList"
-                    :telephones="[data]"
-                    :isEditMode="true"
-                    @addTelephone="addTelephone"
-                    @removeTelephone="removeTelephone"
-                    @editTelephone="editTelephone"
-                />
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
+    <TelephoneForm
+        :errorList="errorList"
+        :telephones="[data]"
+        :isEditMode="true"
+        @addTelephone="addTelephone"
+        @removeTelephone="removeTelephone"
+        @editTelephone="editTelephone"
+    />
+</ModalDetails>
 </template>
 
 <script>
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
 import TelephoneForm from '@/components/telephone/TelephoneForm.vue';
+import ModalDetails from '@/components/shared/ModalDetails.vue';
 import TelephoneService from '@/services/telephone/TelephoneService';
 
 export default {
     name: 'modal-telefone',
-    components: { AlertSuccess, TelephoneForm },
+    components: { AlertSuccess, TelephoneForm, ModalDetails },
     data() {
         return {
             errorList: {},
             messageSuccess: '',
+            modalId: 'detailsModal',
+            modalTitle: 'Editar Telefone',
         }
     },
     props: {

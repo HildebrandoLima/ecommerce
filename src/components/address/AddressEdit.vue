@@ -1,44 +1,31 @@
 <template>
-<div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editAddressModal">Editar Endereço</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+<ModalDetails :modal-id="modalId" :modal-title="modalTitle">
+    <AlertSuccess :messageSuccess="messageSuccess" />
 
-            <div class="modal-body">
-
-                <AlertSuccess :messageSuccess="messageSuccess" />
-
-                <AddressForm
-                    :errorList="errorList"
-                    :address="data"
-                    :isEditMode="true"
-                    @editAddress="editAddress"
-                />
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
+    <AddressForm
+        :errorList="errorList"
+        :address="data"
+        :isEditMode="true"
+        @editAddress="editAddress"
+    />
+</ModalDetails>
 </template>
 
 <script>
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
 import AddressForm from '@/components/address/AddressForm.vue';
+import ModalDetails from '@/components/shared/ModalDetails.vue';
 import AddressService from '@/services/address/AddressService';
 
 export default {
     name: 'modal-address',
-    components: { AlertSuccess, AddressForm },
+    components: { AlertSuccess, AddressForm, ModalDetails },
     data() {
         return {
             errorList: {},
             messageSuccess: '',
+            modalId: 'detailsModal',
+            modalTitle: 'Editar Endereço',
         }
     },
     props: {
@@ -48,8 +35,8 @@ export default {
         },
     },
     methods: {
-        async editAddress(newAddress) {
-            const address = await AddressService.putAddress(newAddress);
+        async editAddress() {
+            const address = await AddressService.putAddress(this.data);
             if (address.status === 200) {
                 this.messageSuccess = address.message;
             } else {
