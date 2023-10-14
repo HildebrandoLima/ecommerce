@@ -3,7 +3,9 @@
   <div class="m-4">
     <div class="card-body">
       <h5 class="card-title d-flex flex-column align-items-center text-center">
-        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="rounded-circle" width="150">
+        <img v-if="user.genero === 'Feminino'" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="rounded-circle" width="150">
+        <img v-if="user.genero === 'Masculino'" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="rounded-circle" width="150">
+        <img v-if="user.genero === 'Outro'" src="" alt="" class="rounded-circle" width="150">
         <p class="card-text text-center mt-2"><i class="fas fa-user fa-lg text-dark px-1"></i>{{ user.nome }}, {{ user.dataNascimento }} anos</p>
       </h5>
 
