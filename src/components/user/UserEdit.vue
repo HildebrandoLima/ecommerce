@@ -1,6 +1,5 @@
 <template>
 <ModalDetails :modal-id="modalId" :modal-title="modalTitle">
-    <AlertSuccess :messageSuccess="messageSuccess" />
 
     <UserForm
         :errorList="errorList"
@@ -8,22 +7,22 @@
         :isEditMode="true"
         @editUser="editUser"
     />
+
 </ModalDetails>
 </template>
 
 <script>
-import AlertSuccess from '@/components/shared/AlertSuccess.vue';
 import UserForm from '@/components/user/UserForm.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
+import { messages } from '@/utils/messages/Message';
 import UserService from '@/services/user/UserService';
 
 export default {
     name: 'modal-user',
-    components: { AlertSuccess, UserForm, ModalDetails },
+    components: { UserForm, ModalDetails },
     data() {
         return {
             errorList: {},
-            messageSuccess: '',
             modalId: 'detailsModal',
             modalTitle: 'Editar Perfil',
         }
@@ -51,7 +50,11 @@ export default {
             }
             const user = await UserService.putUser(this.newObjectUser(this.data));
             if (user.status === 200) {
-                this.messageSuccess = user.message;
+                messages(
+                    user.status,
+                    user.data,
+                    user.message
+                );
             } else {
                 this.errorList = user;
             }
