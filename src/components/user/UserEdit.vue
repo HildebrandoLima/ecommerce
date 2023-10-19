@@ -46,8 +46,13 @@ export default {
                     title:
                     'Tem certeza que deseja desativar sua conta?<br>' +
                     'Somente o suporte poderá reativar.',
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        $('.modal').modal('hide'); 
+                    }
                 });
             }
+
             const user = await UserService.putUser(this.newObjectUser(this.data));
             if (user.status === 200) {
                 messages(
