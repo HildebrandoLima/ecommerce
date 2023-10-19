@@ -70,9 +70,25 @@ export default {
         },
         async auth() {
             const user = await AuthService.login(this.user);
-            if (user.isAdmin == true) {
+            if (user.data.isAdmin == true) {
+                Swal.fire({
+                    icon: 'success',
+                    title: user.message,
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        window.location.reload(1);
+                    }
+                });
                 this.$router.push({name: 'dashboard'});
-            } else if (user.isAdmin == false) {                    
+            } else if (user.data.isAdmin == false) {
+                Swal.fire({
+                    icon: 'success',
+                    title: user.message,
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        window.location.reload(1);
+                    }
+                });
                 this.$router.push({name: 'home'});
             } else {
                 this.errorList = user;

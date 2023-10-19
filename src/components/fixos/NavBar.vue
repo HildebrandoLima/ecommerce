@@ -173,6 +173,14 @@ export default {
     async logout() {
       const user = await AuthService.logout();
       if (user.status === 200) {
+        Swal.fire({
+            icon: 'success',
+            title: user.message,
+        }).then((result) => {
+            if(result.isConfirmed) {
+                window.location.reload(1);
+            }
+        });
         this.$router.push({name: 'login'});
       } else {
         this.errorList = user.message;

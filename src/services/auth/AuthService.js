@@ -7,7 +7,7 @@ export default class AuthService {
         try {
             const response = await api.post(`/auth/login`, body);
             setAuth(response.data.data);
-            return response.data.data;
+            return response.data;
         } catch (error) {
             return messages(
                 error.response.data.status,
