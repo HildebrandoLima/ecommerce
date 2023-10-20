@@ -105,6 +105,14 @@ export default {
     async savePayment() {
       const payment = await PaymentService.postPayment(this.payment);
       if (payment.status === 200) {
+          Swal.fire({
+              icon: 'success',
+              title: 'Compra Finalizada com Sucesso.',
+          }).then((result) => {
+              if(result.isConfirmed) {
+                window.location.reload(1);
+              }
+          });
           this.$router.push({name: 'home'});
       } else {
           this.errorList = payment;

@@ -6,6 +6,17 @@ function getCartData() {
     }
 }
 
+function alert(message) {
+    Swal.fire({
+        icon: 'success',
+        title: message,
+    }).then((result) => {
+        if(result.isConfirmed) {
+          window.location.reload(1);
+        }
+    });
+}
+
 export function setAddToCart(product) {
     const cart = getCartData();
     const itemIndex = cart.findIndex((item) => item.id === product.produtoId);
@@ -18,6 +29,7 @@ export function setAddToCart(product) {
             'id': product.produtoId,
             'nome': product.nome,
             'quantidade': 1,
+            'imagem': product.imagens[0].caminho,
             'precoCusto': product.precoCusto,
             'precoVenda': product.precoVenda,
             'subTotal': product.precoVenda,
