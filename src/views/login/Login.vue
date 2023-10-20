@@ -1,5 +1,5 @@
 <template>
-<Banner :msg="bannerTitleMessage"></Banner>
+<Banner :msg="bannerTitleMessage" />
 
 <div class="container">
     <div class="card mt-3">

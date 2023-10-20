@@ -1,5 +1,5 @@
 <template>
-<Banner :msg="bannerTitleMessage"></Banner>
+<Banner :msg="bannerTitleMessage" />
 
 <section class="my-5">
     <div class="container">
