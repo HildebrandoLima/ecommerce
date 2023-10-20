@@ -51,11 +51,11 @@
             <div class="col-lg-5">
                 <div class="card border shadow-0">
                     <div class="card-body">
-                        <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp" class="card-img-top">
+                        <img v-if="product.imagens.length > 0" :src="product.imagens[0].caminho" class="card-img-top" width="500" height="500" />
 
                         <div v-if="product.imagens.length > 0" class="row">
                             <div v-for="(image, index) in product.imagens" :key="index" class="col">
-                                <img :src="'/storage/' + image.caminho" class="card-img-top" style="aspect-ratio: 1 / 1">
+                                <img :src="image.caminho" class="card-img-top" width="100" height="300" />
                             </div>
                         </div>
                     </div>
@@ -95,7 +95,11 @@ export default {
             this.productId = this.$route.params.id;
             const product = await ProductService.getProductDetails(this.productId);
             if (product.status === 200) {
-                this.product = product.data[0];
+                if (product.data) {
+                    this.product = product.data[1];
+                } else {
+                    this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+                }
             } else {
                 this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
             }
