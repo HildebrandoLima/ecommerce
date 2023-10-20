@@ -32,7 +32,7 @@
                             <div class="col-lg-5">
                                 <div class="me-lg-5">
                                     <div class="d-flex">
-                                        <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp" class="border rounded me-3" style="width: 96px; height: 96px;">
+                                        <img :src="item.imagem" class="border rounded me-3" style="width: 96px; height: 96px;">
                                         <div class="">
                                             <a href="#" class="nav-link">{{ item.nome }}</a>
                                             <b>Sub Total:</b><p class="text-muted"> {{ formatPrice(item.subTotal) }}</p>

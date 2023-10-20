@@ -18,6 +18,7 @@ export function setAddToCart(product) {
             'id': product.produtoId,
             'nome': product.nome,
             'quantidade': 1,
+            'imagem': product.imagens[0].caminho,
             'precoCusto': product.precoCusto,
             'precoVenda': product.precoVenda,
             'subTotal': product.precoVenda,
