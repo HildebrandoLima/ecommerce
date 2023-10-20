@@ -1,6 +1,8 @@
 <template>
-<Banner :msg="bannerTitleMessage"></Banner>
+<Banner :msg="bannerTitleMessage" />
+
 <CartSection />
+
 <ProductNewGrid />
 </template>
 

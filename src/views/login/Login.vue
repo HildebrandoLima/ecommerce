@@ -1,5 +1,5 @@
 <template>
-<Banner :msg="bannerTitleMessage"></Banner>
+<Banner :msg="bannerTitleMessage" />
 
 <div class="container">
     <div class="card mt-3">
@@ -40,6 +40,7 @@ import Login from '@/components/login/Login.vue';
 import LoginSocial from '@/components/login/LoginSocial.vue';
 import ProductNewGrid from '@/components/product/ProductNewGrid.vue';
 import AuthService from '@/services/auth/AuthService';
+import { messages } from '@/utils/messages/Message';
 
 export default {
     components: { Banner, IForgotMyPassword, Login, LoginSocial, ProductNewGrid },
@@ -70,9 +71,22 @@ export default {
         },
         async auth() {
             const user = await AuthService.login(this.user);
-            if (user.isAdmin == true) {
+            if (user.data.isAdmin == true) {
+                Swal.fire({
+                    icon: 'success',
+                    title: user.message,
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        window.location.reload(1);
+                    }
+                });
                 this.$router.push({name: 'dashboard'});
-            } else if (user.isAdmin == false) {                    
+            } else if (user.data.isAdmin == false) {
+                messages(
+                    user.status,
+                    user.data,
+                    user.message
+                );
                 this.$router.push({name: 'home'});
             } else {
                 this.errorList = user;

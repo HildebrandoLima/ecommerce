@@ -1,5 +1,5 @@
 <template>
-<Banner :msg="bannerTitleMessage"></Banner>
+<Banner :msg="bannerTitleMessage" />
 
 <ProductSection :products="products" :totalItems="totalItems" />
 

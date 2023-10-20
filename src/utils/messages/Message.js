@@ -1,26 +1,44 @@
 import { removeAuth } from '@/storages/AuthStorage';
 
 export function messages(status, data, message) {
+  let flag = false;
   switch (status) {
+    case 200:
+      flag = true;
+      return alert(flag, message);
     case 400:
       return data;
     case 401:
-      alert(message);
+      flag = flag;
+      alert(flag, message);
     case 403:
-      alert(message);
+      flag = flag;
+      alert(flag, message);
     case 404:
       return message;
     case 500:
-      alert(message);
+      flag = flag;
+      alert(flag, message);
     default:
       return 'Status Desconhecido.';
   }
 }
 
-function alert(message) {
-  removeAuth();
+function alert(flag, message) {
+  let icon = '';
+  if (flag === false) {
+    icon = 'error';
+    removeAuth();
+  }
+
+  icon = 'success';
+
   throw Swal.fire({
-    icon: 'error',
+    icon: icon,
     title: message,
+  }).then((result) => {
+    if(result.isConfirmed) {
+      window.location.reload(1);
+    }
   });
 }

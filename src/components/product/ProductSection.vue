@@ -40,8 +40,7 @@
             <div class="card w-100 my-2 shadow-2-strong">
 
               <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}">
-                  <!-- <li v-if="product.imagens.length > 0">{{ '/storage/' + product.imagens[0].caminho }}</li> -->
-                  <img v-if="product.imagens.length > 0" :src="'/storage/' + product.imagens[0].caminho" class="card-img-top" />
+                  <img v-if="product.imagens.length > 0" :src="product.imagens[0].caminho" class="card-img-top" />
               </RouterLink>
 
               <div class="card-body d-flex flex-column">

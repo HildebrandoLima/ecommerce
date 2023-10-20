@@ -136,6 +136,7 @@ import AuthService from '@/services/auth/AuthService';
 import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';
 import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
+import { messages } from '@/utils/messages/Message';
 
 export default {
   components: { AlertError, Category, ProductCard },
@@ -173,6 +174,11 @@ export default {
     async logout() {
       const user = await AuthService.logout();
       if (user.status === 200) {
+        messages(
+          user.status,
+          user.data,
+          user.message
+        );
         this.$router.push({name: 'login'});
       } else {
         this.errorList = user.message;
