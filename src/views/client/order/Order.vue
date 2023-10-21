@@ -100,7 +100,7 @@ export default {
         itemModal(item) {
             this.modalTitle = 'Detalhes do Item';
             this.modalData = item;
-            this.modalColumns = ['quantidadeItem', 'subTotal'];
+            this.modalColumns = ['nome', 'preco', 'quantidadeItem', 'subTotal'];
             $('#detailsModal').modal('show');
         },
         paymentModal(item) {
