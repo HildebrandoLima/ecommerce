@@ -2,6 +2,7 @@
 <div class="card border shadow-0" style="border-radius: 16px;">
     <div class="m-4">
         <div class="card-body">
+
             <Table
                 v-if="toggleAddressComponentVisibility"
                 :data="user.enderecos"
@@ -17,6 +18,7 @@
                 :displayEdit="true"
                 @edit="editItem"
             />
+
         </div>
     </div>
 </div>
