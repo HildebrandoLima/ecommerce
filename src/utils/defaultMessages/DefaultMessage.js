@@ -4,6 +4,7 @@ export const ITEMS_NOT_FOUND_MESSAGE = 'Você Não Possue Itens no Carrinho.';
 export const ORDER_TO_GENERATE_MESSAGE = 'Você Não Gerou um Pedido.';
 export const ORDER_NOT_FOUND_MESSAGE = 'Pedido Não Encontrado.';
 export const PRODUCT_NOT_FOUND_MESSAGE = 'Produto Não Encontrado.';
+export const PROVIDER_NOT_FOUND_MESSAGE = 'Fornecedor Não Encontrado.';
 export const REGISTER_REQUIRED_MESSAGE = 'Campo Obrigatório.';
 export const SEARCH_PRODUCT_NOT_FOUND_MESSAGE = 'Por Favor, Digite um Produto Para Pesquisa.';
 export const USER_NOT_FOUND_MESSAGE = 'Usuário Não Encontrado.';

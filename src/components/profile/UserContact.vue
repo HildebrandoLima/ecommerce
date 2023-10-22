@@ -2,23 +2,23 @@
 <div class="card border shadow-0" style="border-radius: 16px;">
     <div class="m-4">
         <div class="card-body">
-            <div class="table-responsive">
-                <Table
-                    v-if="toggleAddressComponentVisibility"
-                    :data="user.enderecos"
-                    :columns="addressColumns"
-                    :displayEdit="true"
-                    @edit="editItem"
-                />
 
-                <Table
-                    v-if="togglePhoneComponentVisibility"
-                    :data="user.telefones"
-                    :columns="telephoneColumns"
-                    :displayEdit="true"
-                    @edit="editItem"
-                />
-            </div>
+            <Table
+                v-if="toggleAddressComponentVisibility"
+                :data="user.enderecos"
+                :columns="addressColumns"
+                :displayEdit="true"
+                @edit="editItem"
+            />
+
+            <Table
+                v-if="togglePhoneComponentVisibility"
+                :data="user.telefones"
+                :columns="telephoneColumns"
+                :displayEdit="true"
+                @edit="editItem"
+            />
+
         </div>
     </div>
 </div>

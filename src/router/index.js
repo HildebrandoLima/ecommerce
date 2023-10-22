@@ -2,17 +2,20 @@ import { createRouter, createWebHistory } from 'vue-router';
 import About from '@/views/about/About.vue';
 import Account from '@/views/account/Account.vue';
 import Cart from '@/views/cart/Cart.vue';
-import Category from '@/views/category/Category.vue';
+import Category from '@/views/admin/category/Category.vue';
 import Checkout from '@/views/client/checkout/Checkout.vue';
 import Dashboard from '@/views/admin/dashboard/Dashboard.vue';
 import Home from '@/views/home/Home.vue';
 import Login from '@/views/login/Login.vue';
 import Order from '@/views/client/order/Order.vue';
 import Payment from '@/views/client/payment/Payment.vue';
+import Provider from '@/views/admin/provider/Provider.vue';
 import Profile from '@/views/client/profile/Profile.vue';
+import ProductAdmin from '@/views/admin/product/Product.vue';
 import Product from '@/views/product/Product.vue';
 import ProductByCategory from '@/views/product/ProductByCategory.vue';
 import ProductDetails from '@/views/product/ProductDetails.vue';
+import User from '@/views/admin/user/User.vue';
 import { token, userAuth, permissions } from '@/storages/AuthStorage';
 
 const router = createRouter({
@@ -84,9 +87,25 @@ const router = createRouter({
       }
     },
     {
+      path: '/provider',
+      name: 'provider',
+      component: Provider,
+      meta: {
+        auth: true,
+      }
+    },
+    {
       path: '/profile',
       name: 'profile',
       component: Profile,
+      meta: {
+        auth: true,
+      }
+    },
+    {
+      path: '/productAdmin',
+      name: 'productAdmin',
+      component: ProductAdmin,
       meta: {
         auth: true,
       }
@@ -105,6 +124,14 @@ const router = createRouter({
       path: '/productDetails/:id',
       name: 'productDetails',
       component:  ProductDetails,
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component:  User,
+      meta: {
+        auth: true,
+      }
     },
   ]
 });

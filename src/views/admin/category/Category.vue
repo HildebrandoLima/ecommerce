@@ -5,17 +5,21 @@
     <div class="card mt-3">
       <div class="card-body">
 
+        <div class="col-lg-12" style="text-align: right;">
+          <button type="button" class="btn btn-outline-success">Cadastrar +</button>
+        </div>
+
         <AlertError
           v-if="errorList"
           :errorList="errorList"
         />
 
-        <Table :data="categories" />
+        <Table :data="categories.list" :columns="categoryColumns" />
 
         <Pagination
           :currentPage="currentPage"
           :totalPages="totalPages"
-          @pagechanged="handlePageChange"
+          @pageChanged="handlePageChange"
         />
       </div>
     </div>
@@ -37,6 +41,7 @@ export default {
       bannerTitleMessage: 'Categorias',
       errorList: {},
       categories: {},
+      categoryColumns: ['nome', 'criadoEm', 'alteradoEm', 'ativo'],
       searchCategory: '',
       search: '',
       currentPage: 1,
@@ -48,6 +53,10 @@ export default {
       this.getCategory();
   },
   methods: {
+    handlePageChange(newPage) {
+      this.currentPage = newPage;
+      this.getCategory();
+    },
     getSearchCategory() {
       this.searchCategory = this.$route.query;
       for (let chave in this.searchCategory) {
@@ -56,13 +65,18 @@ export default {
       return this.search;
     },
     async getCategory() {
-      const categories = await CategoryService.getSearchCategory(this.currentPage, this.perPage, this.getSearchCategory());
+      const categories = await CategoryService.getCategories(this.currentPage, this.perPage);
       if (categories.status === 200) {
         this.categories = categories.data;
         this.totalItems = categories.data.total;
       } else {
         this.errorList = CATEGORY_NOT_FOUND_MESSAGE;
       }
+    },
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.totalItems / this.perPage);
     },
   },
 };
