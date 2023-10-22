@@ -5,6 +5,10 @@
     <div class="card mt-3">
       <div class="card-body">
 
+        <div class="col-lg-12" style="text-align: right;">
+          <button type="button" class="btn btn-outline-success">Cadastrar +</button>
+        </div>
+
         <AlertError
           v-if="errorList"
           :errorList="errorList"

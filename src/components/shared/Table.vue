@@ -1,6 +1,6 @@
 <template>
 <div class="table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover mt-3">
         <thead>
             <tr>
                 <th v-for="(column, index) in columns" :key="index">{{ formatColumn(column) }}</th>
