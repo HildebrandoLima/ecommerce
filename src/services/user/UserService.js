@@ -30,6 +30,19 @@ export default class UserService {
     }
   }
 
+  static async getUsers(page, perPage, search, id) {
+    try {
+      const response = await api.get(`/user/list?page=${page}&perPage=${perPage}&search=${search}&id=${id}&active=1`);
+      return response.data;
+    } catch (error) {
+      return messages(
+        error.response.data.status,
+        error.response.data.data,
+        error.response.data.message
+      );
+    }
+  }
+
   static async getUser(id) {
     try {
       const response = await api.get(`/user/list/find?id=${id}&active=1`);
