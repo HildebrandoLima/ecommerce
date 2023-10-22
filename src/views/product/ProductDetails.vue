@@ -96,7 +96,7 @@ export default {
             const product = await ProductService.getProductDetails(this.productId);
             if (product.status === 200) {
                 if (product.data) {
-                    this.product = product.data[1];
+                    this.product = product.data[0];
                 } else {
                     this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
                 }
