@@ -72,7 +72,7 @@
 
 <script>
 import ButtonCart from '@/components/shared/ButtonCart.vue';
-import Category from '@/components/category/Category.vue';
+import Category from '@/components/category/client/Category.vue';
 import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {

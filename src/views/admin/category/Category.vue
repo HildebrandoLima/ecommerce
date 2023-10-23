@@ -47,8 +47,8 @@
 
 <script>
 import Banner from '@/components/fixos/Banner.vue';
-import CategoryEdit from '@/components/category/CategoryEdit.vue';
-import CategoryRegister from '@/components/category/CategoryRegister.vue';
+import CategoryEdit from '@/components/category/admin/CategoryEdit.vue';
+import CategoryRegister from '@/components/category/admin/CategoryRegister.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
 import SelectedFilter from '@/components/shared/SelectedFilter.vue';

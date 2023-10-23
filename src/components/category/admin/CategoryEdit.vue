@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import CategoryForm from '@/components/category/CategoryForm.vue';
+import CategoryForm from '@/components/category/admin/CategoryForm.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
 import CategoryService from '@/services/category/CategoryService';
 import { messages } from '@/utils/messages/Message';

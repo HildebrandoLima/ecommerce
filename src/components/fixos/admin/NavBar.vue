@@ -115,7 +115,7 @@
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
-import Category from '@/components/category/Category.vue';
+import Category from '@/components/category/client/Category.vue';
 import ProductCard from '@/components/product/ProductCard.vue';
 import AuthService from '@/services/auth/AuthService';
 import ProductService from '@/services/product/ProductService';
