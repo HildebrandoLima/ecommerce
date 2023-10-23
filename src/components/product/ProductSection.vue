@@ -7,7 +7,7 @@
           <div class="card-body">
             <h4>Categorias</h4><hr />
               <ul class="list-unstyled">
-                <Category></Category>
+                <CategoryList />
               </ul>
           </div>
         </div>
@@ -72,12 +72,12 @@
 
 <script>
 import ButtonCart from '@/components/shared/ButtonCart.vue';
-import Category from '@/components/category/client/Category.vue';
+import CategoryList from '@/components/category/client/CategoryList.vue';
 import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {
     name: 'product',
-    components: { ButtonCart, Category },
+    components: { ButtonCart, CategoryList },
     props: {
         totalItems: 0,
         products: {
