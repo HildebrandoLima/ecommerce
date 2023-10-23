@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     async getCategory() {
-      const categories = await CategoryService.getCategories(this.page, this.perPage);
+      const categories = await CategoryService.getCategories(this.page, this.perPage, 1);
       if (categories.status === 200) {
         this.categories = categories.data;
       } else {

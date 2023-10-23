@@ -98,7 +98,7 @@
         Categorias
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <Category></Category>
+          <CategoryList />
         </ul>
       </li>
       <li class="nav-item">
@@ -130,7 +130,7 @@
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
-import Category from '@/components/category/Category.vue';
+import CategoryList from '@/components/category/client/CategoryList.vue';
 import ProductCard from '@/components/product/ProductCard.vue';
 import AuthService from '@/services/auth/AuthService';
 import ProductService from '@/services/product/ProductService';
@@ -139,7 +139,7 @@ import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/u
 import { messages } from '@/utils/messages/Message';
 
 export default {
-  components: { AlertError, Category, ProductCard },
+  components: { AlertError, CategoryList, ProductCard },
   name: 'navbar',
   data() {
     return {
