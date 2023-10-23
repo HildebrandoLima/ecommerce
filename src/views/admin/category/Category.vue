@@ -5,8 +5,16 @@
     <div class="card mt-3">
       <div class="card-body">
 
-        <div class="col-lg-12" style="text-align: right;">
-          <button type="button" class="btn btn-outline-success">Cadastrar +</button>
+        <div class="row">
+          <div class="col-lg-12 mt-1" style="text-align: right;">
+            <SelectedFilter @filterChanged="applyFilter" />
+          </div>
+
+          <div class="col-lg-12 mt-1" style="text-align: right;">
+            <button type="button" @click="registerCategory" class="btn btn-outline-success" data-toggle="modal" data-target="#registerCategoryModal">
+              Cadastrar +
+            </button>
+          </div>
         </div>
 
         <AlertError
@@ -14,7 +22,12 @@
           :errorList="errorList"
         />
 
-        <Table :data="categories.list" :columns="categoryColumns" />
+        <Table
+          :data="categories.list"
+          :columns="categoryColumns"
+          :displayEdit="true"
+          @edit="editItem"
+        />
 
         <Pagination
           :currentPage="currentPage"
@@ -24,24 +37,38 @@
       </div>
     </div>
 </div>
+
+<CategoryEdit id="editCategoryModal" :data="editedItem" />
+
+<ModalDetails :modalId="modalId" :modalTitle="modalTitle">
+    <CategoryRegister />
+</ModalDetails>
 </template>
 
 <script>
 import Banner from '@/components/fixos/Banner.vue';
+import CategoryEdit from '@/components/category/CategoryEdit.vue';
+import CategoryRegister from '@/components/category/CategoryRegister.vue';
 import Pagination from '@/components/shared/Pagination.vue';
+import ModalDetails from '@/components/shared/ModalDetails.vue';
+import SelectedFilter from '@/components/shared/SelectedFilter.vue';
 import Table from '@/components/shared/Table.vue';
 import CategoryService from '@/services/category/CategoryService';
 import { CATEGORY_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { Banner, Pagination, Table },
+  components: { Banner, CategoryEdit, CategoryRegister, Pagination, ModalDetails, SelectedFilter, Table },
   name: 'category',
   data() {
     return {
       bannerTitleMessage: 'Categorias',
+      selectedFilter: 1,
       errorList: {},
       categories: {},
-      categoryColumns: ['nome', 'criadoEm', 'alteradoEm', 'ativo'],
+      editedItem: {},
+      modalId: 'registerCategoryModal',
+      modalTitle: 'Cadastrar Categoria',
+      categoryColumns: ['nome', 'criadoEm', 'alteradoEm'],
       searchCategory: '',
       search: '',
       currentPage: 1,
@@ -64,14 +91,27 @@ export default {
       }
       return this.search;
     },
+    applyFilter(selectedFilter) {
+      this.selectedFilter = selectedFilter;
+      this.getCategory();
+    },
     async getCategory() {
-      const categories = await CategoryService.getCategories(this.currentPage, this.perPage);
+      const categories = await CategoryService.getCategories(this.currentPage, this.perPage, this.selectedFilter);
       if (categories.status === 200) {
         this.categories = categories.data;
         this.totalItems = categories.data.total;
       } else {
         this.errorList = CATEGORY_NOT_FOUND_MESSAGE;
       }
+    },
+    registerCategory() {
+      $('#registerCategoryModal').modal('show');
+    },
+    editItem(item) {
+      this.editedItem.id = item.categoriaId;
+      this.editedItem.nome = item.nome;
+      this.editedItem.ativo = item.ativo;
+      $('#editCategoryModal').modal('show');
     },
   },
   computed: {
