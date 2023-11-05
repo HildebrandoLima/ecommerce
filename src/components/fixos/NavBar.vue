@@ -131,7 +131,7 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import CategoryList from '@/components/category/client/CategoryList.vue';
-import ProductCard from '@/components/product/ProductCard.vue';
+import ProductCard from '@/components/product/client/ProductCard.vue';
 import AuthService from '@/services/auth/AuthService';
 import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';

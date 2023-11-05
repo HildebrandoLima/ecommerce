@@ -51,7 +51,7 @@
 <script>
 import AddressRegister from '@/components/address/AddressRegister.vue';
 import Banner from '@/components/fixos/Banner.vue';
-import ProductNewGrid from '@/components/product/ProductNewGrid.vue';
+import ProductNewGrid from '@/components/product/client/ProductNewGrid.vue';
 import TelephoneRegister from '@/components/telephone/TelephoneRegister.vue';
 import UserRegister from '@/components/user/UserRegister.vue';
 

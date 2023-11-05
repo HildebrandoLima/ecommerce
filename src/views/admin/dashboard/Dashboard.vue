@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ProductNewGrid from '@/components/product/ProductNewGrid.vue';
+import ProductNewGrid from '@/components/product/client/ProductNewGrid.vue';
 import { userAuth } from '@/storages/AuthStorage';
 
 export default {

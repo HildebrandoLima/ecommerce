@@ -71,7 +71,7 @@
 <script>
 import Banner from '@/components/fixos/Banner.vue';
 import ButtonCart from '@/components/shared/ButtonCart.vue';
-import ProductNewGrid from '@/components/product/ProductNewGrid.vue';
+import ProductNewGrid from '@/components/product/client/ProductNewGrid.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 import { formatPrice } from '@/utils/formatPrice/formatPrice';

@@ -30,7 +30,7 @@
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import ButtonCart from '@/components/shared/ButtonCart.vue';
-import ProductSection from '@/components/product/ProductSection.vue';
+import ProductSection from '@/components/product/client/ProductSection.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';

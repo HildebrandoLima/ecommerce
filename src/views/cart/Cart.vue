@@ -9,7 +9,7 @@
 <script>
 import Banner from '@/components/fixos/Banner.vue';
 import CartSection from '@/components/cart/CartSection.vue';
-import ProductNewGrid from '@/components/product/ProductNewGrid.vue';
+import ProductNewGrid from '@/components/product/client/ProductNewGrid.vue';
 
 export default {
     components: { Banner, CartSection, ProductNewGrid },

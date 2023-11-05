@@ -30,7 +30,7 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
-import ProductCard from '@/components/product/ProductCard.vue';
+import ProductCard from '@/components/product/client/ProductCard.vue';
 import CartSummary from '@/components/cart/CartSummary.vue';
 import CartTotal from '@/components/cart/CartTotal.vue';
 import ConainerAuthentication from '@/components/cart/ConainerAuthentication.vue';

@@ -38,7 +38,7 @@ import Banner from '@/components/fixos/Banner.vue';
 import IForgotMyPassword from '@/components/login/IForgotMyPassword.vue';
 import Login from '@/components/login/Login.vue';
 import LoginSocial from '@/components/login/LoginSocial.vue';
-import ProductNewGrid from '@/components/product/ProductNewGrid.vue';
+import ProductNewGrid from '@/components/product/client/ProductNewGrid.vue';
 import AuthService from '@/services/auth/AuthService';
 import { messages } from '@/utils/messages/Message';
 
