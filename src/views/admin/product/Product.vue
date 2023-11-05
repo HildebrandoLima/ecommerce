@@ -22,7 +22,12 @@
                 :errorList="errorList"
             />
 
-            <Table :data="products.list" :columns="productColumns" />
+            <Table
+              :data="products.list"
+              :columns="productColumns"
+              :displayEdit="true"
+              @edit="editItem"
+            />
 
             <Pagination
                 :currentPage="currentPage"
@@ -33,18 +38,22 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<ProductEdit id="editProductModal" :data="editedItem" />
 </template>
 
 <script>
 import Banner from '@/components/fixos/Banner.vue';
 import Pagination from '@/components/shared/Pagination.vue';
+import ProductEdit from '@/components/product/admin/ProductEdit.vue';
 import SelectedFilter from '@/components/shared/SelectedFilter.vue';
 import Table from '@/components/shared/Table.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { Banner, Pagination, SelectedFilter, Table },
+  components: { Banner, Pagination, ProductEdit, SelectedFilter, Table },
   name: 'product',
   data() {
     return {
@@ -91,6 +100,22 @@ export default {
     },
     registerProduct() {
       this.$router.push({name: 'productRegister'});
+    },
+    editItem(item) {
+      this.editedItem.id = item.produtoId;
+      this.editedItem.nome = item.nome;
+      this.editedItem.descricao = item.descricao;
+      this.editedItem.quantidade = item.quantidade;
+      this.editedItem.precoVenda = item.precoVenda;
+      this.editedItem.precoCusto = item.precoCusto;
+      this.editedItem.codigoBarra = item.codigoBarra;
+      this.editedItem.unidadeMedida = item.unidadeMedida;
+      this.editedItem.dataValidade = item.dataValidade;
+      this.editedItem.codigoBarra = item.codigoBarra;
+      this.editedItem.categoriaId = item.categoriaId;
+      this.editedItem.fornecedorId = item.fornecedorId;
+      this.editedItem.ativo = item.ativo;
+      $('#editProductModal').modal('show');
     },
   },
   computed: {

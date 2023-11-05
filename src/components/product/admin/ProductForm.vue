@@ -170,6 +170,7 @@
         <div class="col">
             <div class="form-outline">
                 <input
+                    v-if="!isEditMode"
                     type="file"
                     id="imagens"
                     @change="handleFileChange"

@@ -12,7 +12,6 @@ import Payment from '@/views/client/payment/Payment.vue';
 import Profile from '@/views/client/profile/Profile.vue';
 import Provider from '@/views/admin/provider/Provider.vue';
 import ProductAdmin from '@/views/admin/product/Product.vue';
-import ProductEdit from '@/views/admin/product/ProductEdit.vue';
 import ProductRegister from '@/views/admin/product/ProductRegister.vue';
 import Product from '@/views/product/Product.vue';
 import ProductByCategory from '@/views/product/ProductByCategory.vue';
@@ -108,14 +107,6 @@ const router = createRouter({
       path: '/productAdmin',
       name: 'productAdmin',
       component: ProductAdmin,
-      meta: {
-        auth: true,
-      }
-    },
-    {
-      path: '/productEdit',
-      name: 'productEdit',
-      component: ProductEdit,
       meta: {
         auth: true,
       }

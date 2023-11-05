@@ -5,7 +5,19 @@ export default class ProductService {
   static async postProduct(body) {
     try {
       const response = await api.post(`/product/save`, body);
-      console.log(response);
+      return response.data;
+    } catch (error) {
+      return messages(
+        error.response.data.status,
+        error.response.data.data,
+        error.response.data.message
+      );
+    }
+  }
+
+  static async putProduct(body) {
+    try {
+      const response = await api.put(`/product/edit`, body);
       return response.data;
     } catch (error) {
       return messages(
