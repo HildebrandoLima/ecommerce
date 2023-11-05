@@ -10,7 +10,7 @@
 <script>
 import { RouterView } from 'vue-router';
 import NavBarAdmin from './components/fixos/admin/NavBar.vue';
-import NavBarClient from './components/fixos/NavBar.vue';
+import NavBarClient from './components/fixos/client/NavBar.vue';
 import Footer from './components/fixos/Footer.vue';
 import { userAuth } from '@/storages/AuthStorage';
 
