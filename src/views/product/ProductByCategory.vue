@@ -61,7 +61,7 @@ export default {
     async getProduct() {
         this.productId = this.$route.params.id;
 
-        const products = await ProductService.getProducts(this.currentPage, this.perPage, '', this.productId);
+        const products = await ProductService.getProducts(this.currentPage, this.perPage, '', this.productId, 1);
         if (products.status === 200) {
           this.products = products.data;
           this.totalItems = products.data.total;

@@ -93,7 +93,7 @@ export default {
     methods: {
         async getProduct() {
             this.productId = this.$route.params.id;
-            const product = await ProductService.getProductDetails(this.productId);
+            const product = await ProductService.getProductDetails(this.productId, 1);
             if (product.status === 200) {
                 if (product.data) {
                     this.product = product.data[0];

@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         async getProduct() {
-            const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+            const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0, 1);
             if (products.status === 200) {
                 this.products = products.data;
                 this.totalItems = products.data.total;
