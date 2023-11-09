@@ -2,7 +2,10 @@
 <form>
   <div class="row mb-4">
     <div class="col">
-      <div class="form-outline">
+      <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </span>
         <input
           type="number"
           id="numero"
@@ -19,7 +22,10 @@
     </div>
 
     <div class="col">
-      <div class="form-outline">
+      <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
         <input
           type="text"
           id="cep"
@@ -43,34 +49,36 @@
   </div>
 
   <div class="row mb-4">
-    <div class="col">
-      <div class="form-outline">
-        <input
-          type="text"
-          id="logradouro"
-          v-model="address.logradouro"
-          class="form-control"
-          placeholder="Logradouro"
-          required
-        />
-      </div>
+    <div class="col input-group">
+      <span class="input-group-text" id="basic-addon1">
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+      </span>
+      <input
+        type="text"
+        id="logradouro"
+        v-model="address.logradouro"
+        class="form-control"
+        placeholder="Logradouro"
+        required
+      />
       <AlertError
         v-if="Object.keys(errorList).length > 0"
         :errorList="errorList.logradouro"
       />
     </div>
 
-    <div class="col">
-      <div class="form-outline">
-        <input
-          type="text"
-          id="bairro"
-          v-model="address.bairro"
-          placeholder="Bairro"
-          class="form-control"
-          required
-        />
-      </div>
+    <div class="col input-group">
+      <span class="input-group-text" id="basic-addon1">
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+      </span>
+      <input
+        type="text"
+        id="bairro"
+        v-model="address.bairro"
+        placeholder="Bairro"
+        class="form-control"
+        required
+      />
       <AlertError
         v-if="Object.keys(errorList).length > 0"
         :errorList="errorList.bairro"
@@ -79,34 +87,36 @@
   </div>
 
   <div class="row mb-4">
-    <div class="col">
-      <div class="form-outline">
-        <input
-          type="text"
-          id="cidade"
-          v-model="address.cidade"
-          placeholder="Cidade"
-          class="form-control"
-          required
-        />
-      </div>
+    <div class="col input-group">
+      <span class="input-group-text" id="basic-addon1">
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+      </span>
+      <input
+        type="text"
+        id="cidade"
+        v-model="address.cidade"
+        placeholder="Cidade"
+        class="form-control"
+        required
+      />
       <AlertError
         v-if="Object.keys(errorList).length > 0"
         :errorList="errorList.cidade"
       />
     </div>
 
-    <div class="col">
-      <div class="form-outline">
-          <input
-            type="text"
-            id="uf"
-            v-model="address.uf"
-            placeholder="UF"
-            class="form-control"
-            required
-          />
-      </div>
+    <div class="col input-group">
+      <span class="input-group-text" id="basic-addon1">
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+      </span>
+        <input
+          type="text"
+          id="uf"
+          v-model="address.uf"
+          placeholder="UF"
+          class="form-control"
+          required
+        />
       <AlertError
         v-if="Object.keys(errorList).length > 0"
         :errorList="errorList.uf"

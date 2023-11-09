@@ -1,7 +1,9 @@
 <template>
 <form>
-    <div class="mb-4">
-        <div class="form-outline">
+    <div class="input-group mb-4">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa fa-th-large" aria-hidden="true"></i>
+        </span>
         <input
             type="text"
             id="nome"
@@ -10,10 +12,9 @@
             class="form-control" 
             required
         />
-        </div>
         <AlertError
-        v-if="Object.keys(errorList).length > 0"
-        :errorList="errorList.nome"
+            v-if="Object.keys(errorList).length > 0"
+            :errorList="errorList.nome"
         />
     </div>
 

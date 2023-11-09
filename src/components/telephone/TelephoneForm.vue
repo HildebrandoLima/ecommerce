@@ -1,11 +1,13 @@
 <template>
 <form>
-<div v-for="(phone, index) in telephones" :key="index">
-    <input type="hidden" id="usuarioId" v-model="phone.usuarioId" />
+    <div v-for="(phone, index) in telephones" :key="index">
+        <input type="hidden" id="usuarioId" v-model="phone.usuarioId" />
 
-    <div class="row mb-4">
-        <div class="col">
-            <div class="form-outline">
+        <div class="row mb-4">
+            <div class="col input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                </span>
                 <input
                     type="text"
                     id="numero"
@@ -16,15 +18,13 @@
                     class="form-control" 
                     required
                 />
+                <AlertError
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList['0.numero'] ? errorList['0.numero'] : fieldRequired"
+                />
             </div>
-            <AlertError
-                v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList['0.numero'] ? errorList['0.numero'] : fieldRequired"
-            />
-        </div>
 
-        <div class="col">
-            <div class="form-outline">
+            <div class="col">
                 <button
                     @click="removeTelephone(index)"
                     class="btn btn-outline-danger"
@@ -34,74 +34,75 @@
                 </button>
             </div>
         </div>
-    </div>
 
-<div class="row mb-4">
-    <div class="col">
-        <div class="form-outline">
-            <select id="ddd" v-model="phone.ddd" class="form-select" aria-label="DDD" required >
-                <option value="">-- Selecione o DDD --</option>
-                <option v-for="ddd in ddds" :value="ddd" :key="ddd">{{ ddd }}</option>
-            </select>
+        <div class="row mb-4">
+            <div class="col input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    DDD
+                </span>
+                <select id="ddd" v-model="phone.ddd" class="form-select" aria-label="DDD" required >
+                    <option value="">-- Selecione o DDD --</option>
+                    <option v-for="ddd in ddds" :value="ddd" :key="ddd">{{ ddd }}</option>
+                </select>
+                <AlertError
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList['0.ddd'] ? errorList['0.numero'] : fieldRequired"
+                />
+            </div>
+
+            <div class="col input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    Tipo
+                </span>
+                <select id="tipo" v-model="phone.tipo" class="form-select" aria-label="Tipo" required >
+                    <option value="">-- Selecione o Tipo --</option>
+                    <option value="Fixo">Fixo</option>
+                    <option value="Celular">Celular</option>
+                </select>
+                <AlertError
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList['0.tipo'] ? errorList['0.numero'] : fieldRequired"
+                />
+            </div>
         </div>
-        <AlertError
-            v-if="Object.keys(errorList).length > 0"
-            :errorList="errorList['0.ddd'] ? errorList['0.numero'] : fieldRequired"
-        />
-    </div>
 
-    <div class="col">
-        <div class="form-outline">
-            <select id="tipo" v-model="phone.tipo" class="form-select" aria-label="Tipo" required >
-                <option value="">-- Selecione o Tipo --</option>
-                <option value="Fixo">Fixo</option>
-                <option value="Celular">Celular</option>
-            </select>
+        <div class="col">
+            <div class="form-check form-switch">
+                <input
+                    v-if="isEditMode"
+                    type="checkbox"
+                    v-model="phone.ativo"
+                    :id="'flexSwitchCheckChecked_' + index"
+                    :checked="phone.ativo"
+                    class="form-check-input"
+                />
+            </div>
         </div>
-        <AlertError
-            v-if="Object.keys(errorList).length > 0"
-            :errorList="errorList['0.tipo'] ? errorList['0.numero'] : fieldRequired"
-        />
-    </div>
-</div>
 
-<div class="col">
-    <div class="form-check form-switch">
-        <input
-            v-if="isEditMode"
-            type="checkbox"
-            v-model="phone.ativo"
-            :id="'flexSwitchCheckChecked_' + index"
-            :checked="phone.ativo"
-            class="form-check-input"
-        />
-    </div>
-</div>
-
-</div>
-
-<div class="row mb-4 mt-3">
-    <div class="col">
-        <button
-            type="button"
-            @click="addTelephone"
-            class="btn btn-outline-success btn-block mb-4"
-            :disabled="isEditMode"
-        >
-        +
-        </button>
     </div>
 
-    <div class="col">
-        <button
-            type="button"
-            @click="handleButtonClick"
-            class="btn btn-outline-primary btn-block mb-4"
-        >
-        {{ buttonText }}
-        </button>
+    <div class="row mb-4 mt-3">
+        <div class="col">
+            <button
+                type="button"
+                @click="addTelephone"
+                class="btn btn-outline-success btn-block mb-4"
+                :disabled="isEditMode"
+            >
+            +
+            </button>
+        </div>
+
+        <div class="col">
+            <button
+                type="button"
+                @click="handleButtonClick"
+                class="btn btn-outline-primary btn-block mb-4"
+            >
+            {{ buttonText }}
+            </button>
+        </div>
     </div>
-</div>
 </form>
 </template>
 
