@@ -106,7 +106,7 @@
 
     <div class="row mb-4">
         <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
+            <span v-if="!isEditMode" class="input-group-text" id="basic-addon1">
                 <i class="fa fa-calendar" aria-hidden="true"></i>
             </span>
             <div v-if="!isEditMode">
