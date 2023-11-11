@@ -41,19 +41,10 @@ export default {
         },
         async editUser() {
             if (this.data.ativo == false) {
-                throw Swal.fire({
-                    icon: 'warning',
-                    title:
-                    'Tem certeza que deseja desativar sua conta?<br>' +
-                    'Somente o suporte poderá reativar.',
-                }).then((result) => {
-                    if(result.isConfirmed) {
-                        $('.modal').modal('hide'); 
-                    }
-                });
+                return UserService.alertEditUser();
             }
 
-            const user = await UserService.putUser(this.newObjectUser(this.data));
+            const user = await UserService.editUser(this.newObjectUser(this.data));
             if (user.status === 200) {
                 messages(
                     user.status,

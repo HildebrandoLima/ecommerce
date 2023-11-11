@@ -35,8 +35,8 @@ export default {
     };
   },
   methods: {
-    async saveUser(newUser) {
-      const user = await UserService.postUser(newUser);
+    async saveUser() {
+      const user = await UserService.createUser(this.user);
 
       if (user.status === 200) {
         this.messageSuccess = user.message;
