@@ -99,7 +99,7 @@ export default {
       });
     },
     async getUser() {
-      const user = await UserService.getUser(this.userId);
+      const user = await UserService.listUser(this.userId);
       if (user.status === 200) {
         this.adresses = user.data[0].enderecos;
       } else {

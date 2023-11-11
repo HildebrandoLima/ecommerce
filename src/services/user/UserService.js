@@ -43,18 +43,18 @@ export default class UserService {
     }
   }
 
-  static async getUsers(page, perPage, search, id) {
+  static async listUsers(page, perPage, search, id) {
     try {
-      const response = await UserRepository.listUsers(page, perPage, search, id);
+      const response = await UserRepository.getUsers(page, perPage, search, id);
       return response.data;
     } catch (error) {
       return statusCode(error);
     }
   }
 
-  static async getUser(id) {
+  static async listUser(id) {
     try {
-      const response = await UserRepository.listUser(id);
+      const response = await UserRepository.getUser(id);
       return response.data;
     } catch (error) {
       return statusCode(error);

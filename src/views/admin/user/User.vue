@@ -62,7 +62,7 @@ export default {
       return this.search;
     },
     async getUser() {
-      const users = await UserService.getUsers(this.currentPage, this.perPage, '', 0);
+      const users = await UserService.listUsers(this.currentPage, this.perPage, '', 0);
       if (users.status === 200) {
         this.users = users.data;
         this.totalItems = users.data.total;

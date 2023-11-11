@@ -82,7 +82,7 @@ export default {
             this.togglePhoneComponentVisibility = true;
         },
         async getUser() {
-            const user = await UserService.getUser(this.userId);
+            const user = await UserService.listUser(this.userId);
             if (user.status === 200) {
                 this.user = user.data[0];
                 this.user.dataNascimento = this.calculateAge(this.user.dataNascimento);
