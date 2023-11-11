@@ -48,7 +48,6 @@ export default {
     methods: {
         async saveProduct() {
             const product = await ProductService.postProduct(this.product);
-            console.log(product);
             if (product.status === 200) {
                 messages(
                     product.status,

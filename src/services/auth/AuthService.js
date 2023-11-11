@@ -34,7 +34,6 @@ export default class AuthService {
     static async loginSocial(provider) {
         try {
             const response = await api.get(`/auth/login/social/${provider}`);
-            //console.log('oi', response);
             //const response = await api.get(`/auth/login/social/${provider}/callback`);
             window.localStorage.setItem('userAuth', JSON.stringify(response.data));
             return response.data.message;

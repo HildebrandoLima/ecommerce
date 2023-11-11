@@ -307,16 +307,6 @@ export default {
                 this.saveProduct();
             }
         },
-        handleFileChange(event) {
-            console.log(event.target.files);
-            const files = [event.target.files];
-            console.log(files);
-            for (let position = 0; position <= files.length; position++) {
-                const file = files[position];
-                console.log(file);
-                this.product.imagens.push(file);
-            }
-        },
         formatNumber() {
             this.product.codigoBarra = this.product.codigoBarra.replace(/\D/g, '');
             this.product.quantidade = this.product.quantidade.replace(/\D/g, '');
@@ -346,6 +336,13 @@ export default {
             const characterCount = description.length;
             this.characterCount = characterCount;
         },
+        handleFileChange(event) {
+            const files = event.target.files;
+            for (let position = 0; position <= files.length; position++) {
+                const file = files[position];
+                this.product.imagens.push(file);
+            }
+        },
         async getCategories() {
             const categories = await CategoryService.getCategories(this.currentPage, this.perPage, 1);
             if (categories.status === 200) {
@@ -363,8 +360,6 @@ export default {
             }
         },
         async saveProduct() {
-            console.log(this.product);
-            console.log(this.product.imagens);
             this.$emit('saveProduct', this.product);
         },
         async editProduct() {
