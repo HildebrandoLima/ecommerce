@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         async editAddress() {
-            const address = await AddressService.putAddress(this.data);
+            const address = await AddressService.editAddress(this.data);
             if (address.status === 200) {
                 messages(
                     address.status,

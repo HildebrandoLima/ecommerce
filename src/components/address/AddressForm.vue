@@ -199,18 +199,10 @@ export default {
       if (/^\d{8}$/.test(newCep)) {
         const viaCep = await AddressService.searchCep(newCep);
         if (viaCep) {
-          this.address.logradouro = viaCep.logradouro;
-          this.address.numero = this.address.numero;
-          this.address.bairro = viaCep.bairro;
-          this.address.cidade = viaCep.cidade;
-          this.address.uf = viaCep.uf;
-          this.address.cep = viaCep.cep;
+          return AddressService.toAssemble(this.numero, this.address, viaCep);
         }
       } else {
-        throw Swal.fire({
-          icon: 'error',
-          title: 'CEP inválido. Digite um CEP com 8 dígitos numéricos.',
-        });
+        AddressService.alertErrorAddressCep();
       }
     },
     async saveAddress() {
