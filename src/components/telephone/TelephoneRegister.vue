@@ -1,5 +1,4 @@
 <template>
-
 <AlertSuccess :messageSuccess="messageSuccess" />
 
 <AlertError
@@ -15,7 +14,6 @@
   @removeTelephone="removeTelephone"
   @saveTelephone="saveTelephone"
 />
-
 </template>
 
 <script>
