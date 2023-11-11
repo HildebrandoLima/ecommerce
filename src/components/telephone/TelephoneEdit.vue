@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         async editTelephone() {
-            const telephone = await TelephoneService.putTelephone(this.data);
+            const telephone = await TelephoneService.editTelephone(this.data);
             if (telephone.status === 200) {
                 messages(
                     telephone.status,

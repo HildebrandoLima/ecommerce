@@ -45,25 +45,16 @@ export default {
   },
   methods: {
     addTelephone() {
-      this.telephones.push({
-        ddd: "",
-        numero: '',
-        tipo: '',
-        usuarioId: this.usuarioId,
-      });
+      TelephoneService.addTelephone(this.telephones, this.usuarioId);
     },
     removeTelephone(index) {
-      if (this.telephones.length === 1) {
-        return;
-      } else {
-        this.telephones.splice(index, 1);
-      }
+      TelephoneService.removeTelephone(this.telephones, index);
     },
     async saveTelephone() {
       if (this.telephones.length === 0) {
         this.messageError = REGISTER_REQUIRED_MESSAGE;
       } else {
-        const telephones = await TelephoneService.postTelephone(this.telephones);
+        const telephones = await TelephoneService.createTelephone(this.telephones);
         if (telephones.status === 200) {
           this.messageSuccess = telephones.message;
         } else {
