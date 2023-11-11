@@ -17,7 +17,7 @@
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
-import ProductCard from '@/components/product/ProductCard.vue';
+import ProductCard from '@/components/product/client/ProductCard.vue';
 import ProductService from '@/services/product/ProductService';
 import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         async getProduct() {
-            const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+            const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0, 1);
             if (products.status === 200) {
                 this.products = products.data;
                 this.totalItems = products.data.total;

@@ -10,7 +10,7 @@
         <tbody>
             <tr v-for="(item, index) in data" :key="index">
                 <td v-for="(column, columnIndex) in columns" :key="columnIndex">
-                    {{ item[column] }}
+                    {{ identifyYype(item[column]) }}
                 </td>
 
                 <td v-if="displayEdit">
@@ -78,6 +78,8 @@
 </template>
 
 <script>
+import { formatPrice } from '@/utils/formatPrice/formatPrice';
+
 export default {
     name: 'data-table',
     errorList: {},
@@ -101,7 +103,25 @@ export default {
     },
     methods: {
         formatColumn(column) {
-            return column.charAt(0).toUpperCase() + column.slice(1);
+            const letters = column.match(/[A-Z]?[a-z]*/g).filter(Boolean);
+            if (letters) {
+                const formattedLetters = letters.map(
+                    word => word.charAt(0).toUpperCase() + word.slice(1)
+                ); return formattedLetters.join(' ');
+            }
+        },
+        identifyYype(column) {
+            if (typeof column === 'string') {
+                return column;
+            } else if (typeof column === 'number') {
+                if (column % 1 !== 0) {
+                    return formatPrice(column);
+                } else {
+                    return column;
+                }
+            } else {
+                return column;
+            }
         },
         editItem(item) {
             this.$emit('edit', item);
@@ -114,6 +134,11 @@ export default {
         },
         paymentModal(item) {
             this.$emit('paymentModal', item);
+        },
+    },
+    computed: {
+        formatPrice() {
+            return formatPrice;
         },
     },
 };

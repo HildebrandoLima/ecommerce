@@ -9,9 +9,10 @@ import Home from '@/views/home/Home.vue';
 import Login from '@/views/login/Login.vue';
 import Order from '@/views/client/order/Order.vue';
 import Payment from '@/views/client/payment/Payment.vue';
-import Provider from '@/views/admin/provider/Provider.vue';
 import Profile from '@/views/client/profile/Profile.vue';
+import Provider from '@/views/admin/provider/Provider.vue';
 import ProductAdmin from '@/views/admin/product/Product.vue';
+import ProductRegister from '@/views/admin/product/ProductRegister.vue';
 import Product from '@/views/product/Product.vue';
 import ProductByCategory from '@/views/product/ProductByCategory.vue';
 import ProductDetails from '@/views/product/ProductDetails.vue';
@@ -87,14 +88,6 @@ const router = createRouter({
       }
     },
     {
-      path: '/provider',
-      name: 'provider',
-      component: Provider,
-      meta: {
-        auth: true,
-      }
-    },
-    {
       path: '/profile',
       name: 'profile',
       component: Profile,
@@ -103,9 +96,25 @@ const router = createRouter({
       }
     },
     {
+      path: '/provider',
+      name: 'provider',
+      component: Provider,
+      meta: {
+        auth: true,
+      }
+    },
+    {
       path: '/productAdmin',
       name: 'productAdmin',
       component: ProductAdmin,
+      meta: {
+        auth: true,
+      }
+    },
+    {
+      path: '/productRegister',
+      name: 'productRegister',
+      component: ProductRegister,
       meta: {
         auth: true,
       }

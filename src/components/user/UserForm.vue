@@ -1,8 +1,10 @@
 <template>
 <form class="needs-validation mb-5 border-top" novalidate onsubmit="return false">
-<div class="row mb-4">
-    <div class="col">
-        <div class="form-outline">
+    <div class="row mb-4">
+        <div class="col input-group">
+            <span class="input-group-text" id="basic-addon1">
+                <i class="fa fa-user" aria-hidden="true"></i>
+            </span>
             <input
                 type="text"
                 id="nome"
@@ -11,15 +13,16 @@
                 class="form-control"
                 required
             />
+            <AlertError
+                v-if="Object.keys(errorList).length > 0"
+                :errorList="errorList.nome"
+            />
         </div>
-        <AlertError
-            v-if="Object.keys(errorList).length > 0"
-            :errorList="errorList.nome"
-        />
-    </div>
 
-    <div class="col">
-        <div class="form-outline">
+        <div class="col input-group">
+            <span class="input-group-text" id="basic-addon1">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+            </span>
             <input
                 type="email"
                 id="email"
@@ -28,37 +31,38 @@
                 class="form-control"
                 required
             />
-        </div>
-        <AlertError
-            v-if="Object.keys(errorList).length > 0"
-            :errorList="errorList.email"
-        />
-    </div>
-</div>
-
-<div v-if="!isEditMode">
-    <div class="row mb-4">
-        <div class="col">
-            <div class="form-outline">
-                <input
-                    type="text"
-                    id="cpf"
-                    v-model="user.cpf"
-                    maxlength="14"
-                    OnKeyPress="format('###.###.###-##',this)"
-                    placeholder="CPF"
-                    class="form-control"
-                    required
-                />
-            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList.cpf"
+                :errorList="errorList.email"
             />
         </div>
+    </div>
 
-        <div class="col">
-            <div class="form-outline">
+    <div v-if="!isEditMode">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fa fa-file-powerpoint" aria-hidden="true"></i>
+                    </span>
+                    <input
+                        type="text"
+                        id="cpf"
+                        v-model="user.cpf"
+                        maxlength="14"
+                        OnKeyPress="format('###.###.###-##',this)"
+                        placeholder="CPF"
+                        class="form-control"
+                        required
+                    />
+                    <AlertError
+                        v-if="Object.keys(errorList).length > 0"
+                        :errorList="errorList.cpf"
+                    />
+                </div>
+            </div>
+
+            <div class="col">
                 <div class="input-group">
                     <input
                         type="password"
@@ -84,27 +88,28 @@
                 </div>
 
                 <div id="feedbackirn" class="invalid-feedback">
-                </div>
-            </div>
+                </div>            
 
-            <div class="form-text text-muted">
-                Sua senha deve ter no mínimo 8-20 caracteres, deve conter
-                caracteres especiais "!@#$%&*_?", números,
-                letras minúsculas e maiúsculas,
-                e não pode possuir ordem como, ex.: (111, aaa).
+                <div class="form-text text-muted">
+                    Sua senha deve ter no mínimo 8-20 caracteres, deve conter
+                    caracteres especiais "!@#$%&*_?", números,
+                    letras minúsculas e maiúsculas,
+                    e não pode possuir ordem como, ex.: (111, aaa).
+                </div>
+                <AlertError
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList.senha"
+                />
             </div>
-            <AlertError
-                v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList.senha"
-            />
         </div>
     </div>
-</div>
 
-<div class="row mb-4">
-    <div class="col">
-        <div v-if="!isEditMode">
-            <div class="form-outline">
+    <div class="row mb-4">
+        <div class="col input-group">
+            <span v-if="!isEditMode" class="input-group-text" id="basic-addon1">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+            </span>
+            <div v-if="!isEditMode">
                 <input
                     type="text"
                     id="date"
@@ -114,74 +119,73 @@
                     onfocus="(this.type='date')"
                     required
                 />
+                <AlertError
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList.dataNascimento"
+                />
+            </div>
+
+            <div v-else>
+                <div class="form-check form-switch">
+                    <input
+                        type="checkbox"
+                        v-model="user.ativo"
+                        :id="'flexSwitchCheckChecked_' + index"
+                        :checked="user.ativo"
+                        class="form-check-input"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-outline">                    
+                <div class="form-check form-check-inline">
+                    <input
+                        type="radio"
+                        id="masculino"
+                        value="Masculino"
+                        v-model="user.genero"
+                        class="form-check-input"
+                    />
+                    <label class="form-check-label" for="Masculino">Masculino</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input
+                        type="radio"
+                        id="feminino"
+                        value="Feminino"
+                        v-model="user.genero"
+                        class="form-check-input"
+                    />
+                    <label class="form-check-label" for="Feminino">Feminino</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input
+                        type="radio"
+                        id="outro"
+                        value="Outro"
+                        v-model="user.genero"
+                        class="form-check-input"
+                    />
+                    <label class="form-check-label" for="Outro">Outro</label>
+                </div>
             </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList.dataNascimento"
+                :errorList="errorList.genero"
             />
         </div>
-
-        <div v-else>
-            <div class="form-check form-switch">
-                <input
-                    type="checkbox"
-                    v-model="user.ativo"
-                    :id="'flexSwitchCheckChecked_' + index"
-                    :checked="user.ativo"
-                    class="form-check-input"
-                />
-            </div>
-        </div>
     </div>
 
-    <div class="col">
-        <div class="form-outline">                    
-            <div class="form-check form-check-inline">
-                <input
-                    type="radio"
-                    id="masculino"
-                    value="Masculino"
-                    v-model="user.genero"
-                    class="form-check-input"
-                />
-                <label class="form-check-label" for="Masculino">Masculino</label>
-            </div>
-
-            <div class="form-check form-check-inline">
-                <input
-                    type="radio"
-                    id="feminino"
-                    value="Feminino"
-                    v-model="user.genero"
-                    class="form-check-input"
-                />
-                <label class="form-check-label" for="Feminino">Feminino</label>
-            </div>
-
-            <div class="form-check form-check-inline">
-                <input
-                    type="radio"
-                    id="outro"
-                    value="Outro"
-                    v-model="user.genero"
-                    class="form-check-input"
-                />
-                <label class="form-check-label" for="Outro">Outro</label>
-            </div>
-        </div>
-        <AlertError
-            v-if="Object.keys(errorList).length > 0"
-            :errorList="errorList.genero"
-        />
-    </div>
-</div>
-
-<button
-    type="button"
-    @click="handleButtonClick"
-    class="btn btn-outline-primary btn-block mb-4">
-    {{ buttonText }}
-</button>
+    <button
+        type="button"
+        @click="handleButtonClick"
+        class="btn btn-outline-primary btn-block mb-4">
+        {{ buttonText }}
+    </button>
 </form>
 </template>
 
