@@ -1,43 +1,39 @@
-import api from '@/server/api';
+import ProviderRepository from '@/repositories/ProviderRepository';
 import { messages } from '@/utils/messages/Message';
 
+export function statusCode(error) {
+  return messages(
+    error.response.data.status,
+    error.response.data.data,
+    error.response.data.message
+  );
+}
+
 export default class ProviderService {
-  static async postProvider(body) {
+  static async createProvider(body) {
     try {
-        const response = await api.post(`/provider/save`, body);
+        const response = await ProviderRepository.postProvider(body);
         return response.data;
     } catch (error) {
-        return messages(
-            error.response.data.status,
-            error.response.data.data,
-            error.response.data.message
-        );
+        return statusCode(error);
     }
   }
 
-  static async putProvider(body) {
+  static async editProvider(body) {
     try {
-        const response = await api.put(`/provider/edit`, body);
+        const response = await ProviderRepository.putProvider(body);
         return response.data;
     } catch (error) {
-        return messages(
-            error.response.data.status,
-            error.response.data.data,
-            error.response.data.message
-        );
+        return statusCode(error);
     }
   }
 
-  static async getProviders(page, perPage, search, id, ativo) {
+  static async listProviders(page, perPage, search, id, ativo) {
     try {
-      const response = await api.get(`/provider/list?page=${page}&perPage=${perPage}&search=${search}&id=${id}&active=${ativo}`);
+      const response = await ProviderRepository.getProviders(page, perPage, search, id, ativo);
       return response.data;
     } catch (error) {
-      return messages(
-        error.response.data.status,
-        error.response.data.data,
-        error.response.data.message
-      );
+      return statusCode(error);
     }
   }
 }

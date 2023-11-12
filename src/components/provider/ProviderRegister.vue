@@ -29,7 +29,7 @@ export default {
     },
     methods: {
         async saveProvider() {
-            const provider = await ProviderService.postProvider(this.provider);
+            const provider = await ProviderService.createProvider(this.provider);
             if (provider.status === 200) {
                 messages(
                     provider.status,

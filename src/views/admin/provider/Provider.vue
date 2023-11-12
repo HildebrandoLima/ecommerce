@@ -78,7 +78,7 @@ export default {
     };
   },
   created() {
-      this.getProvider();
+      this.getProviders();
   },
   methods: {
     handlePageChange(newPage) {
@@ -94,10 +94,10 @@ export default {
     },
     applyFilter(selectedFilter) {
       this.selectedFilter = selectedFilter;
-      this.getProvider();
+      this.getProviders();
     },
-    async getProvider() {
-      const providers = await ProviderService.getProviders(this.currentPage, this.perPage, '', 0, this.selectedFilter);
+    async getProviders() {
+      const providers = await ProviderService.listProviders(this.currentPage, this.perPage, '', 0, this.selectedFilter);
       if (providers.status === 200) {
         this.providers = providers.data;
         this.totalItems = providers.data.total;

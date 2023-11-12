@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         async editProvider() {
-            const provider = await ProviderService.putProvider(this.data);
+            const provider = await ProviderService.editProvider(this.data);
             if (provider.status === 200) {
                 messages(
                     provider.status,

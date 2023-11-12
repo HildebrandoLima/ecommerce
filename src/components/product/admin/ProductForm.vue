@@ -352,7 +352,7 @@ export default {
             }
         },
         async getProviders() {
-            const providers = await ProviderService.getProviders(this.currentPage, this.perPage, '', 0, 1);
+            const providers = await ProviderService.listProviders(this.currentPage, this.perPage, '', 0, 1);
             if (providers.status === 200) {
                 this.providers = providers.data.list;
             } else {
