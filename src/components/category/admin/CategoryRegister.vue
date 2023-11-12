@@ -26,7 +26,7 @@ export default {
     },
     methods: {
         async saveCategory() {
-            const category = await CategoryService.postCategory(this.category);
+            const category = await CategoryService.createCategory(this.category);
             if (category.status === 200) {
                 messages(
                     category.status,

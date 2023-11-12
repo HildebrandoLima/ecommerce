@@ -20,11 +20,11 @@ export default {
     };
   },
   created() {
-      this.getCategory();
+      this.getCategories();
   },
   methods: {
-    async getCategory() {
-      const categories = await CategoryService.getCategories(this.page, this.perPage, 1);
+    async getCategories() {
+      const categories = await CategoryService.listCategories(this.page, this.perPage, 1);
       if (categories.status === 200) {
         this.categories = categories.data;
       } else {

@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         async editCategory() {
-            const category = await CategoryService.putCategory(this.data);
+            const category = await CategoryService.editCategory(this.data);
             if (category.status === 200) {
                 messages(
                     category.status,

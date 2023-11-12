@@ -1,56 +1,55 @@
-import api from '@/server/api';
+import CategoryRepository from '@/repositories/CategoryRepository';
 import { messages } from '@/utils/messages/Message';
 
+export function statusCode(error) {
+    return messages(
+      error.response.data.status,
+      error.response.data.data,
+      error.response.data.message
+    );
+}
+
 export default class CategoryService {
-    static async postCategory(body) {
+    static async editCategoryModal(editedItem, item) {
+        editedItem.id = item.categoriaId;
+        editedItem.nome = item.nome;
+        editedItem.ativo = item.ativo;
+        $('#editCategoryModal').modal('show');
+    }
+
+    static async createCategory(body) {
         try {
-            const response = await api.post(`/category/save`, body);
+            const response = await CategoryRepository.postCategory(body);
             return response.data;
         } catch (error) {
-            return messages(
-                error.response.data.status,
-                error.response.data.data,
-                error.response.data.message
-            );
+            return statusCode(error);
         }
     }
 
-    static async putCategory(body) {
+    static async editCategory(body) {
         try {
-            const response = await api.put(`/category/edit`, body);
+            const response = await CategoryRepository.putCategory(body);
             return response.data;
         } catch (error) {
-            return messages(
-                error.response.data.status,
-                error.response.data.data,
-                error.response.data.message
-            );
+            return statusCode(error);
         }
     }
 
-    static async getCategories(page, perPage, ativo) {
+    static async listCategories(page, perPage, ativo) {
         try {
-            const response = await api.get(`/category/list?page=${page}&perPage=${perPage}&active=${ativo}`);
+            const response = await CategoryRepository.getCategories(page, perPage, ativo);
             return response.data;
         } catch (error) {
-            return messages(
-                error.response.data.status,
-                error.response.data.data,
-                error.response.data.message
-            );
+            return statusCode(error);
         }
     }
 
     static async getSearchCategory(page, perPage, category) {
         try {
-            const response = await api.get(`/category/list?page=${page}&perPage=${perPage}&active=1&search=${category}`);
+            const response = await CategoryRepository.getSearchCategory(page, perPage, category);
             return response.data;
         } catch (error) {
-            return messages(
-                error.response.data.status,
-                error.response.data.data,
-                error.response.data.message
-            );
+            return statusCode(error);
         }
     }
 }
