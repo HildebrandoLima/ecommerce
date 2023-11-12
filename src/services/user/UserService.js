@@ -1,4 +1,4 @@
-import UserRepository from '@/repositories/user/UserRepository';
+import UserRepository from '@/repositories/UserRepository';
 import { setUser } from '@/storages/EntityPersonStorage';
 import { messages } from '@/utils/messages/Message';
 

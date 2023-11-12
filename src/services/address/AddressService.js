@@ -1,4 +1,4 @@
-import AddressRepository from '@/repositories/address/AddressRepository';
+import AddressRepository from '@/repositories/AddressRepository';
 import { messages } from '@/utils/messages/Message';
 
 export function statusCode(error) {
@@ -40,7 +40,7 @@ export default class AddressService {
     }
   }
 
-  static async Address(body) {
+  static async editAddress(body) {
     try {
       const response = await AddressRepository.putAddress(body);
       return response.data;
@@ -58,7 +58,7 @@ export default class AddressService {
     }
   }
 
-  static async toAssemble(numero, address, viaCep) {
+  static async toAssembleObjectAddressCep(numero, address, viaCep) {
     address.logradouro = viaCep.logradouro;
     address.numero = numero;
     address.bairro = viaCep.bairro;

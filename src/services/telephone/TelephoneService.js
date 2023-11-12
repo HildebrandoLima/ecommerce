@@ -1,4 +1,4 @@
-import TelephoneRepository from '@/repositories/telephone/TelephoneRepository';
+import TelephoneRepository from '@/repositories/TelephoneRepository';
 import { removeUser } from '@/storages/EntityPersonStorage';
 import { messages } from '@/utils/messages/Message';
 
