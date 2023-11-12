@@ -103,7 +103,7 @@ export default {
       }
     },
     async savePayment() {
-      const payment = await PaymentService.postPayment(this.payment);
+      const payment = await PaymentService.createPayment(this.payment);
       if (payment.status === 200) {
           Swal.fire({
               icon: 'success',
