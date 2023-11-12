@@ -199,7 +199,7 @@ export default {
       if (/^\d{8}$/.test(newCep)) {
         const viaCep = await AddressService.searchCep(newCep);
         if (viaCep) {
-          return AddressService.toAssemble(this.numero, this.address, viaCep);
+          return AddressService.toAssembleObjectAddressCep(this.numero, this.address, viaCep);
         }
       } else {
         AddressService.alertErrorAddressCep();
