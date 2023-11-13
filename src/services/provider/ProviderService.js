@@ -10,6 +10,16 @@ export function statusCode(error) {
 }
 
 export default class ProviderService {
+  static editProviderModal(editedItem, item) {
+    editedItem.id = item.fornecedorId;
+    editedItem.razaoSocial = item.razaoSocial;
+    editedItem.cnpj = item.cnpj;
+    editedItem.email = item.email;
+    editedItem.dataFundacao = item.dataFundacao;
+    editedItem.ativo = item.ativo;
+    $('#editProviderModal').modal('show');
+  }
+
   static async createProvider(body) {
     try {
         const response = await ProviderRepository.postProvider(body);

@@ -109,13 +109,7 @@ export default {
       $('#registerProviderModal').modal('show');
     },
     editItem(item) {
-      this.editedItem.id = item.fornecedorId;
-      this.editedItem.razaoSocial = item.razaoSocial;
-      this.editedItem.cnpj = item.cnpj;
-      this.editedItem.email = item.email;
-      this.editedItem.dataFundacao = item.dataFundacao;
-      this.editedItem.ativo = item.ativo;
-      $('#editProviderModal').modal('show');
+      ProviderService.editProviderModal(this.editedItem, item);
     },
   },
   computed: {
