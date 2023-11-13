@@ -80,13 +80,13 @@
                     <RouterLink :to="{ name: 'dashboard' }" class="nav-link active text-dark" aria-current="page">Home</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink :to="{ name: 'category' }" class="nav-link text-dark">Categoria</RouterLink>
+                    <RouterLink :to="{ name: 'category' }" class="nav-link text-dark">Categorias</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink :to="{ name: 'productAdmin' }" class="nav-link text-dark">Produto</RouterLink>
+                    <RouterLink :to="{ name: 'productAdmin' }" class="nav-link text-dark">Produtos</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink :to="{ name: 'provider' }" class="nav-link text-dark">Fornecedor</RouterLink>
+                    <RouterLink :to="{ name: 'provider' }" class="nav-link text-dark">Fornecedores</RouterLink>
                 </li>
                 <li class="nav-item">
                     <RouterLink :to="{ name: 'user' }" class="nav-link text-dark">Usuários</RouterLink>
