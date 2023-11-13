@@ -91,23 +91,20 @@ export default {
                 this.messageError = ORDER_NOT_FOUND_MESSAGE;
             }
         },
-        addressModal(item) {
-            this.modalTitle = 'Detalhes do Endereço';
+        showModal(modalTitle, item, modalColumns) {
+            this.modalTitle = modalTitle;
             this.modalData = item;
-            this.modalColumns = ['logradouro', 'numero', 'bairro', 'cidade', 'uf'];
+            this.modalColumns = modalColumns;
             $('#detailsModal').modal('show');
+        },
+        addressModal(item) {
+            this.showModal('Detalhes do Endereço', item, ['logradouro', 'numero', 'bairro', 'cidade', 'uf']);
         },
         itemModal(item) {
-            this.modalTitle = 'Detalhes do Item';
-            this.modalData = item;
-            this.modalColumns = ['nome', 'preco', 'quantidadeItem', 'subTotal'];
-            $('#detailsModal').modal('show');
+            this.showModal('Detalhes do Item', item, ['nome', 'preco', 'quantidadeItem', 'subTotal']);
         },
         paymentModal(item) {
-            this.modalTitle = 'Detalhes do Pagamento';
-            this.modalData = item;
-            this.modalColumns = ['numeroCartao', 'tipoCartao', 'ccv', 'dataValidade', 'parcela', 'metodoPagamento'];
-            $('#detailsModal').modal('show');
+            this.showModal('Detalhes do Pagamento', item, ['numeroCartao', 'tipoCartao', 'ccv', 'dataValidade', 'parcela', 'metodoPagamento']);
         },
     },
     computed: {
