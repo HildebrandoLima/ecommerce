@@ -1,5 +1,4 @@
 <template>
-
 <Banner :msg="bannerTitleMessage" />
 
 <ProductSection :products="products" :totalItems="totalItems" />
@@ -11,21 +10,6 @@
   :totalPages="totalPages"
   @pageChanged="handlePageChange"
 />
-
-<div class="container">
-  <header class="mt-5">
-  <h3>Novos Produtos:</h3>
-  </header>
-
-  <hr />
-
-  <AlertError
-    v-if="errorList"
-    :errorList="errorList"
-  />
-
-</div>
-
 </template>
 
 <script>
@@ -50,15 +34,15 @@ export default {
     };
   },
   created() {
-      this.getProduct();
+      this.getProducts();
   },
   methods: {
     handlePageChange(newPage) {
       this.currentPage = newPage;
-      this.getProduct();
+      this.getProducts();
     },
-    async getProduct() {
-      const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0, 1);
+    async getProducts() {
+      const products = await ProductService.listProducts(this.currentPage, this.perPage, '', 0, 1);
       if (products.status === 200) {
         this.products = products.data;
         this.totalItems = products.data.total;

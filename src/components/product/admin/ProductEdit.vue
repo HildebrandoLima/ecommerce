@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         async editProduct() {
-            const product = await ProductService.putProduct(this.data);
+            const product = await ProductService.editProduct(this.data);
             if (product.status === 200) {
                 messages(
                     product.status,

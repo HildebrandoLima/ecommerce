@@ -90,7 +90,7 @@ export default {
       this.getProducts();
     },
     async getProducts() {
-      const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0, this.selectedFilter);
+      const products = await ProductService.listProducts(this.currentPage, this.perPage, '', 0, this.selectedFilter);
       if (products.status === 200) {
         this.products = products.data;
         this.totalItems = products.data.total;
@@ -102,20 +102,7 @@ export default {
       this.$router.push({name: 'productRegister'});
     },
     editItem(item) {
-      this.editedItem.id = item.produtoId;
-      this.editedItem.nome = item.nome;
-      this.editedItem.descricao = item.descricao;
-      this.editedItem.quantidade = item.quantidade;
-      this.editedItem.precoVenda = item.precoVenda;
-      this.editedItem.precoCusto = item.precoCusto;
-      this.editedItem.codigoBarra = item.codigoBarra;
-      this.editedItem.unidadeMedida = item.unidadeMedida;
-      this.editedItem.dataValidade = item.dataValidade;
-      this.editedItem.codigoBarra = item.codigoBarra;
-      this.editedItem.categoriaId = item.categoriaId;
-      this.editedItem.fornecedorId = item.fornecedorId;
-      this.editedItem.ativo = item.ativo;
-      $('#editProductModal').modal('show');
+      ProductService.editProductModal(this.editedItem, item);
     },
   },
   computed: {

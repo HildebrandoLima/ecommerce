@@ -126,48 +126,49 @@ export default {
     components: { AlertError, ProductCard },
     name: 'navbar',
     data() {
-    return {
-        messageSuccess: '',
-        errorList: null,
-        userName: '',
-        search: '',
-        totalItems: 0,
-        products: {},
-        currentPage: 1,
-        perPage: 10,
-    };
+        return {
+            messageSuccess: '',
+            errorList: null,
+            userName: '',
+            search: '',
+            totalItems: 0,
+            products: {},
+            currentPage: 1,
+            perPage: 10,
+        };
     },
     created() {
-    const [userName] = userAuth();
-    this.userName = userName;
+        const [userName] = userAuth();
+        this.userName = userName;
     },
     methods: {
-    async searchProduct() {
-        if (this.search.trim() === '') {
-        this.errorList = SEARCH_PRODUCT_NOT_FOUND_MESSAGE;
-        return;
-        }
-        const products = await ProductService.getProducts(this.currentPage, this.perPage, this.search, 0);
-        if (products.data.total === 0 || products.status !== 200) {
-        this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
-        } else {
-        this.products = products.data;
-        this.totalItems = products.data.total;
-        }
-    },
-    async logout() {
-        const user = await AuthService.logout();
-        if (user.status === 200) {
-        messages(
-            user.status,
-            user.data,
-            user.message
-        );
-        this.$router.push({name: 'login'});
-        } else {
-        this.errorList = user.message;
-        }
-    },
+        async searchProduct() {
+            if (this.search.trim() === '') {
+                this.errorList = SEARCH_PRODUCT_NOT_FOUND_MESSAGE;
+                return;
+            }
+
+            const products = await ProductService.listProducts(this.currentPage, this.perPage, this.search, 0);
+            if (products.data.total === 0 || products.status !== 200) {
+                this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+            } else {
+                this.products = products.data;
+                this.totalItems = products.data.total;
+            }
+        },
+        async logout() {
+            const user = await AuthService.logout();
+            if (user.status === 200) {
+                messages(
+                    user.status,
+                    user.data,
+                    user.message
+                );
+                this.$router.push({name: 'login'});
+            } else {
+                this.errorList = user.message;
+            }
+        },
     },
 };
 </script>

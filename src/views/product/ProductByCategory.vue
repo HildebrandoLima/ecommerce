@@ -4,26 +4,11 @@
 <ProductSection :products="products" :totalItems="totalItems" />
 
 <hr />
-
 <Pagination
   :currentPage="currentPage"
   :totalPages="totalPages"
   @pageChanged="handlePageChange"
 />
-
-<div class="container">
-  <header class="mt-5">
-  <h3>Novos Produtos:</h3>
-  </header>
-
-  <hr />
-
-  <AlertError
-    v-if="errorList"
-    :errorList="errorList"
-  />
-
-</div>
 </template>
 
 <script>
@@ -51,17 +36,17 @@ export default {
     };
   },
   created() {
-      this.getProduct();
+      this.getProducts();
   },
   methods: {
     handlePageChange(newPage) {
       this.currentPage = newPage;
-      this.getProduct();
+      this.getProducts();
     },
-    async getProduct() {
+    async getProducts() {
         this.productId = this.$route.params.id;
 
-        const products = await ProductService.getProducts(this.currentPage, this.perPage, '', this.productId, 1);
+        const products = await ProductService.listProducts(this.currentPage, this.perPage, '', this.productId, 1);
         if (products.status === 200) {
           this.products = products.data;
           this.totalItems = products.data.total;

@@ -247,6 +247,7 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import CategoryService from '@/services/category/CategoryService';
+import ProductService from '@/services/product/ProductService';
 import ProviderService from '@/services/provider/ProviderService';
 import { CATEGORY_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
@@ -313,17 +314,7 @@ export default {
         },
         formatPrice(event) {
             let value = event.target.value;
-            value = value.replace(/[^0-9.,]/g, '');
-            value = value.replace(/,/g, '');
-
-            let numericValue = parseInt(value);
-            value = numericValue + '';
-            value = value.replace(/([0-9]{2})$/g, ",$1");
-
-            if (value.length > 6) {
-                value = value.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
-            }
-            return value;
+            return ProductService.formatPrice(value);
         },
         formatPriceSale(event) {
             this.product.precoVenda = this.formatPrice(event);
