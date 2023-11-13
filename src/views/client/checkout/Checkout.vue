@@ -107,7 +107,7 @@ export default {
       }
     },
     async saveOrder() {
-      const order = await OrderService.postOrder(this.order);
+      const order = await OrderService.createOrder(this.order);
       if (order.status === 200) {
         this.$router.push({
           name: 'payment'

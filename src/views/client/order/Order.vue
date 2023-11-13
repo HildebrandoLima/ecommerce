@@ -75,15 +75,15 @@ export default {
     created() {
         const [userId] = userAuth();
         this.userId = userId;
-        this.getOrder();
+        this.getOrders();
     },
     methods: {
         handlePageChange(newPage) {
             this.currentPage = newPage;
-            this.getOrder();
+            this.getOrders();
         },
-        async getOrder() {
-            const orders = await OrderService.getOrders(this.currentPage, this.perPage, this.userId);
+        async getOrders() {
+            const orders = await OrderService.listOrders(this.currentPage, this.perPage, this.userId);
             if (orders.status === 200) {
                 this.orders = orders.data;
                 this.totalItems = orders.data.total;
