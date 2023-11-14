@@ -4,6 +4,11 @@
 <section class="my-5">
     <div class="container">
 
+        <AlertError
+            v-if="messageError"
+            :errorList="messageError"
+        />
+
         <div class="row">
             <div class="col-lg-4">
                 <UserDetails 
@@ -36,6 +41,7 @@
 </template>
 
 <script>
+import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import AddressEdit from '@/components/address/AddressEdit.vue';
 import Table from '@/components/shared/Table.vue';
@@ -43,13 +49,13 @@ import TelephoneEdit from '@/components/telephone/TelephoneEdit.vue';
 import UserEdit from '@/components/user/UserEdit.vue';
 import UserContact from '@/components/profile/UserContact.vue';
 import UserDetails from '@/components/profile/UserDetails.vue';
+import ProfileService from '@/services/profile/ProfileService';
 import UserService from '@/services/user/UserService';
 import { userAuth } from '@/storages/AuthStorage';
-import { USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'profile',
-    components: { Banner, AddressEdit, Table, TelephoneEdit, UserEdit, UserContact, UserDetails },
+    components: { AlertError, Banner, AddressEdit, Table, TelephoneEdit, UserEdit, UserContact, UserDetails },
     data() {
         return {
             bannerTitleMessage: 'Meu Perfil',
@@ -87,51 +93,21 @@ export default {
                 this.user = user.data[0];
                 this.user.dataNascimento = this.calculateAge(this.user.dataNascimento);
             } else {
-                this.messageError = USER_NOT_FOUND_MESSAGE;
+                this.messageError = ProfileService.messageError();
             }
         },
-        calculateAge(dataNascimento) {
-            const birthDate = new Date(dataNascimento);
-            const currentDate = new Date();
-            const differenceInMilliseconds = currentDate - birthDate;
-            const age = Math.floor(differenceInMilliseconds / (365.25 * 24 * 60 * 60 * 1000));
-            return age;
-        },
-        mapperAddress(item) {
-            this.editedItem.id = item.enderecoId;
-            this.editedItem.logradouro = item.logradouro;
-            this.editedItem.numero = item.numero;
-            this.editedItem.bairro = item.bairro;
-            this.editedItem.cidade = item.cidade;
-            this.editedItem.cep = item.cep;
-            this.editedItem.uf = item.uf;
-            this.editedItem.usuarioId = item.usuarioId;
-            this.editedItem.ativo = item.ativo;
-        },
-        mapperTelefone(item) {
-            this.editedItem.id = item.telefoneId;
-            this.editedItem.ddd = 85;
-            this.editedItem.numero = item.numero;
-            this.editedItem.tipo = item.tipo;
-            this.editedItem.usuarioId = item.usuarioId;
-            this.editedItem.ativo = item.ativo;
-        },
-        mapperUser() {
-            this.editedItem.usuarioId = this.userId;
-            this.editedItem.nome = this.user.nome;
-            this.editedItem.email = this.user.email;
-            this.editedItem.genero = this.user.genero;
-            this.editedItem.ativo = this.user.ativo;
+        calculateAge(dateOfBirth) {
+            return ProfileService.calculateAge(dateOfBirth);
         },
         editItem(item) {
             if (item.enderecoId) {
-                this.mapperAddress(item);
+                ProfileService.mapperAddress(this.editedItem, item);
                 $('#editAddressModal').modal('show');
             } else if (item.telefoneId) {
-                this.mapperTelefone(item);
+                ProfileService.mapperTelephone(this.editedItem, item);
                 $('#editPhoneModal').modal('show');
             } else {
-                this.mapperUser(item);
+                ProfileService.mapperUser(this.editedItem, this.userId, item);
                 $('#editUserModal').modal('show');
             }
         },
