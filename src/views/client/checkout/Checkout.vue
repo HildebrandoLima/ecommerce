@@ -4,11 +4,6 @@
 <div class="container">
 
   <AlertError
-    v-if="Object.keys(errorList).length > 0"
-    :errorList="errorList.itens"
-  />
-
-  <AlertError
     v-if="messageError"
     :errorList="messageError"
   />
@@ -27,9 +22,6 @@ import CheckoutForm from '@/components/checkout/CheckoutForm.vue';
 import CheckoutSummary from '@/components/checkout/CheckoutSummary.vue';
 import OrderService from '@/services/order/OrderService';
 import UserService from '@/services/user/UserService';
-import { getCart, getTotalCart } from '@/storages/CartStorage';
-import { userAuth } from '@/storages/AuthStorage';
-import { ITEMS_NOT_FOUND_MESSAGE, USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
   name: 'checkout',
@@ -55,55 +47,32 @@ export default {
     };
   },
   created() {
-    this.getStorages();
-    this.getUser();
+    this.getProps();
+    this.getUserAddress();
     this.validateCart();
-    this.addOrder();
-    this.addItem();
   },
   methods: {
-    getStorages() {
-      const [userId] = userAuth();
-      this.cart = getCart();
-      this.total = parseFloat(getTotalCart());
-      this.userId = userId;
+    getProps() {
+      this.total = OrderService.getTotalCart();
+      this.userId = OrderService.getUser();
+      this.cart = OrderService.getCart();
     },
     validateCart() {
-      if (this.cart.length === 0) {
-        this.messageError = ITEMS_NOT_FOUND_MESSAGE;
-      }
+      OrderService.messageError('cart');
     },
     onTypeDeliveryChange() {
-      if (this.order.tipoEntrega === 'Expresso') {
-        this.order.valorEntrega = 20.00;
-      } else if (this.order.tipoEntrega === 'Correio') {
-        this.order.valorEntrega = 15.50;
-      } else {
-        this.order.valorEntrega = 0;
-      }
+      this.order.valorEntrega = OrderService.typeDeliveryChange(this.order.tipoEntrega);
+      this.createOrderObject();
     },
-    addOrder() {
-      this.order.total = this.total;
-      this.order.quantidadeItens = this.cart.length;
-      this.order.usuarioId = this.userId;
+    createOrderObject() {
+      this.order = OrderService.createOrderObject(this.order, this.total);
     },
-    addItem() {
-      this.cart.forEach((item) => {
-        this.order.itens.push({
-          nome: item.nome,
-          preco: item.precoVenda,
-          quantidadeItem: item.quantidade,
-          subTotal: item.subTotal,
-          produtoId: item.id,
-        });
-      });
-    },
-    async getUser() {
+    async getUserAddress() {
       const user = await UserService.listUser(this.userId);
       if (user.status === 200) {
         this.adresses = user.data[0].enderecos;
       } else {
-        this.errorMessage = USER_NOT_FOUND_MESSAGE;
+        this.messageError = OrderService.messageError('user');
       }
     },
     async saveOrder() {
@@ -114,7 +83,7 @@ export default {
         });
       } else {
         this.errorList = order;
-        this.errorList.itens = ITEMS_NOT_FOUND_MESSAGE;
+        this.messageError = OrderService.messageError('item');
       }
     },
   },
