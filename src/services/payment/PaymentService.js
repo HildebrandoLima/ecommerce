@@ -13,14 +13,10 @@ export default class PaymentService {
   }
 
   static messageSucess() {
-    Swal.fire({
-      icon: 'success',
-      title: 'Compra Finalizada com Sucesso.',
-    }).then((result) => {
-      if(result.isConfirmed) {
-        window.location.reload(1);
-      }
-    });
+    const data = {
+      message: 'Compra Finalizada com Sucesso.',
+    };
+    return MessagesService.messagesSuccess(data);
   }
 
   static getTotalCart() {

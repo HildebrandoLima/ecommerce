@@ -70,10 +70,10 @@ export default {
             const user = await AuthService.login(this.user);
             if (user.status === 200) {
                 if (user.data.isAdmin === true) {
-                    AuthService.returnObjectAuthProfileAdmin(user);
+                    AuthService.messageSuccess(user);
                     this.$router.push({name: 'dashboard'});
                 } else {
-                    AuthService.returnObjectAuthProfileClient(user);
+                    AuthService.messageSuccess(user);
                     this.$router.push({name: 'home'});
                 }
             } else {

@@ -4,36 +4,7 @@ import { setAuth, removeAuth } from '@/storages/AuthStorage';
 
 export default class AuthService {
     static messageSuccess(user) {
-        Swal.fire({
-            icon: 'success',
-            title: user.message,
-        }).then((result) => {
-            if(result.isConfirmed) {
-                window.location.reload(1);
-            }
-        });
-    }
-
-    static returnObjectAuthProfileAdmin(user) {
-        Swal.fire({
-            icon: 'success',
-            title: user.message,
-        }).then((result) => {
-            if(result.isConfirmed) {
-                window.location.reload(1);
-            }
-        });
-    }
-
-    static returnObjectAuthProfileClient(user) {
-        Swal.fire({
-            icon: 'success',
-            title: user.message,
-        }).then((result) => {
-            if(result.isConfirmed) {
-                window.location.reload(1);
-            }
-        });
+        return MessagesService.messagesSuccess(user);
     }
 
     static async login(body) {

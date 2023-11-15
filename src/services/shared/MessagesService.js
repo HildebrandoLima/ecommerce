@@ -9,11 +9,18 @@ export default class MessagesService {
         );
     }
 
-    static messagesError() {
-        //
+    static messagesSuccess(data) {
+        return Swal.fire({
+            icon: 'success',
+            title: data.message,
+        }).then((result) => {
+            if(result.isConfirmed) {
+                window.location.reload(1);
+            }
+        });
     }
 
-    static messagesSuccess() {
+    static messagesError() {
         //
     }
 }
