@@ -10,7 +10,7 @@ export function statusCode(error) {
 }
 
 export default class CategoryService {
-    static async editCategoryModal(editedItem, item) {
+    static editCategoryModal(editedItem, item) {
         editedItem.id = item.categoriaId;
         editedItem.nome = item.nome;
         editedItem.ativo = item.ativo;

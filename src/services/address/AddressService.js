@@ -24,7 +24,7 @@ export function createObjectAddress(response) {
 }
 
 export default class AddressService {
-  static async alertErrorAddressCep() {
+  static alertErrorAddressCep() {
     throw Swal.fire({
       icon: 'error',
       title: 'CEP inválido. Digite um CEP com 8 dígitos numéricos.',

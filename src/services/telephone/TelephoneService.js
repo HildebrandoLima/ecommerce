@@ -11,7 +11,7 @@ export function statusCode(error) {
 }
 
 export default class TelephoneService {
-  static async addTelephone(telephones, usuarioId) {
+  static addTelephone(telephones, usuarioId) {
     telephones.push({
       ddd: "",
       numero: '',
@@ -20,7 +20,7 @@ export default class TelephoneService {
     });
   }
 
-  static async removeTelephone(telephones, index) {
+  static removeTelephone(telephones, index) {
     if (telephones.length === 1) {
       return;
     } else {

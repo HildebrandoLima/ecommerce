@@ -11,7 +11,7 @@ export function statusCode(error) {
 }
 
 export default class UserService {
-  static async alertEditUser() {
+  static alertEditUser() {
     throw Swal.fire({
       icon: 'warning',
       title:

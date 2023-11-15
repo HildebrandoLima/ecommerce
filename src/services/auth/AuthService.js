@@ -11,7 +11,7 @@ export function statusCode(error) {
 }
 
 export default class AuthService {
-    static async messageSuccess(user) {
+    static messageSuccess(user) {
         Swal.fire({
             icon: 'success',
             title: user.message,
@@ -22,7 +22,7 @@ export default class AuthService {
         });
     }
 
-    static async returnObjectAuthProfileAdmin(user) {
+    static returnObjectAuthProfileAdmin(user) {
         Swal.fire({
             icon: 'success',
             title: user.message,
@@ -33,7 +33,7 @@ export default class AuthService {
         });
     }
 
-    static async returnObjectAuthProfileClient(user) {
+    static returnObjectAuthProfileClient(user) {
         Swal.fire({
             icon: 'success',
             title: user.message,
