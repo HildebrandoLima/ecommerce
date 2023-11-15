@@ -48,9 +48,7 @@ export default {
         return {
             bannerTitleMessage: 'Login',
             passwordVisible: false,
-            passwordVisible: false,
             errorList: {},
-            errorMessage: null,
             user: {
                 email: 'hildebrandolima16@gmail.com',
                 password: 'HiLd3br@ndo',
@@ -70,7 +68,18 @@ export default {
         },
         async auth() {
             const user = await AuthService.login(this.user);
-            this.errorList = AuthService.returnObjectAuth(user);
+            if (user.status === 200) {
+                if (user.data.isAdmin === true) {
+                    AuthService.returnObjectAuthProfileAdmin(user);
+                    this.$router.push({name: 'dashboard'});
+                } else {
+                    AuthService.returnObjectAuthProfileClient(user);
+                    this.$router.push({name: 'home'});
+                }
+            } else {
+                this.errorList = user;
+                return;
+            }
         },
         async oAuth(providerName) {
             try {

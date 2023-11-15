@@ -11,36 +11,44 @@ export function statusCode(error) {
 }
 
 export default class AuthService {
-    static async returnObjectAuth(user) {
-        if (user.data.status === 200) {
-            if (user.data.data.isAdmin == true) {
-                Swal.fire({
-                    icon: 'success',
-                    title: user.data.message,
-                }).then((result) => {
-                    if(result.isConfirmed) {
-                        window.location.reload(1);
-                    }
-                });
-                this.$router.push({name: 'dashboard'});
-            } else if (user.data.data.isAdmin == false) {
-                messages(
-                    user.data.status,
-                    user.data.data,
-                    user.data.message
-                );
-                this.$router.push({name: 'home'});
+    static async messageSuccess(user) {
+        Swal.fire({
+            icon: 'success',
+            title: user.message,
+        }).then((result) => {
+            if(result.isConfirmed) {
+                window.location.reload(1);
             }
-        } else {
-            return user;
-        }
+        });
+    }
+
+    static async returnObjectAuthProfileAdmin(user) {
+        Swal.fire({
+            icon: 'success',
+            title: user.message,
+        }).then((result) => {
+            if(result.isConfirmed) {
+                window.location.reload(1);
+            }
+        });
+    }
+
+    static async returnObjectAuthProfileClient(user) {
+        Swal.fire({
+            icon: 'success',
+            title: user.message,
+        }).then((result) => {
+            if(result.isConfirmed) {
+                window.location.reload(1);
+            }
+        });
     }
 
     static async login(body) {
         try {
             const response = await AuthRepository.login(body);
             setAuth(response.data.data);
-            return response;
+            return response.data;
         } catch (error) {
             return statusCode(error);
         }
