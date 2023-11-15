@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       categories: {},
-      page: 1,
+      currentPage: 1,
       perPage: 10,
     };
   },
@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     async getCategories() {
-      const categories = await CategoryService.listCategories(this.page, this.perPage, 1);
+      const categories = await CategoryService.listCategories(this.currentPage, this.perPage, 1);
       if (categories.status === 200) {
         this.categories = categories.data;
       } else {
