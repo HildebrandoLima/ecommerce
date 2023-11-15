@@ -12,11 +12,11 @@ export default class PaymentService {
     }
   }
 
-  static messageSucess() {
+  static messageSuccess() {
     const data = {
       message: 'Compra Finalizada com Sucesso.',
     };
-    return MessagesService.messagesSuccess(data);
+    return MessagesService.messageSuccess(data);
   }
 
   static getTotalCart() {

@@ -4,7 +4,7 @@ import { setAuth, removeAuth } from '@/storages/AuthStorage';
 
 export default class AuthService {
     static messageSuccess(user) {
-        return MessagesService.messagesSuccess(user);
+        return MessagesService.messageSuccess(user);
     }
 
     static async login(body) {

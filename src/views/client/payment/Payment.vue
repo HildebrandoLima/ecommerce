@@ -100,7 +100,7 @@ export default {
     async savePayment() {
       const payment = await PaymentService.createPayment(this.payment);
       if (payment.status === 200) {
-          PaymentService.messageSucess();
+          PaymentService.messageSuccess();
           this.$router.push({name: 'home'});
       } else {
           this.errorList = payment;

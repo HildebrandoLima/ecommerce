@@ -9,7 +9,7 @@ export default class MessagesService {
         );
     }
 
-    static messagesSuccess(data) {
+    static messageSuccess(data) {
         return Swal.fire({
             icon: 'success',
             title: data.message,
