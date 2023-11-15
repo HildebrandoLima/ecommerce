@@ -143,16 +143,18 @@ export default {
     methods: {
         async searchProduct() {
             if (this.search.trim() === '') {
-                this.errorList = SEARCH_PRODUCT_NOT_FOUND_MESSAGE;
-                return;
+                this.errorList = ProductService.messageError('search');
+                return this.errorList;
             }
 
-            const products = await ProductService.listProducts(this.currentPage, this.perPage, this.search, 0);
-            if (products.data.total === 0 || products.status !== 200) {
-                this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
-            } else {
+            const products = await ProductService.listProducts(this.currentPage, this.perPage, this.search, 1);
+            if (products.status === 200) {
                 this.products = products.data;
                 this.totalItems = products.data.total;
+                return;
+            } else {
+                this.errorList = ProductService.messageError('product');
+                return this.errorList;
             }
         },
         async logout() {
@@ -162,6 +164,7 @@ export default {
                 this.$router.push({name: 'login'});
             } else {
                 this.errorList = user.message;
+                return this.errorList;
             }
         },
     },
