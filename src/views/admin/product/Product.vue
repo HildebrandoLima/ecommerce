@@ -90,7 +90,7 @@ export default {
       this.getProducts();
     },
     async getProducts() {
-      const products = await ProductService.listProducts(this.currentPage, this.perPage, '', 0, this.selectedFilter);
+      const products = await ProductService.listProducts(this.currentPage, this.perPage, '', this.selectedFilter);
       if (products.status === 200) {
         this.products = products.data;
         this.totalItems = products.data.total;
