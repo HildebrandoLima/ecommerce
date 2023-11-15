@@ -28,7 +28,7 @@ export default {
       bannerTitleMessage: 'Produtos Por Categoria',
       errorList: null,
       products: {},
-      productId: 0,
+      categoryId: 0,
       search: '',
       currentPage: 1,
       perPage: 10,
@@ -44,9 +44,8 @@ export default {
       this.getProducts();
     },
     async getProducts() {
-        this.productId = this.$route.params.id;
-
-        const products = await ProductService.listProducts(this.currentPage, this.perPage, '', this.productId, 1);
+        this.categoryId = this.$route.params.id;
+        const products = await ProductService.listProducts(this.currentPage, this.perPage, this.categoryId, 1);
         if (products.status === 200) {
           this.products = products.data;
           this.totalItems = products.data.total;

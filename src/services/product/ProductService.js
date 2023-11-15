@@ -63,19 +63,18 @@ export default class ProductService {
     }
   }
 
-  static async listProducts(page, perPage, search, id, ativo) {
+  static async listProducts(page, perPage, search, active) {
       try {
-        const response = await ProductRepository.getProducts(page, perPage, search, id, ativo);
+        const response = await ProductRepository.getProducts(page, perPage, search, active);
         return response.data;
       } catch (error) {
         return statusCode(error);
       }
   }
 
-  static async getProductDetails(id) {
+  static async getProductDetails(id, active) {
       try {
-        let ativo = 1;
-        const response = await ProductRepository.getProduct(id, ativo);
+        const response = await ProductRepository.getProduct(id, active);
         return response.data;
       } catch (error) {
         return statusCode(error);

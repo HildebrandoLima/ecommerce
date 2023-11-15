@@ -42,7 +42,7 @@ export default {
       this.getProducts();
     },
     async getProducts() {
-      const products = await ProductService.listProducts(this.currentPage, this.perPage, '', 0, 1);
+      const products = await ProductService.listProducts(this.currentPage, this.perPage, '', 1);
       if (products.status === 200) {
         this.products = products.data;
         this.totalItems = products.data.total;

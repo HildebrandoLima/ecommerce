@@ -9,11 +9,11 @@ export default class ProductRepository {
         return api.put(`/product/edit`, body);
     }
 
-    static async getProducts(page, perPage, search, id, ativo) {
-        return api.get(`/product/list?page=${page}&perPage=${perPage}&search=${search}&id=${id}&active=${ativo}`);
+    static async getProducts(page, perPage, search, active) {
+        return api.get(`/product/list?page=${page}&perPage=${perPage}&search=${search}&active=${active}`);
     }
 
-    static async getProduct(id, ativo) {
-        return api.get(`/product/list/find?id=${id}&active=${ativo}`);
+    static async getProduct(id, active) {
+        return api.get(`/product/list/find?id=${id}&active=${active}`);
     }
 }
