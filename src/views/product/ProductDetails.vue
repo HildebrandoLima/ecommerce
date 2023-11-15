@@ -3,6 +3,12 @@
 
 <section class="bg-light my-5">
     <div class="container">
+
+        <AlertError
+            v-if="errorList.length > 0"
+            :errorList="errorList"
+        />
+
         <div class="row">
             <div class="col-lg-6">
                 <div class="card border shadow-0">
@@ -55,7 +61,7 @@
 
                         <div v-if="product.imagens.length > 0" class="row">
                             <div v-for="(image, index) in product.imagens" :key="index" class="col">
-                                <img :src="image.caminho" class="card-img-top" width="100" height="300" />
+                                <img :src="image.caminho" class="card-img-top mt-3" width="100" height="300" />
                             </div>
                         </div>
                     </div>
@@ -69,20 +75,20 @@
 </template>
 
 <script>
+import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import ButtonCart from '@/components/shared/ButtonCart.vue';
 import ProductNewGrid from '@/components/product/client/ProductNewGrid.vue';
 import ProductService from '@/services/product/ProductService';
-import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {
-    components: { Banner, ButtonCart, ProductNewGrid },
+    components: { AlertError, Banner, ButtonCart, ProductNewGrid },
     name: 'product',
     data() {
         return {
             bannerTitleMessage: 'Detalhes do Produto',
-            errorList: null,
+            errorList: '',
             product: {},
             productId: '',
         };
@@ -95,13 +101,11 @@ export default {
             this.productId = this.$route.params.id;
             const product = await ProductService.getProductDetails(this.productId, 1);
             if (product.status === 200) {
-                if (product.data) {
-                    this.product = product.data[0];
-                } else {
-                    this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
-                }
+                this.product = product.data[0];
+                return this.product;
             } else {
-                this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+                this.errorList = ProductService.messageError('product');
+                return;
             }
         },
     },

@@ -15,7 +15,6 @@
 import ProductForm from '@/components/product/admin/ProductForm.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
 import ProductService from '@/services/product/ProductService';
-import { messages } from '@/utils/messages/Message';
 
 export default {
     name: 'modal-product',
@@ -37,13 +36,11 @@ export default {
         async editProduct() {
             const product = await ProductService.editProduct(this.data);
             if (product.status === 200) {
-                messages(
-                    product.status,
-                    product.data,
-                    product.message
-                );
+                ProductService.messageSuccess(product);
+                return;
             } else {
                 this.errorList = product;
+                return;
             }
         },
     },

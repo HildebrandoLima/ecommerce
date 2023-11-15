@@ -109,6 +109,7 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import DDD from '@/assets/js/ddds';
+import TelephoneService from '@/services/telephone/TelephoneService';
 import { REGISTER_REQUIRED_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
@@ -138,7 +139,7 @@ export default {
         },
     },
     created() {
-        this.fieldRequired = REGISTER_REQUIRED_MESSAGE;
+        this.fieldRequired = TelephoneService.messageError('register');
         this.ddds = DDD;
         this.addTelephone();
     },

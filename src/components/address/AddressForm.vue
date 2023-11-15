@@ -203,6 +203,7 @@ export default {
         }
       } else {
         AddressService.alertErrorAddressCep();
+        return;
       }
     },
     async saveAddress() {

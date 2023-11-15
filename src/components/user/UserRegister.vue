@@ -37,11 +37,12 @@ export default {
   methods: {
     async saveUser() {
       const user = await UserService.createUser(this.user);
-
       if (user.status === 200) {
         this.messageSuccess = user.message;
+        return this.messageSuccess;
       } else {
         this.errorList = user;
+        return this.errorList;
       }
     },
   },

@@ -2,6 +2,14 @@ import ProductRepository from '@/repositories/ProductRepository';
 import MessagesService from '../shared/MessagesService';
 
 export default class ProductService {
+  static messageSuccess(flag) {
+    return MessagesService.messageSuccess(flag);
+  }
+
+  static messageError(flag) {
+    return MessagesService.messageError(flag);
+  }
+
   static formatPrice(value) {
     value = value.replace(/[^0-9.,]/g, '');
     value = value.replace(/,/g, '');

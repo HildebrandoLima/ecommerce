@@ -1,8 +1,13 @@
+import MessagesService from '../shared/MessagesService';
 import { USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default class ProfileService {
     static messageError() {
         return USER_NOT_FOUND_MESSAGE;
+    }
+
+    static messageError(flag) {
+        return MessagesService.messageError(flag);
     }
 
     static calculateAge(dateOfBirth) {

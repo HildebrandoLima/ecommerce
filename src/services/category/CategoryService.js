@@ -2,6 +2,14 @@ import CategoryRepository from '@/repositories/CategoryRepository';
 import MessagesService from '../shared/MessagesService';
 
 export default class CategoryService {
+    static messageSuccess(flag) {
+        return MessagesService.messageSuccess(flag);
+    }
+
+    static messageError(flag) {
+        return MessagesService.messageError(flag);
+    }
+
     static editCategoryModal(editedItem, item) {
         editedItem.id = item.categoriaId;
         editedItem.nome = item.nome;

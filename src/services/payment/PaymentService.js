@@ -3,13 +3,10 @@ import MessagesService from '../shared/MessagesService';
 import { cleanToCart, removeTotalCart } from '@/storages/CartStorage';
 import { getTotalCart } from '@/storages/CartStorage';
 import { getOrder, removeOrder } from '@/storages/CheckoutStorage';
-import { ORDER_TO_GENERATE_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default class PaymentService {
-  static messageError(orderId) {
-    if (!orderId) {
-      return ORDER_TO_GENERATE_MESSAGE;
-    }
+  static messageError(flag) {
+    return MessagesService.messageError(flag);
   }
 
   static messageSuccess() {

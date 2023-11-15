@@ -11,7 +11,6 @@
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
 import ProviderForm from '@/components/provider/ProviderForm.vue';
 import ProviderService from '@/services/provider/ProviderService';
-import { messages } from '@/utils/messages/Message';
 
 export default {
     name: 'register-provider',
@@ -31,13 +30,11 @@ export default {
         async saveProvider() {
             const provider = await ProviderService.createProvider(this.provider);
             if (provider.status === 200) {
-                messages(
-                    provider.status,
-                    provider.data,
-                    provider.message
-                );
+                ProviderService.messageSuccess(provider);
+                return;
             } else {
                 this.errorList = provider;
+                return this.errorList;
             }
         },
     },

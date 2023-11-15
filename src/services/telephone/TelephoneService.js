@@ -3,6 +3,14 @@ import MessagesService from '../shared/MessagesService';
 import { removeUser } from '@/storages/EntityPersonStorage';
 
 export default class TelephoneService {
+  static messageSuccess(flag) {
+    return MessagesService.messageSuccess(flag);
+  }
+
+  static messageError(flag) {
+    return MessagesService.messageError(flag);
+  }
+
   static addTelephone(telephones, usuarioId) {
     telephones.push({
       ddd: "",

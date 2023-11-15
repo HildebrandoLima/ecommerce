@@ -2,7 +2,7 @@
 <Banner :msg="bannerTitleMessage" />
 
 <AlertError
-    v-if="messageError"
+    v-if="messageError.length > 0"
     :errorList="messageError"
 />
 
@@ -31,6 +31,7 @@
               <div class="tab-pane fade show active" id="boleto">
                 <h5 class="card-title">Boleto</h5><hr />
                 <RegisterTicket
+                  :errorList="errorList"
                   :total="total"
                   :pedidoId="pedidoId"
                   :payment="payment"
@@ -41,6 +42,7 @@
               <div class="tab-pane fade" id="card">
                 <h5 class="card-title">Cartão</h5><hr />
                 <RegisterCard
+                  :errorList="errorList"
                   :total="total"
                   :pedidoId="pedidoId"
                   :payment="payment"
@@ -51,6 +53,7 @@
               <div class="tab-pane fade" id="pix">
                 <h5 class="card-title">PIX</h5><hr />
                 <RegisterPix
+                  :errorList="errorList"
                   :total="total"
                   :pedidoId="pedidoId"
                   :payment="payment"
@@ -81,7 +84,8 @@ export default {
   data() {
     return {
       bannerTitleMessage: 'Pagamento',
-      messageError: null,
+      messageError: '',
+      errorList: {},
       total: 0,
       pedidoId: 0,
       payment: {},
@@ -94,8 +98,10 @@ export default {
   },
   methods: {
     validateIfOrderIdExists() {
-      this.messageError = PaymentService.messageError(this.pedidoId);
-      return;
+      if (!this.pedidoId) {
+        this.messageError = PaymentService.messageError('order');
+        return;
+      }
     },
     async savePayment() {
       const payment = await PaymentService.createPayment(this.payment);
@@ -104,6 +110,7 @@ export default {
           this.$router.push({name: 'home'});
       } else {
           this.errorList = payment;
+          return;
       }
     },
   },

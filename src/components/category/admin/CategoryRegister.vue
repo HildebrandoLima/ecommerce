@@ -11,7 +11,6 @@
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
 import CategoryForm from '@/components/category/admin/CategoryForm.vue';
 import CategoryService from '@/services/category/CategoryService';
-import { messages } from '@/utils/messages/Message';
 
 export default {
     name: 'register-category',
@@ -28,13 +27,10 @@ export default {
         async saveCategory() {
             const category = await CategoryService.createCategory(this.category);
             if (category.status === 200) {
-                messages(
-                    category.status,
-                    category.data,
-                    category.message
-                );
+                CategoryService.messageSuccess(category);
             } else {
                 this.errorList = category;
+                return;
             }
         },
     },

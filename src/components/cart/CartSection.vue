@@ -37,7 +37,6 @@ import ConainerAuthentication from '@/components/cart/ConainerAuthentication.vue
 import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';
 import { getCart, calculateTotalCart, removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
-import { CART_NOT_FOUND_MESSAGE, PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {
@@ -45,7 +44,6 @@ export default {
     data() {
         return {
             bannerTitleMessage: 'Meu Carrinho',
-            errorMessage: null,
             errorList: '',
             products: {},
             cart: [],
@@ -71,7 +69,7 @@ export default {
                 this.products = products.data;
                 this.totalItems = products.data.total;
             } else {
-                this.errorMessage = PRODUCT_NOT_FOUND_MESSAGE;
+                this.errorList = ProductService.messageError('product');
             }
         },
         removeItem(item) {
@@ -107,7 +105,7 @@ export default {
                     this.toggleAuthenticationComponentVisibility = true
                 }
             } else {
-                this.errorList = CART_NOT_FOUND_MESSAGE;
+                this.errorList = ProductService.messageError('cart');
             }
         },
     },

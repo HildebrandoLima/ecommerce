@@ -5,8 +5,8 @@
     <div class="container">
 
         <AlertError
-            v-if="messageError"
-            :errorList="messageError"
+            v-if="errorList.length > 0"
+            :errorList="errorList"
         />
 
         <div class="row">
@@ -59,7 +59,7 @@ export default {
     data() {
         return {
             bannerTitleMessage: 'Meu Perfil',
-            messageError: null,
+            errorList: '',
             userId: 0,
             userName: '',
             userEmail: '',
@@ -93,7 +93,7 @@ export default {
                 this.user = user.data[0];
                 this.user.dataNascimento = this.calculateAge(this.user.dataNascimento);
             } else {
-                this.messageError = ProfileService.messageError();
+                this.errorList = ProfileService.messageError('user');
             }
         },
         calculateAge(dateOfBirth) {

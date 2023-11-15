@@ -21,7 +21,6 @@
 import Banner from '@/components/fixos/Banner.vue';
 import ProductForm from '@/components/product/admin/ProductForm.vue';
 import ProductService from '@/services/product/ProductService';
-import { messages } from '@/utils/messages/Message';
 
 export default {
     name: 'register-product',
@@ -49,11 +48,7 @@ export default {
         async saveProduct() {
             const product = await ProductService.createProduct(this.product);
             if (product.status === 200) {
-                messages(
-                    product.status,
-                    product.data,
-                    product.message
-                );
+                ProductService.messageSuccess(product);
             } else {
                 this.errorList = product;
             }

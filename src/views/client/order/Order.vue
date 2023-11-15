@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import OrderDetails from '@/components/order/OrderDetails.vue';
 import OrderStatus from '@/components/order/OrderStatus.vue';
@@ -48,15 +47,14 @@ import Pagination from '@/components/shared/Pagination.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
 import OrderService from '@/services/order/OrderService';
 import { userAuth } from '@/storages/AuthStorage';
-import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'order',
-    components: { AlertError, Banner, OrderDetails, OrderStatus, OrderSummary, Pagination, ModalDetails, Table },
+    components: { Banner, OrderDetails, OrderStatus, OrderSummary, Pagination, ModalDetails, Table },
     data() {
         return {
             bannerTitleMessage: 'Meus Pedidos',
-            messageError: null,
+            errorList: '',
             userId: 0,
             address: {},
             itens: {},
@@ -88,7 +86,8 @@ export default {
                 this.orders = orders.data;
                 this.totalItems = orders.data.total;
             } else {
-                this.messageError = ORDER_NOT_FOUND_MESSAGE;
+                this.errorList = OrderService.messageError('create-order');
+                return;
             }
         },
         showModal(modalTitle, item, modalColumns) {

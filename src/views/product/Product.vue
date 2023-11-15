@@ -1,6 +1,11 @@
 <template>
 <Banner :msg="bannerTitleMessage" />
 
+<AlertError
+  v-if="errorList.length > 0"
+  :errorList="errorList"
+/>
+
 <ProductSection :products="products" :totalItems="totalItems" />
 
 <hr />
@@ -18,7 +23,6 @@ import Banner from '@/components/fixos/Banner.vue';
 import ProductSection from '@/components/product/client/ProductSection.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ProductService from '@/services/product/ProductService';
-import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
   components: { AlertError, Banner, ProductSection, Pagination },
@@ -26,7 +30,7 @@ export default {
   data() {
     return {
       bannerTitleMessage: 'Produtos',
-      errorList: null,
+      errorList: '',
       products: {},
       currentPage: 1,
       perPage: 10,
@@ -47,7 +51,8 @@ export default {
         this.products = products.data;
         this.totalItems = products.data.total;
       } else {
-        this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+        this.errorList = ProductService.messageError('product');
+        return;
       }
     },
   },

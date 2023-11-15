@@ -28,8 +28,9 @@
                     required
                 />
                 <AlertError
-                v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList.numeroCartao" />
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList.numeroCartao"
+                />
             </div>
         </div>
 
@@ -41,8 +42,9 @@
                     <option value="Crédito">Crédito</option>
                 </select>
                 <AlertError
-                v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList.tipoCartao" />
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList.tipoCartao"
+                />
             </div>
         </div>
 
@@ -57,8 +59,9 @@
                 required
             />
             <AlertError
-            v-if="Object.keys(errorList).length > 0"
-            :errorList="errorList.dataValidade" />
+                v-if="Object.keys(errorList).length > 0"
+                :errorList="errorList.dataValidade"
+            />
         </div>
     </div>
 
@@ -71,8 +74,9 @@
                     <option v-for="parcela in parcelas" :value="parcela" :key="parcela">{{ parcela }}x</option>
                 </select>
                 <AlertError
-                v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList.parcela" />
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList.parcela"
+                />
             </div>
         </div>
 
@@ -88,8 +92,9 @@
                     required
                 />
                 <AlertError
-                v-if="Object.keys(errorList).length > 0"
-                :errorList="errorList.ccv" />
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList.ccv"
+                />
             </div>
         </div>
 
@@ -126,6 +131,10 @@ export default {
         this.paymentMethod();
     },
     props: {
+        errorList: {
+            type: Object,
+            default: {},
+        },
         total: {
             type: Number,
             required: true,

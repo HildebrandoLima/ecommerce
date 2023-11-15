@@ -18,7 +18,7 @@
           </div>
 
             <AlertError
-                v-if="errorList"
+                v-if="errorList.length > 0"
                 :errorList="errorList"
             />
 
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import ProviderEdit from '@/components/provider/ProviderEdit.vue';
 import ProviderRegister from '@/components/provider/ProviderRegister.vue';
@@ -58,13 +59,13 @@ import ProviderService from '@/services/provider/ProviderService';
 import { PROVIDER_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { Banner, ProviderEdit, ProviderRegister, Pagination, ModalDetails, SelectedFilter, Table },
+  components: { AlertError, Banner, ProviderEdit, ProviderRegister, Pagination, ModalDetails, SelectedFilter, Table },
   name: 'provider',
   data() {
     return {
       bannerTitleMessage: 'Fornecedores',
       selectedFilter: 1,
-      errorList: {},
+      errorList: '',
       providers: {},
       editedItem: {},
       modalId: 'registerProviderModal',
@@ -102,7 +103,7 @@ export default {
         this.providers = providers.data;
         this.totalItems = providers.data.total;
       } else {
-        this.errorList = PROVIDER_NOT_FOUND_MESSAGE;
+        this.errorList = ProviderService.messageError('provider');
       }
     },
     registerProvider() {

@@ -15,7 +15,6 @@
 import ProviderForm from '@/components/provider/ProviderForm.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
 import ProviderService from '@/services/provider/ProviderService';
-import { messages } from '@/utils/messages/Message';
 
 export default {
     name: 'modal-provider',
@@ -37,13 +36,11 @@ export default {
         async editProvider() {
             const provider = await ProviderService.editProvider(this.data);
             if (provider.status === 200) {
-                messages(
-                    provider.status,
-                    provider.data,
-                    provider.message
-                );
+                ProviderService.messageSuccess(provider);
+                return;
             } else {
                 this.errorList = provider;
+                return this.errorList;
             }
         },
     },

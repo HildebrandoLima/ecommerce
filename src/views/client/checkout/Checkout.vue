@@ -4,13 +4,23 @@
 <div class="container">
 
   <AlertError
-    v-if="messageError"
+    v-if="messageError.length > 0"
     :errorList="messageError"
   />
 
   <div class="row">
-    <CheckoutForm :errorList="errorList" :adresses="adresses" :order="order" />
-    <CheckoutSummary :errorList="errorList" :total="total" :order="order" @saveOrder="saveOrder" />
+    <CheckoutForm
+      :errorList="errorList"
+      :adresses="adresses"
+      :order="order"
+    />
+
+    <CheckoutSummary
+      :errorList="errorList"
+      :total="total"
+      :order="order"
+      @saveOrder="saveOrder"
+    />
   </div>
 </div>
 </template>
@@ -29,7 +39,7 @@ export default {
   data() {
     return {
       bannerTitleMessage: 'Checkout',
-      messageError: null,
+      messageError: '',
       errorList: {},
       adresses: [],
       cart: [],
@@ -58,7 +68,10 @@ export default {
       this.cart = OrderService.getCart();
     },
     validateCart() {
-      OrderService.messageError('cart');
+      if (this.cart.length === 0) {
+        this.messageError = OrderService.messageError('cart');
+        return;
+      }
     },
     onTypeDeliveryChange() {
       this.order.valorEntrega = OrderService.typeDeliveryChange(this.order.tipoEntrega);
@@ -73,6 +86,7 @@ export default {
         this.adresses = user.data[0].enderecos;
       } else {
         this.messageError = OrderService.messageError('user');
+        return;
       }
     },
     async saveOrder() {
@@ -84,6 +98,7 @@ export default {
       } else {
         this.errorList = order;
         this.messageError = OrderService.messageError('item');
+        return;
       }
     },
   },

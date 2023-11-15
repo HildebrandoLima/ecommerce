@@ -15,7 +15,6 @@
 import CategoryForm from '@/components/category/admin/CategoryForm.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
 import CategoryService from '@/services/category/CategoryService';
-import { messages } from '@/utils/messages/Message';
 
 export default {
     name: 'modal-category',
@@ -37,13 +36,10 @@ export default {
         async editCategory() {
             const category = await CategoryService.editCategory(this.data);
             if (category.status === 200) {
-                messages(
-                    category.status,
-                    category.data,
-                    category.message
-                );
+                CategoryService.messageSuccess(category);
             } else {
                 this.errorList = category;
+                return;
             }
         },
     },

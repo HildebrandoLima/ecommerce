@@ -338,16 +338,20 @@ export default {
             const categories = await CategoryService.listCategories(this.currentPage, this.perPage, 1);
             if (categories.status === 200) {
                 this.categories = categories.data.list;
+                return this.categories;
             } else {
-                this.errorList = CATEGORY_NOT_FOUND_MESSAGE;
+                this.errorList = CategoryService.messageError('category');
+                return;
             }
         },
         async getProviders() {
             const providers = await ProviderService.listProviders(this.currentPage, this.perPage, '', 0, 1);
             if (providers.status === 200) {
                 this.providers = providers.data.list;
+                return this.providers;
             } else {
-                this.errorList = CATEGORY_NOT_FOUND_MESSAGE;
+                this.errorList = ProviderService.messageError('provider');
+                return;
             }
         },
         async saveProduct() {

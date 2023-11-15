@@ -16,7 +16,6 @@
 <script>
 import TelephoneForm from '@/components/telephone/TelephoneForm.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
-import { messages } from '@/utils/messages/Message';
 import TelephoneService from '@/services/telephone/TelephoneService';
 
 export default {
@@ -39,13 +38,11 @@ export default {
         async editTelephone() {
             const telephone = await TelephoneService.editTelephone(this.data);
             if (telephone.status === 200) {
-                messages(
-                    telephone.status,
-                    telephone.data,
-                    telephone.message
-                );
+                TelephoneService.messageSuccess(telephone);
+                return;
             } else {
                 this.errorList = telephone;
+                return this.errorList;
            }
         },
     },

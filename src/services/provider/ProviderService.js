@@ -2,6 +2,14 @@ import ProviderRepository from '@/repositories/ProviderRepository';
 import MessagesService from '../shared/MessagesService';
 
 export default class ProviderService {
+  static messageSuccess(flag) {
+    return MessagesService.messageSuccess(flag);
+  }
+
+  static messageError(flag) {
+    return MessagesService.messageError(flag);
+  }
+
   static editProviderModal(editedItem, item) {
     editedItem.id = item.fornecedorId;
     editedItem.razaoSocial = item.razaoSocial;

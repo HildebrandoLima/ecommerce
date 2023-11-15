@@ -16,6 +16,10 @@ export function createObjectAddress(response) {
 }
 
 export default class AddressService {
+  static messageSuccess(user) {
+    return MessagesService.messageSuccess(user);
+  }
+
   static alertErrorAddressCep() {
     throw Swal.fire({
       icon: 'error',

@@ -18,7 +18,7 @@
             </div>
 
             <AlertError
-                v-if="errorList"
+                v-if="errorList.length > 0"
                 :errorList="errorList"
             />
 
@@ -44,22 +44,22 @@
 </template>
 
 <script>
+import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ProductEdit from '@/components/product/admin/ProductEdit.vue';
 import SelectedFilter from '@/components/shared/SelectedFilter.vue';
 import Table from '@/components/shared/Table.vue';
 import ProductService from '@/services/product/ProductService';
-import { PRODUCT_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { Banner, Pagination, ProductEdit, SelectedFilter, Table },
+  components: { AlertError, Banner, Pagination, ProductEdit, SelectedFilter, Table },
   name: 'product',
   data() {
     return {
       bannerTitleMessage: 'Produtos',
       selectedFilter: 1,
-      errorList: {},
+      errorList: '',
       products: {},
       editedItem: {},
       productColumns: ['nome', 'descricao', 'quantidade', 'precoVenda', 'precoCusto', 'margemLucro', 'codigoBarra', 'unidadeMedida', 'dataValidade', 'criadoEm', 'alteradoEm'],
@@ -95,7 +95,8 @@ export default {
         this.products = products.data;
         this.totalItems = products.data.total;
       } else {
-        this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+        this.errorList = ProductService.messageError('product');
+        return;
       }
     },
     registerProduct() {
@@ -103,6 +104,7 @@ export default {
     },
     editItem(item) {
       ProductService.editProductModal(this.editedItem, item);
+      return;
     },
   },
   computed: {

@@ -3,6 +3,14 @@ import MessagesService from '../shared/MessagesService';
 import { setUser } from '@/storages/EntityPersonStorage';
 
 export default class UserService {
+  static messageSuccess(flag) {
+    return MessagesService.messageSuccess(flag);
+  }
+
+  static messageError(flag) {
+    return MessagesService.messageError(flag);
+  }
+
   static alertEditUser() {
     throw Swal.fire({
       icon: 'warning',

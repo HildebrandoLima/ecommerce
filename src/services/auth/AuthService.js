@@ -7,6 +7,10 @@ export default class AuthService {
         return MessagesService.messageSuccess(user);
     }
 
+    static messageError(flag) {
+        return MessagesService.messageError(flag);
+    }
+
     static async login(body) {
         try {
             const response = await AuthRepository.login(body);

@@ -3,7 +3,6 @@ import MessagesService from '../shared/MessagesService';
 import { userAuth } from '@/storages/AuthStorage';
 import { getCart, getTotalCart } from '@/storages/CartStorage';
 import { setOrder } from '@/storages/CheckoutStorage';
-import { ITEMS_NOT_FOUND_MESSAGE, USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export let cart;
 export let total;
@@ -27,16 +26,7 @@ export default class OrderService {
   }
 
   static messageError(flag) {
-    switch(flag) {
-      case 'cart':
-        if (this.cart.length === 0) {
-          return ITEMS_NOT_FOUND_MESSAGE;
-        }
-      case 'user':
-        return USER_NOT_FOUND_MESSAGE;
-      case 'item':
-        return ITEMS_NOT_FOUND_MESSAGE;
-    }
+    return MessagesService.messageError(flag);
   }
 
   static typeDeliveryChange(typeDelivery) {

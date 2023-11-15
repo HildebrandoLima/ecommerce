@@ -6,7 +6,7 @@
         <div class="card-body">
 
             <AlertError
-                v-if="errorList"
+                v-if="errorList.length > 0"
                 :errorList="errorList"
             />
 
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import Table from '@/components/shared/Table.vue';
@@ -31,12 +32,12 @@ import UserService from '@/services/user/UserService';
 import { USER_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { Banner, Pagination, Table },
+  components: { AlertError, Banner, Pagination, Table },
   name: 'user',
   data() {
     return {
       bannerTitleMessage: 'Usuários',
-      errorList: {},
+      errorList: '',
       users: {},
       userColumns: ['nome', 'cpf', 'email', 'dataNascimento', 'genero', 'eAdmin', 'emailVerificado', 'criadoEm', 'alteradoEm', 'ativo'],
       searchUser: '',
@@ -67,7 +68,7 @@ export default {
         this.users = users.data;
         this.totalItems = users.data.total;
       } else {
-        this.errorList = USER_NOT_FOUND_MESSAGE;
+        this.errorList = UserService.messageError('user');
       }
     },
   },

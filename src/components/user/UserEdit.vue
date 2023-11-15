@@ -14,7 +14,6 @@
 <script>
 import UserForm from '@/components/user/UserForm.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
-import { messages } from '@/utils/messages/Message';
 import UserService from '@/services/user/UserService';
 
 export default {
@@ -46,13 +45,11 @@ export default {
 
             const user = await UserService.editUser(this.newObjectUser(this.data));
             if (user.status === 200) {
-                messages(
-                    user.status,
-                    user.data,
-                    user.message
-                );
+                UserService.messageSuccess(user);
+                return;
             } else {
                 this.errorList = user;
+                return this.errorList;
             }
         },
     },
