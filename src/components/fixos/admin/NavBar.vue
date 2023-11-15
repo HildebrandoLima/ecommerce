@@ -119,7 +119,6 @@ import ProductCard from '@/components/product/client/ProductCard.vue';
 import AuthService from '@/services/auth/AuthService';
 import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';
-import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     components: { AlertError, ProductCard },
