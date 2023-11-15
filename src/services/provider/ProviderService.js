@@ -1,13 +1,5 @@
 import ProviderRepository from '@/repositories/ProviderRepository';
-import { messages } from '@/utils/messages/Message';
-
-export function statusCode(error) {
-  return messages(
-    error.response.data.status,
-    error.response.data.data,
-    error.response.data.message
-  );
-}
+import MessagesService from '../shared/MessagesService';
 
 export default class ProviderService {
   static editProviderModal(editedItem, item) {
@@ -25,7 +17,7 @@ export default class ProviderService {
         const response = await ProviderRepository.postProvider(body);
         return response.data;
     } catch (error) {
-        return statusCode(error);
+        return MessagesService.statusCode(error);
     }
   }
 
@@ -34,7 +26,7 @@ export default class ProviderService {
         const response = await ProviderRepository.putProvider(body);
         return response.data;
     } catch (error) {
-        return statusCode(error);
+        return MessagesService.statusCode(error);
     }
   }
 
@@ -43,7 +35,7 @@ export default class ProviderService {
       const response = await ProviderRepository.getProviders(page, perPage, search, id, ativo);
       return response.data;
     } catch (error) {
-      return statusCode(error);
+      return MessagesService.statusCode(error);
     }
   }
 }

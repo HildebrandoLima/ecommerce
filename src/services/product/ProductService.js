@@ -1,13 +1,5 @@
 import ProductRepository from '@/repositories/ProductRepository';
-import { messages } from '@/utils/messages/Message';
-
-export function statusCode(error) {
-  return messages(
-    error.response.data.status,
-    error.response.data.data,
-    error.response.data.message
-  );
-}
+import MessagesService from '../shared/MessagesService';
 
 export default class ProductService {
   static formatPrice(value) {
@@ -46,7 +38,7 @@ export default class ProductService {
       const response = await ProductRepository.postProduct(body);
       return response.data;
     } catch (error) {
-      return statusCode(error);
+      return MessagesService.statusCode(error);
     }
   }
 
@@ -55,11 +47,7 @@ export default class ProductService {
       const response = await ProductRepository.putProduct(body);
       return response.data;
     } catch (error) {
-      return messages(
-        error.response.data.status,
-        error.response.data.data,
-        error.response.data.message
-      );
+      return MessagesService.statusCode(error);
     }
   }
 
@@ -68,7 +56,7 @@ export default class ProductService {
         const response = await ProductRepository.getProducts(page, perPage, search, active);
         return response.data;
       } catch (error) {
-        return statusCode(error);
+        return MessagesService.statusCode(error);
       }
   }
 
@@ -77,7 +65,7 @@ export default class ProductService {
         const response = await ProductRepository.getProduct(id, active);
         return response.data;
       } catch (error) {
-        return statusCode(error);
+        return MessagesService.statusCode(error);
       }
   }
 }

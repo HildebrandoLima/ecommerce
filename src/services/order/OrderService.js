@@ -1,21 +1,13 @@
 import OrderRepository from '@/repositories/OrderRepository';
+import MessagesService from '../shared/MessagesService';
 import { userAuth } from '@/storages/AuthStorage';
 import { getCart, getTotalCart } from '@/storages/CartStorage';
 import { setOrder } from '@/storages/CheckoutStorage';
-import { messages } from '@/utils/messages/Message';
 import { ITEMS_NOT_FOUND_MESSAGE, USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export let cart;
 export let total;
 export let userId;
-
-export function statusCode(error) {
-  return messages(
-    error.response.data.status,
-    error.response.data.data,
-    error.response.data.message
-  );
-}
 
 export default class OrderService {
   static getTotalCart() {
@@ -84,7 +76,7 @@ export default class OrderService {
           setOrder(response.data.data);
           return response.data;
       } catch (error) {
-          return statusCode(error);
+          return MessagesService.statusCode(error);
       }
   }
 
@@ -93,7 +85,7 @@ export default class OrderService {
         const response = await OrderRepository.getOrders(page, perPage, id);
         return response.data;
       } catch (error) {
-        return statusCode(error);
+        return MessagesService.statusCode(error);
       }
     }
 }

@@ -1,14 +1,6 @@
 import UserRepository from '@/repositories/UserRepository';
+import MessagesService from '../shared/MessagesService';
 import { setUser } from '@/storages/EntityPersonStorage';
-import { messages } from '@/utils/messages/Message';
-
-export function statusCode(error) {
-  return messages(
-    error.response.data.status,
-    error.response.data.data,
-    error.response.data.message
-  );
-}
 
 export default class UserService {
   static alertEditUser() {
@@ -30,7 +22,7 @@ export default class UserService {
         setUser(response.data.data);
         return response.data;
       } catch (error) {
-        return statusCode(error);
+        return MessagesService.statusCode(error);
       }
   }
 
@@ -39,7 +31,7 @@ export default class UserService {
       const response = await UserRepository.putUser(body);
       return response.data;
     } catch (error) {
-      return statusCode(error);
+      return MessagesService.statusCode(error);
     }
   }
 
@@ -48,7 +40,7 @@ export default class UserService {
       const response = await UserRepository.getUsers(page, perPage, search, id);
       return response.data;
     } catch (error) {
-      return statusCode(error);
+      return MessagesService.statusCode(error);
     }
   }
 
@@ -57,7 +49,7 @@ export default class UserService {
       const response = await UserRepository.getUser(id);
       return response.data;
     } catch (error) {
-      return statusCode(error);
+      return MessagesService.statusCode(error);
     }
   }
 }

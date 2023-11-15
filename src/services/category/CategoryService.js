@@ -1,13 +1,5 @@
 import CategoryRepository from '@/repositories/CategoryRepository';
-import { messages } from '@/utils/messages/Message';
-
-export function statusCode(error) {
-    return messages(
-      error.response.data.status,
-      error.response.data.data,
-      error.response.data.message
-    );
-}
+import MessagesService from '../shared/MessagesService';
 
 export default class CategoryService {
     static editCategoryModal(editedItem, item) {
@@ -22,7 +14,7 @@ export default class CategoryService {
             const response = await CategoryRepository.postCategory(body);
             return response.data;
         } catch (error) {
-            return statusCode(error);
+            return MessagesService.statusCode(error);
         }
     }
 
@@ -31,7 +23,7 @@ export default class CategoryService {
             const response = await CategoryRepository.putCategory(body);
             return response.data;
         } catch (error) {
-            return statusCode(error);
+            return MessagesService.statusCode(error);
         }
     }
 
@@ -40,7 +32,7 @@ export default class CategoryService {
             const response = await CategoryRepository.getCategories(page, perPage, ativo);
             return response.data;
         } catch (error) {
-            return statusCode(error);
+            return MessagesService.statusCode(error);
         }
     }
 
@@ -49,7 +41,7 @@ export default class CategoryService {
             const response = await CategoryRepository.getSearchCategory(page, perPage, category);
             return response.data;
         } catch (error) {
-            return statusCode(error);
+            return MessagesService.statusCode(error);
         }
     }
 }

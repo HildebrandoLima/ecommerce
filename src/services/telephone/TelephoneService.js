@@ -1,14 +1,6 @@
 import TelephoneRepository from '@/repositories/TelephoneRepository';
+import MessagesService from '../shared/MessagesService';
 import { removeUser } from '@/storages/EntityPersonStorage';
-import { messages } from '@/utils/messages/Message';
-
-export function statusCode(error) {
-  return messages(
-    error.response.data.status,
-    error.response.data.data,
-    error.response.data.message
-  );
-}
 
 export default class TelephoneService {
   static addTelephone(telephones, usuarioId) {
@@ -34,7 +26,7 @@ export default class TelephoneService {
       removeUser();
       return response.data;
     } catch (error) {
-      return statusCode(error);
+      return MessagesService.statusCode(error);
     }
   }
 
@@ -43,7 +35,7 @@ export default class TelephoneService {
       const response = await TelephoneRepository.putTelephone(body);
       return response.data;
     } catch (error) {
-      return statusCode(error);
+      return MessagesService.statusCode(error);
     }
   }
 }

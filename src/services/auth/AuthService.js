@@ -1,14 +1,6 @@
 import AuthRepository from '@/repositories/AuthRepository';
+import MessagesService from '../shared/MessagesService';
 import { setAuth, removeAuth } from '@/storages/AuthStorage';
-import { messages } from '@/utils/messages/Message';
-
-export function statusCode(error) {
-    return messages(
-      error.response.data.status,
-      error.response.data.data,
-      error.response.data.message
-    );
-}
 
 export default class AuthService {
     static messageSuccess(user) {
@@ -50,7 +42,7 @@ export default class AuthService {
             setAuth(response.data.data);
             return response.data;
         } catch (error) {
-            return statusCode(error);
+            return MessagesService.statusCode(error);
         }
     }
 
@@ -60,7 +52,7 @@ export default class AuthService {
             removeAuth();
             return response.data;
         } catch (error) {
-            return statusCode(error);
+            return MessagesService.statusCode(error);
         }
     }
 

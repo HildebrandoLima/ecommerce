@@ -1,17 +1,9 @@
 import PaymentRepository from '@/repositories/PaymentRepository';
+import MessagesService from '../shared/MessagesService';
 import { cleanToCart, removeTotalCart } from '@/storages/CartStorage';
 import { getTotalCart } from '@/storages/CartStorage';
 import { getOrder, removeOrder } from '@/storages/CheckoutStorage';
-import { messages } from '@/utils/messages/Message';
 import { ORDER_TO_GENERATE_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
-
-export function statusCode(error) {
-    return messages(
-      error.response.data.status,
-      error.response.data.data,
-      error.response.data.message
-    );
-}
 
 export default class PaymentService {
   static messageError(orderId) {
@@ -47,7 +39,7 @@ export default class PaymentService {
           removeOrder();
           return response.data;
       } catch (error) {
-          return statusCode(error);
+          return MessagesService.statusCode(error);
       }
   }
 }

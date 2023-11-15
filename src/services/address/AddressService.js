@@ -1,13 +1,5 @@
 import AddressRepository from '@/repositories/AddressRepository';
-import { messages } from '@/utils/messages/Message';
-
-export function statusCode(error) {
-  return messages(
-    error.response.data.status,
-    error.response.data.data,
-    error.response.data.message
-  );
-}
+import MessagesService from '../shared/MessagesService';
 
 export function createObjectAddress(response) {
   const address = response.data;
@@ -36,7 +28,7 @@ export default class AddressService {
       const response = await AddressRepository.postAddress(body);
       return response.data;
     } catch (error) {
-      return statusCode(error);
+      return MessagesService.statusCode(error);
     }
   }
 
@@ -45,7 +37,7 @@ export default class AddressService {
       const response = await AddressRepository.putAddress(body);
       return response.data;
     } catch (error) {
-      return statusCode(error);
+      return MessagesService.statusCode(error);
     }
   }
 
