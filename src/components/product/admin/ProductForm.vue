@@ -1,39 +1,43 @@
 <template>
 <form>
     <div class="row mb-4">
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-th-large" aria-hidden="true"></i>
-            </span>
-            <input
-                type="text"
-                id="produto"
-                maxlength="100"
-                v-model="product.nome"
-                placeholder="Produto"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-th-large" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="text"
+                    id="produto"
+                    maxlength="100"
+                    v-model="product.nome"
+                    placeholder="Produto"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.nome"
             />
         </div>
 
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-barcode" aria-hidden="true"></i>
-            </span>
-            <input
-                type="text"
-                id="dataFundacao"
-                maxlength="13"
-                v-model="product.codigoBarra"
-                @input="formatNumber"
-                placeholder="Código de Barra"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-barcode" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="text"
+                    id="dataFundacao"
+                    maxlength="13"
+                    v-model="product.codigoBarra"
+                    @input="formatNumber"
+                    placeholder="Código de Barra"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.codigoBarra"
@@ -42,38 +46,42 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                R$
-            </span>
-            <input
-                type="text"
-                id="precoVenda"
-                v-model="product.precoVenda"
-                @input="formatPriceSale"
-                placeholder="Preço de Venda"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    R$
+                </span>
+                <input
+                    type="text"
+                    id="precoVenda"
+                    v-model="product.precoVenda"
+                    @input="formatPriceSale"
+                    placeholder="Preço de Venda"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.precoVenda"
             />
         </div>
 
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                R$
-            </span>
-            <input
-                type="text"
-                id="precoCusto"
-                v-model="product.precoCusto"
-                @input="formatPriceCost"
-                placeholder="Preço de Custo"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    R$
+                </span>
+                <input
+                    type="text"
+                    id="precoCusto"
+                    v-model="product.precoCusto"
+                    @input="formatPriceCost"
+                    placeholder="Preço de Custo"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.precoCusto"
@@ -82,39 +90,43 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-            </span>
-            <input
-                type="text"
-                id="quantidade"
-                v-model="product.quantidade"
-                @input="formatNumber"
-                placeholder="Quantidade"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="text"
+                    id="quantidade"
+                    v-model="product.quantidade"
+                    @input="formatNumber"
+                    placeholder="Quantidade"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.quantidade"
             />
         </div>
 
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-th-large" aria-hidden="true"></i>
-            </span>
-            <select id="unidadeMedida" v-model="product.unidadeMedida" class="form-select" required >
-                <option value="">-- Selecione a Unidade Medida --</option>
-                <option value="UN">UN</option>
-                <option value="G">G</option>
-                <option value="KG">KG</option>
-                <option value="ML">ML</option>
-                <option value="L">L</option>
-                <option value="M2">M2</option>
-                <option value="CX">CX</option>
-            </select>
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-th-large" aria-hidden="true"></i>
+                </span>
+                <select id="unidadeMedida" v-model="product.unidadeMedida" class="form-select" required >
+                    <option value="">-- Selecione a Unidade Medida --</option>
+                    <option value="UN">UN</option>
+                    <option value="G">G</option>
+                    <option value="KG">KG</option>
+                    <option value="ML">ML</option>
+                    <option value="L">L</option>
+                    <option value="M2">M2</option>
+                    <option value="CX">CX</option>
+                </select>
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.unidadeMedida"
@@ -123,28 +135,32 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-th-large" aria-hidden="true"></i>
-            </span>
-            <select id="categoriaId" v-model="product.categoriaId" class="form-select" required >
-                <option value="">-- Selecione a Categoria --</option>
-                <option v-for="category in categories" :value="category.categoriaId" :key="category">{{ category.nome }}</option>
-            </select>
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-th-large" aria-hidden="true"></i>
+                </span>
+                <select id="categoriaId" v-model="product.categoriaId" class="form-select" required >
+                    <option value="">-- Selecione a Categoria --</option>
+                    <option v-for="category in categories" :value="category.categoriaId" :key="category">{{ category.nome }}</option>
+                </select>
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.categoriaId"
             />
         </div>
 
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-            </span>
-            <select id="fornecedorId" v-model="product.fornecedorId" class="form-select" required >
-                <option value="">-- Selecione o Fornecedor --</option>
-                <option v-for="provider in providers" :value="provider.fornecedorId" :key="provider">{{ provider.razaoSocial }}</option>
-            </select>
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                </span>
+                <select id="fornecedorId" v-model="product.fornecedorId" class="form-select" required >
+                    <option value="">-- Selecione o Fornecedor --</option>
+                    <option v-for="provider in providers" :value="provider.fornecedorId" :key="provider">{{ provider.razaoSocial }}</option>
+                </select>
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.fornecedorId"
@@ -153,39 +169,43 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-            </span>
-            <input
-                type="text"
-                id="dataValidade"
-                v-model="product.dataValidade"
-                onfocus="(this.type='date')"
-                placeholder="Data de Validade"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="text"
+                    id="dataValidade"
+                    v-model="product.dataValidade"
+                    onfocus="(this.type='date')"
+                    placeholder="Data de Validade"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.dataValidade"
             />
         </div>
 
-        <div class="col input-group">
-            <input
-                v-if="!isEditMode"
-                type="file"
-                id="imagens"
-                @change="handleFileChange"
-                class="form-control"
-                accept="image/png"
-                required
-                multiple
-            />
-            <span v-if="!isEditMode" class="input-group-text" id="basic-addon1">
-                <i class="fa fa-file-image" aria-hidden="true"></i>
-            </span>
+        <div class="col">
+            <div class="input-group">
+                <input
+                    v-if="!isEditMode"
+                    type="file"
+                    id="imagens"
+                    @change="handleFileChange"
+                    class="form-control"
+                    accept="image/png"
+                    required
+                    multiple
+                />
+                <span v-if="!isEditMode" class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-file-image" aria-hidden="true"></i>
+                </span>
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.imagens"
@@ -249,7 +269,6 @@ import AlertError from '@/components/shared/AlertError.vue';
 import CategoryService from '@/services/category/CategoryService';
 import ProductService from '@/services/product/ProductService';
 import ProviderService from '@/services/provider/ProviderService';
-import { CATEGORY_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'from-product',
