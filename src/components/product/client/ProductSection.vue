@@ -39,7 +39,7 @@
           <div v-for="(product, index) in products.list" :key="index" class="col-lg-4 col-md-6 col-sm-6 d-flex">
             <div class="card w-100 my-2 shadow-2-strong">
 
-              <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}">
+              <RouterLink :to="{ name: 'productDetails', params: { id: product.id }}">
                   <img v-if="product.imagens.length > 0" :src="product.imagens[0].caminho" class="card-img-top" />
               </RouterLink>
 
@@ -49,7 +49,7 @@
                   POR: <span class="text-danger"><s>{{ formatPrice(product.precoVenda) }}</s></span>
                 </div>
 
-                <RouterLink :to="{ name: 'productDetails', params: { id: product.produtoId}}" class="nav-link text-dark">
+                <RouterLink :to="{ name: 'productDetails', params: { id: product.id }}" class="nav-link text-dark">
                   <p class="card-text">{{ product.nome }}</p>
                 </RouterLink>
 

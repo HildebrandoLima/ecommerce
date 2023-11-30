@@ -25,7 +25,7 @@ export default class ProductService {
   }
 
   static editProductModal(editedItem, item) {
-    editedItem.id = item.produtoId;
+    editedItem.id = item.id;
     editedItem.nome = item.nome;
     editedItem.descricao = item.descricao;
     editedItem.quantidade = item.quantidade;

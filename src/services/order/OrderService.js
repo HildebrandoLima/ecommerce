@@ -47,7 +47,7 @@ export default class OrderService {
         preco: item.precoVenda,
         quantidadeItem: item.quantidade,
         subTotal: item.subTotal,
-        produtoId: item.id,
+        id: item.id,
       });
     });
   }

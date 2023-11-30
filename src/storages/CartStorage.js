@@ -19,14 +19,14 @@ function alert(message) {
 
 export function setAddToCart(product) {
     const cart = getCartData();
-    const itemIndex = cart.findIndex((item) => item.id === product.produtoId);
+    const itemIndex = cart.findIndex((item) => item.id === product.id);
 
     if (itemIndex !== -1) {
         cart[itemIndex].quantidade++;
         cart[itemIndex].subTotal += product.precoVenda;
     } else {
         cart.push({
-            'id': product.produtoId,
+            'id': product.id,
             'nome': product.nome,
             'quantidade': 1,
             'imagem': product.imagens[0].caminho,
