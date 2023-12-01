@@ -100,15 +100,15 @@ export default {
             return ProfileService.calculateAge(dateOfBirth);
         },
         editItem(item) {
-            if (item.enderecoId) {
-                ProfileService.mapperAddress(this.editedItem, item);
-                $('#editAddressModal').modal('show');
-            } else if (item.telefoneId) {
-                ProfileService.mapperTelephone(this.editedItem, item);
-                $('#editPhoneModal').modal('show');
-            } else {
+            if (item.cpf) {
                 ProfileService.mapperUser(this.editedItem, this.userId, item);
                 $('#editUserModal').modal('show');
+            } else if (item.logradouro) {
+                ProfileService.mapperAddress(this.editedItem, item);
+                $('#editAddressModal').modal('show');
+            } else {
+                ProfileService.mapperTelephone(this.editedItem, item);
+                $('#editPhoneModal').modal('show');
             }
         },
     },

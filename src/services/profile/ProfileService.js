@@ -19,7 +19,7 @@ export default class ProfileService {
     }
 
     static mapperAddress(editedItem, item) {
-        editedItem.id = item.enderecoId;
+        editedItem.id = item.id;
         editedItem.logradouro = item.logradouro;
         editedItem.numero = item.numero;
         editedItem.bairro = item.bairro;
@@ -31,7 +31,7 @@ export default class ProfileService {
     }
 
     static mapperTelephone(editedItem, item) {
-        editedItem.id = item.telefoneId;
+        editedItem.id = item.id;
         editedItem.ddd = 85;
         editedItem.numero = item.numero;
         editedItem.tipo = item.tipo;
