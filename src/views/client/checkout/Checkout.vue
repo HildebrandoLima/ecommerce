@@ -42,6 +42,7 @@ export default {
       messageError: '',
       errorList: {},
       adresses: [],
+      enderecoId: 0,
       cart: [],
       total: 0,
       userId: 0,
@@ -84,13 +85,18 @@ export default {
       const user = await UserService.listUser(this.userId);
       if (user.status === 200) {
         this.adresses = user.data[0].enderecos;
+        this.enderecoId = this.adresses[0].id;
       } else {
         this.messageError = OrderService.messageError('user');
         return;
       }
     },
     async saveOrder() {
-      const order = await OrderService.createOrder(this.order);
+      const newOrder = { ...this.order };
+      newOrder.enderecoId = this.enderecoId;
+      newOrder.itens = newOrder.itens.map(item => ({ ...item }));
+      const body = { itens: newOrder.itens, ...newOrder };
+      const order = await OrderService.createOrder(body);
       if (order.status === 200) {
         this.$router.push({
           name: 'payment'

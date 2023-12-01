@@ -40,24 +40,26 @@ export default class OrderService {
     }
   }
 
-  static createOrderItemObject(order) {
+  static createOrderObject(order, total) {
+    order.quantidadeItens = this.cart.length;
+    order.total = total;
+    order.usuarioId = this.userId;
+    order.itens = this.createOrderItemObject();
+    return order;
+  }
+
+  static createOrderItemObject() {
+    const orderItems = [];
     this.cart.forEach((item) => {
-      order.itens.push({
+      orderItems.push({
         nome: item.nome,
         preco: item.precoVenda,
         quantidadeItem: item.quantidade,
         subTotal: item.subTotal,
-        id: item.id,
+        produtoId: item.id,
       });
     });
-  }
-
-  static createOrderObject(order, total) {
-    order.total = total;
-    order.quantidadeItens = this.cart.length;
-    order.usuarioId = this.userId;
-    this.createOrderItemObject(order);
-    return order;
+    return orderItems;
   }
 
   static async createOrder(body) {
