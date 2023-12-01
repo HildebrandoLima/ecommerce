@@ -11,7 +11,7 @@ export default class ProviderService {
   }
 
   static editProviderModal(editedItem, item) {
-    editedItem.id = item.fornecedorId;
+    editedItem.id = item.id;
     editedItem.razaoSocial = item.razaoSocial;
     editedItem.cnpj = item.cnpj;
     editedItem.email = item.email;

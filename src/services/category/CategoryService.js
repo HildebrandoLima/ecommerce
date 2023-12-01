@@ -11,7 +11,7 @@ export default class CategoryService {
     }
 
     static editCategoryModal(editedItem, item) {
-        editedItem.id = item.categoriaId;
+        editedItem.id = item.id;
         editedItem.nome = item.nome;
         editedItem.ativo = item.ativo;
         $('#editCategoryModal').modal('show');
