@@ -36,7 +36,7 @@
                                 </div>
                             </div>
 
-                            <p class="mt-5">
+                            <p class="mt-5 text-warning">
                                 <i class="fas fa-star fa-lg px-1"></i>
                                 <i class="fas fa-star fa-lg px-1"></i>
                                 <i class="fas fa-star fa-lg px-1"></i>

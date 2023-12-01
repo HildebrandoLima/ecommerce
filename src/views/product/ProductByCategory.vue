@@ -2,7 +2,7 @@
 <Banner :msg="bannerTitleMessage" />
 
 <AlertError
-  v-if="errorList.length > 0"
+  v-if="errorList"
   :errorList="errorList"
 />
 
