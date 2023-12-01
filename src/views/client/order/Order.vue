@@ -63,7 +63,7 @@ export default {
             currentPage: 1,
             perPage: 10,
             totalItems: 0,
-            orderColumns: ['numeroPedido', 'quantidadeItem', 'total', 'tipoEnrega', 'valorEntrega'],
+            orderColumns: ['numeroPedido', 'quantidadeItem', 'total', 'tipoEntrega', 'valorEntrega'],
             modalId: 'detailsModal',
             modalTitle: '',
             modalData: [],
