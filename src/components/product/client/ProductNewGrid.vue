@@ -7,7 +7,7 @@
     <hr />
 
     <AlertError
-        v-if="errorList"
+        v-if="errorList.length > 0"
         :errorList="errorList"
     />
 
@@ -19,13 +19,12 @@
 import AlertError from '@/components/shared/AlertError.vue';
 import ProductCard from '@/components/product/client/ProductCard.vue';
 import ProductService from '@/services/product/ProductService';
-import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     components: { AlertError, ProductCard },
     data() {
         return {
-            errorList: null,
+            errorList: '',
             products: {},
             currentPage: 1,
             perPage: 10,
@@ -33,16 +32,16 @@ export default {
         };
     },
     created() {
-        this.getProduct();
+        this.getProducts();
     },
     methods: {
-        async getProduct() {
-            const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0, 1);
+        async getProducts() {
+            const products = await ProductService.listProducts(this.currentPage, this.perPage, '', 1);
             if (products.status === 200) {
                 this.products = products.data;
                 this.totalItems = products.data.total;
             } else {
-                this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+                this.errorList = ProductService.messageError('product');
             }
         },
     },

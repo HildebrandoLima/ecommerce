@@ -4,11 +4,6 @@
 </div>
 
 <AlertError
-    v-if="messageError"
-    :errorList="messageError"
-/>
-
-<AlertError
     v-if="Object.keys(errorList).length > 0"
     :errorList="errorList"
 />
@@ -26,11 +21,14 @@ export default {
     components: { AlertError },
     data() {
         return {
-            messageError: null,
             errorList: {},
         };
     },
     props: {
+        errorList: {
+            type: Object,
+            default: {},
+        },
         total: {
             type: Number,
             required: true,

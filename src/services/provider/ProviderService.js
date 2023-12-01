@@ -1,43 +1,49 @@
-import api from '@/server/api';
-import { messages } from '@/utils/messages/Message';
+import ProviderRepository from '@/repositories/ProviderRepository';
+import MessagesService from '../shared/MessagesService';
 
 export default class ProviderService {
-  static async postProvider(body) {
+  static messageSuccess(flag) {
+    return MessagesService.messageSuccess(flag);
+  }
+
+  static messageError(flag) {
+    return MessagesService.messageError(flag);
+  }
+
+  static editProviderModal(editedItem, item) {
+    editedItem.id = item.id;
+    editedItem.razaoSocial = item.razaoSocial;
+    editedItem.cnpj = item.cnpj;
+    editedItem.email = item.email;
+    editedItem.dataFundacao = item.dataFundacao;
+    editedItem.ativo = item.ativo;
+    $('#editProviderModal').modal('show');
+  }
+
+  static async createProvider(body) {
     try {
-        const response = await api.post(`/provider/save`, body);
+        const response = await ProviderRepository.postProvider(body);
         return response.data;
     } catch (error) {
-        return messages(
-            error.response.data.status,
-            error.response.data.data,
-            error.response.data.message
-        );
+        return MessagesService.statusCode(error);
     }
   }
 
-  static async putProvider(body) {
+  static async editProvider(body) {
     try {
-        const response = await api.put(`/provider/edit`, body);
+        const response = await ProviderRepository.putProvider(body);
         return response.data;
     } catch (error) {
-        return messages(
-            error.response.data.status,
-            error.response.data.data,
-            error.response.data.message
-        );
+        return MessagesService.statusCode(error);
     }
   }
 
-  static async getProviders(page, perPage, search, id, ativo) {
+  static async listProviders(page, perPage, search, id, ativo) {
     try {
-      const response = await api.get(`/provider/list?page=${page}&perPage=${perPage}&search=${search}&id=${id}&active=${ativo}`);
+      const response = await ProviderRepository.getProviders(page, perPage, search, id, ativo);
       return response.data;
     } catch (error) {
-      return messages(
-        error.response.data.status,
-        error.response.data.data,
-        error.response.data.message
-      );
+      return MessagesService.statusCode(error);
     }
   }
 }

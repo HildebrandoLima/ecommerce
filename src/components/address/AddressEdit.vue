@@ -14,7 +14,6 @@
 <script>
 import AddressForm from '@/components/address/AddressForm.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
-import { messages } from '@/utils/messages/Message';
 import AddressService from '@/services/address/AddressService';
 
 export default {
@@ -35,15 +34,13 @@ export default {
     },
     methods: {
         async editAddress() {
-            const address = await AddressService.putAddress(this.data);
+            const address = await AddressService.editAddress(this.data);
             if (address.status === 200) {
-                messages(
-                    address.status,
-                    address.data,
-                    address.message
-                );
+                AddressService.messageSuccess(address);
+                return;
             } else {
                 this.errorList = address;
+                return this.errorList;
             }
         },
     },

@@ -11,8 +11,9 @@
         />
     </div>
     <AlertError
-    v-if="Object.keys(errorList).length > 0"
-    :errorList="errorList.email" />
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList.email"
+    />
 
     <div class="form-outline mb-4">
         <div class="input-group">
@@ -34,8 +35,9 @@
         </div>
     </div>
     <AlertError
-    v-if="Object.keys(errorList).length > 0"
-    :errorList="errorList.password" />
+        v-if="Object.keys(errorList).length > 0"
+        :errorList="errorList.password"
+    />
 
     <button type="submit" class="btn btn-outline-primary btn-block mb-4">
         <i class="fas fa-angle-double-right"></i> Entrar

@@ -49,36 +49,40 @@
   </div>
 
   <div class="row mb-4">
-    <div class="col input-group">
-      <span class="input-group-text" id="basic-addon1">
-          <i class="fa fa-address-book" aria-hidden="true"></i>
-      </span>
-      <input
-        type="text"
-        id="logradouro"
-        v-model="address.logradouro"
-        class="form-control"
-        placeholder="Logradouro"
-        required
-      />
+    <div class="col">
+      <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </span>
+        <input
+          type="text"
+          id="logradouro"
+          v-model="address.logradouro"
+          class="form-control"
+          placeholder="Logradouro"
+          required
+        />
+      </div>
       <AlertError
         v-if="Object.keys(errorList).length > 0"
         :errorList="errorList.logradouro"
       />
     </div>
 
-    <div class="col input-group">
-      <span class="input-group-text" id="basic-addon1">
-          <i class="fa fa-address-book" aria-hidden="true"></i>
-      </span>
-      <input
-        type="text"
-        id="bairro"
-        v-model="address.bairro"
-        placeholder="Bairro"
-        class="form-control"
-        required
-      />
+    <div class="col">
+      <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </span>
+        <input
+          type="text"
+          id="bairro"
+          v-model="address.bairro"
+          placeholder="Bairro"
+          class="form-control"
+          required
+        />
+      </div>
       <AlertError
         v-if="Object.keys(errorList).length > 0"
         :errorList="errorList.bairro"
@@ -87,36 +91,40 @@
   </div>
 
   <div class="row mb-4">
-    <div class="col input-group">
-      <span class="input-group-text" id="basic-addon1">
-          <i class="fa fa-address-book" aria-hidden="true"></i>
-      </span>
-      <input
-        type="text"
-        id="cidade"
-        v-model="address.cidade"
-        placeholder="Cidade"
-        class="form-control"
-        required
-      />
+    <div class="col">
+      <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </span>
+        <input
+          type="text"
+          id="cidade"
+          v-model="address.cidade"
+          placeholder="Cidade"
+          class="form-control"
+          required
+        />
+      </div>
       <AlertError
         v-if="Object.keys(errorList).length > 0"
         :errorList="errorList.cidade"
       />
     </div>
 
-    <div class="col input-group">
-      <span class="input-group-text" id="basic-addon1">
-          <i class="fa fa-address-book" aria-hidden="true"></i>
-      </span>
-        <input
-          type="text"
-          id="uf"
-          v-model="address.uf"
-          placeholder="UF"
-          class="form-control"
-          required
-        />
+    <div class="col">
+      <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa fa-address-book" aria-hidden="true"></i>
+        </span>
+          <input
+            type="text"
+            id="uf"
+            v-model="address.uf"
+            placeholder="UF"
+            class="form-control"
+            required
+          />
+      </div>
       <AlertError
         v-if="Object.keys(errorList).length > 0"
         :errorList="errorList.uf"
@@ -199,18 +207,11 @@ export default {
       if (/^\d{8}$/.test(newCep)) {
         const viaCep = await AddressService.searchCep(newCep);
         if (viaCep) {
-          this.address.logradouro = viaCep.logradouro;
-          this.address.numero = this.address.numero;
-          this.address.bairro = viaCep.bairro;
-          this.address.cidade = viaCep.cidade;
-          this.address.uf = viaCep.uf;
-          this.address.cep = viaCep.cep;
+          return AddressService.toAssembleObjectAddressCep(this.numero, this.address, viaCep);
         }
       } else {
-        throw Swal.fire({
-          icon: 'error',
-          title: 'CEP inválido. Digite um CEP com 8 dígitos numéricos.',
-        });
+        AddressService.alertErrorAddressCep();
+        return;
       }
     },
     async saveAddress() {

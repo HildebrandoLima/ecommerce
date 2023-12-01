@@ -4,18 +4,23 @@
 <div class="container">
 
   <AlertError
-    v-if="Object.keys(errorList).length > 0"
-    :errorList="errorList.itens"
-  />
-
-  <AlertError
-    v-if="messageError"
+    v-if="messageError.length > 0"
     :errorList="messageError"
   />
 
   <div class="row">
-    <CheckoutForm :errorList="errorList" :adresses="adresses" :order="order" />
-    <CheckoutSummary :errorList="errorList" :total="total" :order="order" @saveOrder="saveOrder" />
+    <CheckoutForm
+      :errorList="errorList"
+      :adresses="adresses"
+      :order="order"
+    />
+
+    <CheckoutSummary
+      :errorList="errorList"
+      :total="total"
+      :order="order"
+      @saveOrder="saveOrder"
+    />
   </div>
 </div>
 </template>
@@ -27,9 +32,6 @@ import CheckoutForm from '@/components/checkout/CheckoutForm.vue';
 import CheckoutSummary from '@/components/checkout/CheckoutSummary.vue';
 import OrderService from '@/services/order/OrderService';
 import UserService from '@/services/user/UserService';
-import { getCart, getTotalCart } from '@/storages/CartStorage';
-import { userAuth } from '@/storages/AuthStorage';
-import { ITEMS_NOT_FOUND_MESSAGE, USER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
   name: 'checkout',
@@ -37,9 +39,10 @@ export default {
   data() {
     return {
       bannerTitleMessage: 'Checkout',
-      messageError: null,
+      messageError: '',
       errorList: {},
       adresses: [],
+      enderecoId: 0,
       cart: [],
       total: 0,
       userId: 0,
@@ -55,66 +58,53 @@ export default {
     };
   },
   created() {
-    this.getStorages();
-    this.getUser();
+    this.getProps();
+    this.getUserAddress();
     this.validateCart();
-    this.addOrder();
-    this.addItem();
   },
   methods: {
-    getStorages() {
-      const [userId] = userAuth();
-      this.cart = getCart();
-      this.total = parseFloat(getTotalCart());
-      this.userId = userId;
+    getProps() {
+      this.total = OrderService.getTotalCart();
+      this.userId = OrderService.getUser();
+      this.cart = OrderService.getCart();
     },
     validateCart() {
       if (this.cart.length === 0) {
-        this.messageError = ITEMS_NOT_FOUND_MESSAGE;
+        this.messageError = OrderService.messageError('cart');
+        return;
       }
     },
     onTypeDeliveryChange() {
-      if (this.order.tipoEntrega === 'Expresso') {
-        this.order.valorEntrega = 20.00;
-      } else if (this.order.tipoEntrega === 'Correio') {
-        this.order.valorEntrega = 15.50;
-      } else {
-        this.order.valorEntrega = 0;
-      }
+      this.order.valorEntrega = OrderService.typeDeliveryChange(this.order.tipoEntrega);
+      this.createOrderObject();
     },
-    addOrder() {
-      this.order.total = this.total;
-      this.order.quantidadeItens = this.cart.length;
-      this.order.usuarioId = this.userId;
+    createOrderObject() {
+      this.order = OrderService.createOrderObject(this.order, this.total);
     },
-    addItem() {
-      this.cart.forEach((item) => {
-        this.order.itens.push({
-          nome: item.nome,
-          preco: item.precoVenda,
-          quantidadeItem: item.quantidade,
-          subTotal: item.subTotal,
-          produtoId: item.id,
-        });
-      });
-    },
-    async getUser() {
-      const user = await UserService.getUser(this.userId);
+    async getUserAddress() {
+      const user = await UserService.listUser(this.userId);
       if (user.status === 200) {
         this.adresses = user.data[0].enderecos;
+        this.enderecoId = this.adresses[0].id;
       } else {
-        this.errorMessage = USER_NOT_FOUND_MESSAGE;
+        this.messageError = OrderService.messageError('user');
+        return;
       }
     },
     async saveOrder() {
-      const order = await OrderService.postOrder(this.order);
+      const newOrder = { ...this.order };
+      newOrder.enderecoId = this.enderecoId;
+      newOrder.itens = newOrder.itens.map(item => ({ ...item }));
+      const body = { itens: newOrder.itens, ...newOrder };
+      const order = await OrderService.createOrder(body);
       if (order.status === 200) {
         this.$router.push({
           name: 'payment'
         });
       } else {
         this.errorList = order;
-        this.errorList.itens = ITEMS_NOT_FOUND_MESSAGE;
+        this.messageError = OrderService.messageError('item');
+        return;
       }
     },
   },

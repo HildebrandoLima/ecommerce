@@ -1,7 +1,15 @@
 <template>
 <Banner :msg="bannerTitleMessage" />
 
-<ProductSection :products="products" :totalItems="totalItems" />
+<AlertError
+  v-if="errorList"
+  :errorList="errorList"
+/>
+
+<ProductSection
+  :products="products"
+  :totalItems="totalItems"
+/>
 
 <hr />
 
@@ -10,20 +18,6 @@
   :totalPages="totalPages"
   @pageChanged="handlePageChange"
 />
-
-<div class="container">
-  <header class="mt-5">
-  <h3>Novos Produtos:</h3>
-  </header>
-
-  <hr />
-
-  <AlertError
-    v-if="errorList"
-    :errorList="errorList"
-  />
-
-</div>
 </template>
 
 <script>
@@ -33,7 +27,6 @@ import ButtonCart from '@/components/shared/ButtonCart.vue';
 import ProductSection from '@/components/product/client/ProductSection.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ProductService from '@/services/product/ProductService';
-import { PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
   components: { AlertError, Banner, ButtonCart, ProductSection, Pagination },
@@ -43,7 +36,7 @@ export default {
       bannerTitleMessage: 'Produtos Por Categoria',
       errorList: null,
       products: {},
-      productId: 0,
+      categoryId: 0,
       search: '',
       currentPage: 1,
       perPage: 10,
@@ -51,22 +44,22 @@ export default {
     };
   },
   created() {
-      this.getProduct();
+      this.getProducts();
   },
   methods: {
     handlePageChange(newPage) {
       this.currentPage = newPage;
-      this.getProduct();
+      this.getProducts();
     },
-    async getProduct() {
-        this.productId = this.$route.params.id;
-
-        const products = await ProductService.getProducts(this.currentPage, this.perPage, '', this.productId, 1);
+    async getProducts() {
+        this.categoryId = this.$route.params.id;
+        const products = await ProductService.listProducts(this.currentPage, this.perPage, this.categoryId, 1);
         if (products.status === 200) {
           this.products = products.data;
           this.totalItems = products.data.total;
         } else {
-          this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+          this.errorList = ProductService.messageError('product');
+          return;
         }
     },
   },

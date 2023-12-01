@@ -1,17 +1,19 @@
 <template>
 <form>
-    <div class="input-group mb-4">
-        <span class="input-group-text" id="basic-addon1">
-            <i class="fa fa-th-large" aria-hidden="true"></i>
-        </span>
-        <input
-            type="text"
-            id="nome"
-            v-model="category.nome"
-            placeholder="Nome"
-            class="form-control" 
-            required
-        />
+    <div class="mb-4">
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">
+                <i class="fa fa-th-large" aria-hidden="true"></i>
+            </span>
+            <input
+                type="text"
+                id="nome"
+                v-model="category.nome"
+                placeholder="Nome"
+                class="form-control" 
+                required
+            />
+        </div>
         <AlertError
             v-if="Object.keys(errorList).length > 0"
             :errorList="errorList.nome"

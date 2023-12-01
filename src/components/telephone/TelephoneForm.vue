@@ -4,20 +4,22 @@
         <input type="hidden" id="usuarioId" v-model="phone.usuarioId" />
 
         <div class="row mb-4">
-            <div class="col input-group">
-                <span class="input-group-text" id="basic-addon1">
-                    <i class="fa fa-phone" aria-hidden="true"></i>
-                </span>
-                <input
-                    type="text"
-                    id="numero"
-                    v-model="phone.numero"
-                    maxlength="14"
-                    OnKeyPress="format('(##)#####-####',this)"
-                    placeholder="Número"
-                    class="form-control" 
-                    required
-                />
+            <div class="col">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                    </span>
+                    <input
+                        type="text"
+                        id="numero"
+                        v-model="phone.numero"
+                        maxlength="14"
+                        OnKeyPress="format('(##)#####-####',this)"
+                        placeholder="Número"
+                        class="form-control" 
+                        required
+                    />
+                </div>
                 <AlertError
                     v-if="Object.keys(errorList).length > 0"
                     :errorList="errorList['0.numero'] ? errorList['0.numero'] : fieldRequired"
@@ -36,29 +38,33 @@
         </div>
 
         <div class="row mb-4">
-            <div class="col input-group">
-                <span class="input-group-text" id="basic-addon1">
-                    DDD
-                </span>
-                <select id="ddd" v-model="phone.ddd" class="form-select" aria-label="DDD" required >
-                    <option value="">-- Selecione o DDD --</option>
-                    <option v-for="ddd in ddds" :value="ddd" :key="ddd">{{ ddd }}</option>
-                </select>
+            <div class="col">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">
+                        DDD
+                    </span>
+                    <select id="ddd" v-model="phone.ddd" class="form-select" aria-label="DDD" required >
+                        <option value="">-- Selecione o DDD --</option>
+                        <option v-for="ddd in ddds" :value="ddd" :key="ddd">{{ ddd }}</option>
+                    </select>
+                </div>
                 <AlertError
                     v-if="Object.keys(errorList).length > 0"
                     :errorList="errorList['0.ddd'] ? errorList['0.numero'] : fieldRequired"
                 />
             </div>
 
-            <div class="col input-group">
-                <span class="input-group-text" id="basic-addon1">
-                    Tipo
-                </span>
-                <select id="tipo" v-model="phone.tipo" class="form-select" aria-label="Tipo" required >
-                    <option value="">-- Selecione o Tipo --</option>
-                    <option value="Fixo">Fixo</option>
-                    <option value="Celular">Celular</option>
-                </select>
+            <div class="col">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">
+                        Tipo
+                    </span>
+                    <select id="tipo" v-model="phone.tipo" class="form-select" aria-label="Tipo" required >
+                        <option value="">-- Selecione o Tipo --</option>
+                        <option value="Fixo">Fixo</option>
+                        <option value="Celular">Celular</option>
+                    </select>
+                </div>
                 <AlertError
                     v-if="Object.keys(errorList).length > 0"
                     :errorList="errorList['0.tipo'] ? errorList['0.numero'] : fieldRequired"
@@ -109,7 +115,7 @@
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import DDD from '@/assets/js/ddds';
-import { REGISTER_REQUIRED_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
+import TelephoneService from '@/services/telephone/TelephoneService';
 
 export default {
     name: 'from-telephone',
@@ -138,7 +144,7 @@ export default {
         },
     },
     created() {
-        this.fieldRequired = REGISTER_REQUIRED_MESSAGE;
+        this.fieldRequired = TelephoneService.messageError('register');
         this.ddds = DDD;
         this.addTelephone();
     },

@@ -37,7 +37,6 @@ import ConainerAuthentication from '@/components/cart/ConainerAuthentication.vue
 import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';
 import { getCart, calculateTotalCart, removeItemToCart, updateCartItemQuantity, cleanToCart } from '@/storages/CartStorage';
-import { CART_NOT_FOUND_MESSAGE, PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 import { formatPrice } from '@/utils/formatPrice/formatPrice';
 
 export default {
@@ -45,7 +44,6 @@ export default {
     data() {
         return {
             bannerTitleMessage: 'Meu Carrinho',
-            errorMessage: null,
             errorList: '',
             products: {},
             cart: [],
@@ -58,20 +56,20 @@ export default {
         };
     },
     created() {
-        this.getProduct();
+        this.getProducts();
         this.cart = getCart();
         const [userName] = userAuth();
         this.userName = userName;
         this.calculateTotal();
     },
     methods: {
-        async getProduct() {
-            const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0);
+        async getProducts() {
+            const products = await ProductService.listProducts(this.currentPage, this.perPage, '', 0);
             if (products.status === 200) {
                 this.products = products.data;
                 this.totalItems = products.data.total;
             } else {
-                this.errorMessage = PRODUCT_NOT_FOUND_MESSAGE;
+                this.errorList = ProductService.messageError('product');
             }
         },
         removeItem(item) {
@@ -107,7 +105,7 @@ export default {
                     this.toggleAuthenticationComponentVisibility = true
                 }
             } else {
-                this.errorList = CART_NOT_FOUND_MESSAGE;
+                this.errorList = ProductService.messageError('cart');
             }
         },
     },

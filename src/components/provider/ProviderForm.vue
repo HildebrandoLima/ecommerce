@@ -1,36 +1,40 @@
 <template>
 <form>
     <div class="row mb-4">
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-th-large" aria-hidden="true"></i>
-            </span>
-            <input
-                type="text"
-                id="razaoSocial"
-                v-model="provider.razaoSocial"
-                placeholder="Razão Social"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-th-large" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="text"
+                    id="razaoSocial"
+                    v-model="provider.razaoSocial"
+                    placeholder="Razão Social"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.razaoSocial"
             />
         </div>
 
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-            </span>
-            <input
-                type="text"
-                id="email"
-                v-model="provider.email"
-                placeholder="E-mail"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="text"
+                    id="email"
+                    v-model="provider.email"
+                    placeholder="E-mail"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.razaoSocial"
@@ -39,39 +43,43 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-file-powerpoint" aria-hidden="true"></i>
-            </span>
-            <input
-                type="text"
-                id="cnpj"
-                v-model="provider.cnpj"
-                maxlength="18"
-                OnKeyPress="format('##.###.###/####-##',this)"
-                placeholder="CNPJ"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-file-powerpoint" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="text"
+                    id="cnpj"
+                    v-model="provider.cnpj"
+                    maxlength="18"
+                    OnKeyPress="format('##.###.###/####-##',this)"
+                    placeholder="CNPJ"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.razaoSocial"
             />
         </div>
 
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-            </span>
-            <input
-                type="text"
-                id="dataFundacao"
-                v-model="provider.dataFundacao"
-                placeholder="Data de Fundação"
-                class="form-control"
-                onfocus="(this.type='date')"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="text"
+                    id="dataFundacao"
+                    v-model="provider.dataFundacao"
+                    placeholder="Data de Fundação"
+                    class="form-control"
+                    onfocus="(this.type='date')"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.razaoSocial"

@@ -1,56 +1,79 @@
-import api from '@/server/api';
-import { messages } from '@/utils/messages/Message';
+import ProductRepository from '@/repositories/ProductRepository';
+import MessagesService from '../shared/MessagesService';
 
 export default class ProductService {
-  static async postProduct(body) {
+  static messageSuccess(flag) {
+    return MessagesService.messageSuccess(flag);
+  }
+
+  static messageError(flag) {
+    return MessagesService.messageError(flag);
+  }
+
+  static formatPrice(value) {
+    value = value.replace(/[^0-9.,]/g, '');
+    value = value.replace(/,/g, '');
+
+    let numericValue = parseInt(value);
+    value = numericValue + '';
+    value = value.replace(/([0-9]{2})$/g, ",$1");
+
+    if (value.length > 6) {
+        value = value.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+    }
+    return value;
+  }
+
+  static editProductModal(editedItem, item) {
+    editedItem.id = item.id;
+    editedItem.nome = item.nome;
+    editedItem.descricao = item.descricao;
+    editedItem.quantidade = item.quantidade;
+    editedItem.precoVenda = item.precoVenda;
+    editedItem.precoCusto = item.precoCusto;
+    editedItem.codigoBarra = item.codigoBarra;
+    editedItem.unidadeMedida = item.unidadeMedida;
+    editedItem.dataValidade = item.dataValidade;
+    editedItem.codigoBarra = item.codigoBarra;
+    editedItem.categoriaId = item.categoriaId;
+    editedItem.fornecedorId = item.fornecedorId;
+    editedItem.ativo = item.ativo;
+    $('#editProductModal').modal('show');
+  }
+
+  static async createProduct(body) {
     try {
-      const response = await api.post(`/product/save`, body);
+      const response = await ProductRepository.postProduct(body);
       return response.data;
     } catch (error) {
-      return messages(
-        error.response.data.status,
-        error.response.data.data,
-        error.response.data.message
-      );
+      return MessagesService.statusCode(error);
     }
   }
 
-  static async putProduct(body) {
+  static async editProduct(body) {
     try {
-      const response = await api.put(`/product/edit`, body);
+      const response = await ProductRepository.putProduct(body);
       return response.data;
     } catch (error) {
-      return messages(
-        error.response.data.status,
-        error.response.data.data,
-        error.response.data.message
-      );
+      return MessagesService.statusCode(error);
     }
   }
 
-  static async getProducts(page, perPage, search, id, ativo) {
+  static async listProducts(page, perPage, search, active) {
       try {
-        const response = await api.get(`/product/list?page=${page}&perPage=${perPage}&search=${search}&id=${id}&active=${ativo}`);
+        const response = await ProductRepository.getProducts(page, perPage, search, active);
         return response.data;
       } catch (error) {
-        return messages(
-          error.response.data.status,
-          error.response.data.data,
-          error.response.data.message
-        );
+        return MessagesService.statusCode(error);
       }
   }
 
-  static async getProductDetails(id) {
+  static async getProductDetails(id, active) {
       try {
-        const response = await api.get(`/product/list/find?id=${id}&active=1`);
+        const response = await ProductRepository.getProduct(id, active);
         return response.data;
       } catch (error) {
-        return messages(
-          error.response.data.status,
-          error.response.data.data,
-          error.response.data.message
-        );
+        return MessagesService.statusCode(error);
       }
   }
 }

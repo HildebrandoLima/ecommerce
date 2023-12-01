@@ -1,58 +1,63 @@
-import api from '@/server/api';
+import UserRepository from '@/repositories/UserRepository';
+import MessagesService from '../shared/MessagesService';
 import { setUser } from '@/storages/EntityPersonStorage';
-import { messages } from '@/utils/messages/Message';
 
 export default class UserService {
-  static async postUser(body) {
+  static messageSuccess(flag) {
+    return MessagesService.messageSuccess(flag);
+  }
+
+  static messageError(flag) {
+    return MessagesService.messageError(flag);
+  }
+
+  static alertEditUser() {
+    throw Swal.fire({
+      icon: 'warning',
+      title:
+      'Tem certeza que deseja desativar sua conta?<br>' +
+      'Somente o suporte poderá reativar.',
+    }).then((result) => {
+      if(result.isConfirmed) {
+        $('.modal').modal('hide'); 
+      }
+    });
+  }
+
+  static async createUser(body) {
       try {
-        const response = await api.post(`/user/save`, body);
+        const response = await UserRepository.postUser(body);
         setUser(response.data.data);
         return response.data;
       } catch (error) {
-        return messages(
-            error.response.data.status,
-            error.response.data.data,
-            error.response.data.message
-        );
+        return MessagesService.statusCode(error);
       }
   }
 
-  static async putUser(body) {
+  static async editUser(body) {
     try {
-      const response = await api.put(`/user/edit`, body);
+      const response = await UserRepository.putUser(body);
       return response.data;
     } catch (error) {
-      return messages(
-          error.response.data.status,
-          error.response.data.data,
-          error.response.data.message
-      );
+      return MessagesService.statusCode(error);
     }
   }
 
-  static async getUsers(page, perPage, search, id) {
+  static async listUsers(page, perPage, search, id) {
     try {
-      const response = await api.get(`/user/list?page=${page}&perPage=${perPage}&search=${search}&id=${id}&active=1`);
+      const response = await UserRepository.getUsers(page, perPage, search, id);
       return response.data;
     } catch (error) {
-      return messages(
-        error.response.data.status,
-        error.response.data.data,
-        error.response.data.message
-      );
+      return MessagesService.statusCode(error);
     }
   }
 
-  static async getUser(id) {
+  static async listUser(id) {
     try {
-      const response = await api.get(`/user/list/find?id=${id}&active=1`);
+      const response = await UserRepository.getUser(id);
       return response.data;
     } catch (error) {
-      return messages(
-        error.response.data.status,
-        error.response.data.data,
-        error.response.data.message
-      );
+      return MessagesService.statusCode(error);
     }
   }
 }

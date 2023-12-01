@@ -18,7 +18,7 @@
             </div>
 
             <AlertError
-                v-if="errorList"
+                v-if="errorList.length > 0"
                 :errorList="errorList"
             />
 
@@ -44,22 +44,22 @@
 </template>
 
 <script>
+import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ProductEdit from '@/components/product/admin/ProductEdit.vue';
 import SelectedFilter from '@/components/shared/SelectedFilter.vue';
 import Table from '@/components/shared/Table.vue';
 import ProductService from '@/services/product/ProductService';
-import { PRODUCT_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { Banner, Pagination, ProductEdit, SelectedFilter, Table },
+  components: { AlertError, Banner, Pagination, ProductEdit, SelectedFilter, Table },
   name: 'product',
   data() {
     return {
       bannerTitleMessage: 'Produtos',
       selectedFilter: 1,
-      errorList: {},
+      errorList: '',
       products: {},
       editedItem: {},
       productColumns: ['nome', 'descricao', 'quantidade', 'precoVenda', 'precoCusto', 'margemLucro', 'codigoBarra', 'unidadeMedida', 'dataValidade', 'criadoEm', 'alteradoEm'],
@@ -90,32 +90,21 @@ export default {
       this.getProducts();
     },
     async getProducts() {
-      const products = await ProductService.getProducts(this.currentPage, this.perPage, '', 0, this.selectedFilter);
+      const products = await ProductService.listProducts(this.currentPage, this.perPage, '', this.selectedFilter);
       if (products.status === 200) {
         this.products = products.data;
         this.totalItems = products.data.total;
       } else {
-        this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
+        this.errorList = ProductService.messageError('product');
+        return;
       }
     },
     registerProduct() {
       this.$router.push({name: 'productRegister'});
     },
     editItem(item) {
-      this.editedItem.id = item.produtoId;
-      this.editedItem.nome = item.nome;
-      this.editedItem.descricao = item.descricao;
-      this.editedItem.quantidade = item.quantidade;
-      this.editedItem.precoVenda = item.precoVenda;
-      this.editedItem.precoCusto = item.precoCusto;
-      this.editedItem.codigoBarra = item.codigoBarra;
-      this.editedItem.unidadeMedida = item.unidadeMedida;
-      this.editedItem.dataValidade = item.dataValidade;
-      this.editedItem.codigoBarra = item.codigoBarra;
-      this.editedItem.categoriaId = item.categoriaId;
-      this.editedItem.fornecedorId = item.fornecedorId;
-      this.editedItem.ativo = item.ativo;
-      $('#editProductModal').modal('show');
+      ProductService.editProductModal(this.editedItem, item);
+      return;
     },
   },
   computed: {

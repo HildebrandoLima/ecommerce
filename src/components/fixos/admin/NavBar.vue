@@ -80,13 +80,13 @@
                     <RouterLink :to="{ name: 'dashboard' }" class="nav-link active text-dark" aria-current="page">Home</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink :to="{ name: 'category' }" class="nav-link text-dark">Categoria</RouterLink>
+                    <RouterLink :to="{ name: 'category' }" class="nav-link text-dark">Categorias</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink :to="{ name: 'productAdmin' }" class="nav-link text-dark">Produto</RouterLink>
+                    <RouterLink :to="{ name: 'productAdmin' }" class="nav-link text-dark">Produtos</RouterLink>
                 </li>
                 <li class="nav-item">
-                    <RouterLink :to="{ name: 'provider' }" class="nav-link text-dark">Fornecedor</RouterLink>
+                    <RouterLink :to="{ name: 'provider' }" class="nav-link text-dark">Fornecedores</RouterLink>
                 </li>
                 <li class="nav-item">
                     <RouterLink :to="{ name: 'user' }" class="nav-link text-dark">Usuários</RouterLink>
@@ -119,55 +119,53 @@ import ProductCard from '@/components/product/client/ProductCard.vue';
 import AuthService from '@/services/auth/AuthService';
 import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';
-import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
-import { messages } from '@/utils/messages/Message';
 
 export default {
     components: { AlertError, ProductCard },
     name: 'navbar',
     data() {
-    return {
-        messageSuccess: '',
-        errorList: null,
-        userName: '',
-        search: '',
-        totalItems: 0,
-        products: {},
-        currentPage: 1,
-        perPage: 10,
-    };
+        return {
+            messageSuccess: '',
+            errorList: null,
+            userName: '',
+            search: '',
+            totalItems: 0,
+            products: {},
+            currentPage: 1,
+            perPage: 10,
+        };
     },
     created() {
-    const [userName] = userAuth();
-    this.userName = userName;
+        const [userName] = userAuth();
+        this.userName = userName;
     },
     methods: {
-    async searchProduct() {
-        if (this.search.trim() === '') {
-        this.errorList = SEARCH_PRODUCT_NOT_FOUND_MESSAGE;
-        return;
-        }
-        const products = await ProductService.getProducts(this.currentPage, this.perPage, this.search, 0);
-        if (products.data.total === 0 || products.status !== 200) {
-        this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
-        } else {
-        this.products = products.data;
-        this.totalItems = products.data.total;
-        }
-    },
-    async logout() {
-        const user = await AuthService.logout();
-        if (user.status === 200) {
-        messages(
-            user.status,
-            user.data,
-            user.message
-        );
-        this.$router.push({name: 'login'});
-        } else {
-        this.errorList = user.message;
-        }
-    },
+        async searchProduct() {
+            if (this.search.trim() === '') {
+                this.errorList = ProductService.messageError('search');
+                return this.errorList;
+            }
+
+            const products = await ProductService.listProducts(this.currentPage, this.perPage, this.search, 1);
+            if (products.status === 200) {
+                this.products = products.data;
+                this.totalItems = products.data.total;
+                return;
+            } else {
+                this.errorList = ProductService.messageError('product');
+                return this.errorList;
+            }
+        },
+        async logout() {
+            const user = await AuthService.logout();
+            if (user.status === 200) {
+                AuthService.messageSuccess(user);
+                this.$router.push({name: 'login'});
+            } else {
+                this.errorList = user.message;
+                return this.errorList;
+            }
+        },
     },
 };
 </script>

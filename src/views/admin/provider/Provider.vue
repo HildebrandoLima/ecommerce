@@ -18,7 +18,7 @@
           </div>
 
             <AlertError
-                v-if="errorList"
+                v-if="errorList.length > 0"
                 :errorList="errorList"
             />
 
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import ProviderEdit from '@/components/provider/ProviderEdit.vue';
 import ProviderRegister from '@/components/provider/ProviderRegister.vue';
@@ -58,13 +59,13 @@ import ProviderService from '@/services/provider/ProviderService';
 import { PROVIDER_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { Banner, ProviderEdit, ProviderRegister, Pagination, ModalDetails, SelectedFilter, Table },
+  components: { AlertError, Banner, ProviderEdit, ProviderRegister, Pagination, ModalDetails, SelectedFilter, Table },
   name: 'provider',
   data() {
     return {
       bannerTitleMessage: 'Fornecedores',
       selectedFilter: 1,
-      errorList: {},
+      errorList: '',
       providers: {},
       editedItem: {},
       modalId: 'registerProviderModal',
@@ -78,7 +79,7 @@ export default {
     };
   },
   created() {
-      this.getProvider();
+      this.getProviders();
   },
   methods: {
     handlePageChange(newPage) {
@@ -94,28 +95,22 @@ export default {
     },
     applyFilter(selectedFilter) {
       this.selectedFilter = selectedFilter;
-      this.getProvider();
+      this.getProviders();
     },
-    async getProvider() {
-      const providers = await ProviderService.getProviders(this.currentPage, this.perPage, '', 0, this.selectedFilter);
+    async getProviders() {
+      const providers = await ProviderService.listProviders(this.currentPage, this.perPage, '', 0, this.selectedFilter);
       if (providers.status === 200) {
         this.providers = providers.data;
         this.totalItems = providers.data.total;
       } else {
-        this.errorList = PROVIDER_NOT_FOUND_MESSAGE;
+        this.errorList = ProviderService.messageError('provider');
       }
     },
     registerProvider() {
       $('#registerProviderModal').modal('show');
     },
     editItem(item) {
-      this.editedItem.id = item.fornecedorId;
-      this.editedItem.razaoSocial = item.razaoSocial;
-      this.editedItem.cnpj = item.cnpj;
-      this.editedItem.email = item.email;
-      this.editedItem.dataFundacao = item.dataFundacao;
-      this.editedItem.ativo = item.ativo;
-      $('#editProviderModal').modal('show');
+      ProviderService.editProviderModal(this.editedItem, item);
     },
   },
   computed: {

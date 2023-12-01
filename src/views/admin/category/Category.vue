@@ -18,7 +18,7 @@
         </div>
 
         <AlertError
-          v-if="errorList"
+          v-if="errorList.length > 0"
           :errorList="errorList"
         />
 
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import CategoryEdit from '@/components/category/admin/CategoryEdit.vue';
 import CategoryRegister from '@/components/category/admin/CategoryRegister.vue';
@@ -54,16 +55,15 @@ import ModalDetails from '@/components/shared/ModalDetails.vue';
 import SelectedFilter from '@/components/shared/SelectedFilter.vue';
 import Table from '@/components/shared/Table.vue';
 import CategoryService from '@/services/category/CategoryService';
-import { CATEGORY_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { Banner, CategoryEdit, CategoryRegister, Pagination, ModalDetails, SelectedFilter, Table },
+  components: { AlertError, Banner, CategoryEdit, CategoryRegister, Pagination, ModalDetails, SelectedFilter, Table },
   name: 'category',
   data() {
     return {
       bannerTitleMessage: 'Categorias',
       selectedFilter: 1,
-      errorList: {},
+      errorList: '',
       categories: {},
       editedItem: {},
       modalId: 'registerCategoryModal',
@@ -77,12 +77,12 @@ export default {
     };
   },
   created() {
-      this.getCategory();
+      this.getCategories();
   },
   methods: {
     handlePageChange(newPage) {
       this.currentPage = newPage;
-      this.getCategory();
+      this.getCategories();
     },
     getSearchCategory() {
       this.searchCategory = this.$route.query;
@@ -93,25 +93,23 @@ export default {
     },
     applyFilter(selectedFilter) {
       this.selectedFilter = selectedFilter;
-      this.getCategory();
+      this.getCategories();
     },
-    async getCategory() {
-      const categories = await CategoryService.getCategories(this.currentPage, this.perPage, this.selectedFilter);
+    async getCategories() {
+      const categories = await CategoryService.listCategories(this.currentPage, this.perPage, this.selectedFilter);
       if (categories.status === 200) {
         this.categories = categories.data;
         this.totalItems = categories.data.total;
       } else {
-        this.errorList = CATEGORY_NOT_FOUND_MESSAGE;
+        this.errorList = CategoryService.messageError('category');
+        return;
       }
     },
     registerCategory() {
       $('#registerCategoryModal').modal('show');
     },
     editItem(item) {
-      this.editedItem.id = item.categoriaId;
-      this.editedItem.nome = item.nome;
-      this.editedItem.ativo = item.ativo;
-      $('#editCategoryModal').modal('show');
+      CategoryService.editCategoryModal(this.editedItem, item);
     },
   },
   computed: {

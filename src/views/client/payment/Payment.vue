@@ -2,7 +2,7 @@
 <Banner :msg="bannerTitleMessage" />
 
 <AlertError
-    v-if="messageError"
+    v-if="messageError.length > 0"
     :errorList="messageError"
 />
 
@@ -31,6 +31,7 @@
               <div class="tab-pane fade show active" id="boleto">
                 <h5 class="card-title">Boleto</h5><hr />
                 <RegisterTicket
+                  :errorList="errorList"
                   :total="total"
                   :pedidoId="pedidoId"
                   :payment="payment"
@@ -41,6 +42,7 @@
               <div class="tab-pane fade" id="card">
                 <h5 class="card-title">Cartão</h5><hr />
                 <RegisterCard
+                  :errorList="errorList"
                   :total="total"
                   :pedidoId="pedidoId"
                   :payment="payment"
@@ -51,6 +53,7 @@
               <div class="tab-pane fade" id="pix">
                 <h5 class="card-title">PIX</h5><hr />
                 <RegisterPix
+                  :errorList="errorList"
                   :total="total"
                   :pedidoId="pedidoId"
                   :payment="payment"
@@ -74,9 +77,6 @@ import RegisterCard from '@/components/payment/RegisterCard.vue';
 import RegisterPix from '@/components/payment/RegisterPix.vue';
 import RegisterTicket from '@/components/payment/RegisterTicket.vue';
 import PaymentService from '@/services/payment/PaymentService';
-import { getTotalCart } from '@/storages/CartStorage';
-import { getOrder } from '@/storages/CheckoutStorage';
-import { ORDER_TO_GENERATE_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
   name: 'payment',
@@ -84,38 +84,33 @@ export default {
   data() {
     return {
       bannerTitleMessage: 'Pagamento',
-      messageError: null,
+      messageError: '',
+      errorList: {},
       total: 0,
       pedidoId: 0,
       payment: {},
     };
   },
   created() {
-    this.total = getTotalCart();
-    this.pedidoId = getOrder();
+    this.total = PaymentService.getTotalCart();
+    this.pedidoId = PaymentService.getOrder();
     this.validateIfOrderIdExists();
   },
   methods: {
     validateIfOrderIdExists() {
       if (!this.pedidoId) {
-        this.messageError = ORDER_TO_GENERATE_MESSAGE;
+        this.messageError = PaymentService.messageError('order');
         return;
       }
     },
     async savePayment() {
-      const payment = await PaymentService.postPayment(this.payment);
+      const payment = await PaymentService.createPayment(this.payment);
       if (payment.status === 200) {
-          Swal.fire({
-              icon: 'success',
-              title: 'Compra Finalizada com Sucesso.',
-          }).then((result) => {
-              if(result.isConfirmed) {
-                window.location.reload(1);
-              }
-          });
+          PaymentService.messageSuccess();
           this.$router.push({name: 'home'});
       } else {
           this.errorList = payment;
+          return;
       }
     },
   },

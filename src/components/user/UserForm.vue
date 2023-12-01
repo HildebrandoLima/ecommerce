@@ -1,36 +1,40 @@
 <template>
 <form class="needs-validation mb-5 border-top" novalidate onsubmit="return false">
     <div class="row mb-4">
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-user" aria-hidden="true"></i>
-            </span>
-            <input
-                type="text"
-                id="nome"
-                v-model="user.nome"
-                placeholder="Nome"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="text"
+                    id="nome"
+                    v-model="user.nome"
+                    placeholder="Nome"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.nome"
             />
         </div>
 
-        <div class="col input-group">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-            </span>
-            <input
-                type="email"
-                id="email"
-                v-model="user.email"
-                placeholder="E-mail"
-                class="form-control"
-                required
-            />
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                </span>
+                <input
+                    type="email"
+                    id="email"
+                    v-model="user.email"
+                    placeholder="E-mail"
+                    class="form-control"
+                    required
+                />
+            </div>
             <AlertError
                 v-if="Object.keys(errorList).length > 0"
                 :errorList="errorList.email"
@@ -55,11 +59,11 @@
                         class="form-control"
                         required
                     />
-                    <AlertError
-                        v-if="Object.keys(errorList).length > 0"
-                        :errorList="errorList.cpf"
-                    />
                 </div>
+                <AlertError
+                    v-if="Object.keys(errorList).length > 0"
+                    :errorList="errorList.cpf"
+                />
             </div>
 
             <div class="col">
@@ -105,20 +109,22 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col input-group">
-            <span v-if="!isEditMode" class="input-group-text" id="basic-addon1">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
-            </span>
+        <div class="col">
             <div v-if="!isEditMode">
-                <input
-                    type="text"
-                    id="date"
-                    v-model="user.dataNascimento" 
-                    placeholder="Data de Nascimento"
-                    class="form-control"
-                    onfocus="(this.type='date')"
-                    required
-                />
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </span>
+                    <input
+                        type="text"
+                        id="date"
+                        v-model="user.dataNascimento" 
+                        placeholder="Data de Nascimento"
+                        class="form-control"
+                        onfocus="(this.type='date')"
+                        required
+                    />
+                </div>
                 <AlertError
                     v-if="Object.keys(errorList).length > 0"
                     :errorList="errorList.dataNascimento"

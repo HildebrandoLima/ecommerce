@@ -113,16 +113,21 @@
   </div>
 </nav>
 
-<AlertError
-  v-if="errorList"
-  :errorList="errorList"
-/>
+
 
 <div class="container" v-if="products.list">
   <div class="card mt-3">
     <div class="card-body">
 
-        <ProductCard v-if="products.list" :products="products" :totalItems="totalItems" />
+        <ProductCard v-if="products.list"
+          :products="products"
+          :totalItems="totalItems"
+        />
+
+        <AlertError
+  v-if="errorList.length > 0"
+  :errorList="errorList"
+/>
     </div>
   </div>
 </div>
@@ -135,8 +140,6 @@ import ProductCard from '@/components/product/client/ProductCard.vue';
 import AuthService from '@/services/auth/AuthService';
 import ProductService from '@/services/product/ProductService';
 import { userAuth } from '@/storages/AuthStorage';
-import { PRODUCT_NOT_FOUND_MESSAGE, SEARCH_PRODUCT_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
-import { messages } from '@/utils/messages/Message';
 
 export default {
   components: { AlertError, CategoryList, ProductCard },
@@ -144,7 +147,7 @@ export default {
   data() {
     return {
       messageSuccess: '',
-      errorList: null,
+      errorList: '',
       userName: '',
       search: '',
       totalItems: 0,
@@ -160,28 +163,25 @@ export default {
   methods: {
     async searchProduct() {
       if (this.search.trim() === '') {
-        this.errorList = SEARCH_PRODUCT_NOT_FOUND_MESSAGE;
-        return;
+        this.errorList = ProductService.messageError('search');
+        return this.errorList;
       }
-      const products = await ProductService.getProducts(this.currentPage, this.perPage, this.search, 0);
-      if (products.data.total === 0 || products.status !== 200) {
-        this.errorList = PRODUCT_NOT_FOUND_MESSAGE;
-      } else {
+
+      const products = await ProductService.listProducts(this.currentPage, this.perPage, this.search, 1);
+      if (products.status === 200) {
         this.products = products.data;
         this.totalItems = products.data.total;
+        return;
+      } else {
+        this.errorList = ProductService.messageError('product');
+        return this.errorList;
       }
     },
     async logout() {
       const user = await AuthService.logout();
       if (user.status === 200) {
-        messages(
-          user.status,
-          user.data,
-          user.message
-        );
+        AuthService.messageSuccess(user);
         this.$router.push({name: 'login'});
-      } else {
-        this.errorList = user.message;
       }
     },
   },

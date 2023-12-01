@@ -14,7 +14,6 @@
 <script>
 import UserForm from '@/components/user/UserForm.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
-import { messages } from '@/utils/messages/Message';
 import UserService from '@/services/user/UserService';
 
 export default {
@@ -41,27 +40,16 @@ export default {
         },
         async editUser() {
             if (this.data.ativo == false) {
-                throw Swal.fire({
-                    icon: 'warning',
-                    title:
-                    'Tem certeza que deseja desativar sua conta?<br>' +
-                    'Somente o suporte poderá reativar.',
-                }).then((result) => {
-                    if(result.isConfirmed) {
-                        $('.modal').modal('hide'); 
-                    }
-                });
+                return UserService.alertEditUser();
             }
 
-            const user = await UserService.putUser(this.newObjectUser(this.data));
+            const user = await UserService.editUser(this.newObjectUser(this.data));
             if (user.status === 200) {
-                messages(
-                    user.status,
-                    user.data,
-                    user.message
-                );
+                UserService.messageSuccess(user);
+                return;
             } else {
                 this.errorList = user;
+                return this.errorList;
             }
         },
     },

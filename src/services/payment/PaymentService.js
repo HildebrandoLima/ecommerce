@@ -1,22 +1,38 @@
-import api from '@/server/api';
+import PaymentRepository from '@/repositories/PaymentRepository';
+import MessagesService from '../shared/MessagesService';
 import { cleanToCart, removeTotalCart } from '@/storages/CartStorage';
-import { removeOrder } from '@/storages/CheckoutStorage';
-import { messages } from '@/utils/messages/Message';
+import { getTotalCart } from '@/storages/CartStorage';
+import { getOrder, removeOrder } from '@/storages/CheckoutStorage';
 
 export default class PaymentService {
-    static async postPayment(body) {
-        try {
-            const response = await api.post(`/payment/save`, body);
-            cleanToCart(this.cart);
-            removeTotalCart();
-            removeOrder();
-            return response.data;
-        } catch (error) {
-            return messages(
-                error.response.data.status,
-                error.response.data.data,
-                error.response.data.message
-            );
-        }
-    }
+  static messageError(flag) {
+    return MessagesService.messageError(flag);
+  }
+
+  static messageSuccess() {
+    const data = {
+      message: 'Compra Finalizada com Sucesso.',
+    };
+    return MessagesService.messageSuccess(data);
+  }
+
+  static getTotalCart() {
+    return getTotalCart();
+  }
+
+  static getOrder() {
+    return getOrder();
+  } 
+
+  static async createPayment(body) {
+      try {
+          const response = await PaymentRepository.postPayment(body);
+          cleanToCart(this.cart);
+          removeTotalCart();
+          removeOrder();
+          return response.data;
+      } catch (error) {
+          return MessagesService.statusCode(error);
+      }
+  }
 }

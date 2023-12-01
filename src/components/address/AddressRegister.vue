@@ -41,13 +41,15 @@ export default {
       this.usuarioId = userId;
   },
   methods: {
-    async saveAddress(newAddress) {
-      newAddress.usuarioId = this.usuarioId;
-      const address = await AddressService.postAddress(newAddress);
+    async saveAddress() {
+      this.address.usuarioId = this.usuarioId;
+      const address = await AddressService.createAddress(this.address);
       if (address.status === 200) {
         this.messageSuccess = address.message;
+        return this.messageSuccess;
       } else {
         this.errorList = address;
+        return this.errorList;
       }
     },
   },

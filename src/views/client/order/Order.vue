@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import OrderDetails from '@/components/order/OrderDetails.vue';
 import OrderStatus from '@/components/order/OrderStatus.vue';
@@ -48,15 +47,14 @@ import Pagination from '@/components/shared/Pagination.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
 import OrderService from '@/services/order/OrderService';
 import { userAuth } from '@/storages/AuthStorage';
-import { ORDER_NOT_FOUND_MESSAGE } from '@/utils/defaultMessages/DefaultMessage';
 
 export default {
     name: 'order',
-    components: { AlertError, Banner, OrderDetails, OrderStatus, OrderSummary, Pagination, ModalDetails, Table },
+    components: { Banner, OrderDetails, OrderStatus, OrderSummary, Pagination, ModalDetails, Table },
     data() {
         return {
             bannerTitleMessage: 'Meus Pedidos',
-            messageError: null,
+            errorList: '',
             userId: 0,
             address: {},
             itens: {},
@@ -65,7 +63,7 @@ export default {
             currentPage: 1,
             perPage: 10,
             totalItems: 0,
-            orderColumns: ['numeroPedido', 'quantidadeItem', 'total', 'tipoEnrega', 'valorEntrega'],
+            orderColumns: ['numeroPedido', 'quantidadeItem', 'total', 'tipoEntrega', 'valorEntrega'],
             modalId: 'detailsModal',
             modalTitle: '',
             modalData: [],
@@ -75,39 +73,37 @@ export default {
     created() {
         const [userId] = userAuth();
         this.userId = userId;
-        this.getOrder();
+        this.getOrders();
     },
     methods: {
         handlePageChange(newPage) {
             this.currentPage = newPage;
-            this.getOrder();
+            this.getOrders();
         },
-        async getOrder() {
-            const orders = await OrderService.getOrders(this.currentPage, this.perPage, this.userId);
+        async getOrders() {
+            const orders = await OrderService.listOrders(this.currentPage, this.perPage, this.userId);
             if (orders.status === 200) {
                 this.orders = orders.data;
                 this.totalItems = orders.data.total;
             } else {
-                this.messageError = ORDER_NOT_FOUND_MESSAGE;
+                this.errorList = OrderService.messageError('create-order');
+                return;
             }
         },
-        addressModal(item) {
-            this.modalTitle = 'Detalhes do Endereço';
+        showModal(modalTitle, item, modalColumns) {
+            this.modalTitle = modalTitle;
             this.modalData = item;
-            this.modalColumns = ['logradouro', 'numero', 'bairro', 'cidade', 'uf'];
+            this.modalColumns = modalColumns;
             $('#detailsModal').modal('show');
+        },
+        addressModal(item) {
+            this.showModal('Detalhes do Endereço', item, ['logradouro', 'numero', 'bairro', 'cidade', 'uf']);
         },
         itemModal(item) {
-            this.modalTitle = 'Detalhes do Item';
-            this.modalData = item;
-            this.modalColumns = ['nome', 'preco', 'quantidadeItem', 'subTotal'];
-            $('#detailsModal').modal('show');
+            this.showModal('Detalhes do Item', item, ['nome', 'preco', 'quantidadeItem', 'subTotal']);
         },
         paymentModal(item) {
-            this.modalTitle = 'Detalhes do Pagamento';
-            this.modalData = item;
-            this.modalColumns = ['numeroCartao', 'tipoCartao', 'ccv', 'dataValidade', 'parcela', 'metodoPagamento'];
-            $('#detailsModal').modal('show');
+            this.showModal('Detalhes do Pagamento', item, ['numeroCartao', 'tipoCartao', 'ccv', 'dataValidade', 'parcela', 'metodoPagamento']);
         },
     },
     computed: {

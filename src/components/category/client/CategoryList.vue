@@ -1,34 +1,43 @@
 <template>
+  <AlertError
+    v-if="errorList.length > 0"
+    :errorList="errorList"
+  />
+
   <li v-for="(category, index) in categories.list" :key="index">
-    <RouterLink class="dropdown-item" :to="{ name: 'productByCategory', params: { id: category.categoriaId}}">
+    <RouterLink class="dropdown-item" :to="{ name: 'productByCategory', params: { id: category.id }}">
       {{ category.nome }}
     </RouterLink>
   </li>
 </template>
 
 <script>
+import AlertError from '@/components/shared/AlertError.vue';
 import CategoryService from '@/services/category/CategoryService';
 
 export default {
   name: 'category',
-  errorList: {},
+  components: { AlertError },
   data() {
     return {
+      errorList: '',
       categories: {},
-      page: 1,
+      currentPage: 1,
       perPage: 10,
     };
   },
   created() {
-      this.getCategory();
+      this.getCategories();
   },
   methods: {
-    async getCategory() {
-      const categories = await CategoryService.getCategories(this.page, this.perPage, 1);
+    async getCategories() {
+      const categories = await CategoryService.listCategories(this.currentPage, this.perPage, 1);
       if (categories.status === 200) {
         this.categories = categories.data;
+        return this.categories;
       } else {
-        this.errorList = 'Categoria Não Encontrados.';
+        this.errorList = CategoryService.messageError('category');
+        return;
       }
     },
   },

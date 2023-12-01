@@ -40,7 +40,6 @@ import Login from '@/components/login/Login.vue';
 import LoginSocial from '@/components/login/LoginSocial.vue';
 import ProductNewGrid from '@/components/product/client/ProductNewGrid.vue';
 import AuthService from '@/services/auth/AuthService';
-import { messages } from '@/utils/messages/Message';
 
 export default {
     components: { Banner, IForgotMyPassword, Login, LoginSocial, ProductNewGrid },
@@ -49,9 +48,7 @@ export default {
         return {
             bannerTitleMessage: 'Login',
             passwordVisible: false,
-            passwordVisible: false,
             errorList: {},
-            errorMessage: null,
             user: {
                 email: 'hildebrandolima16@gmail.com',
                 password: 'HiLd3br@ndo',
@@ -71,25 +68,17 @@ export default {
         },
         async auth() {
             const user = await AuthService.login(this.user);
-            if (user.data.isAdmin == true) {
-                Swal.fire({
-                    icon: 'success',
-                    title: user.message,
-                }).then((result) => {
-                    if(result.isConfirmed) {
-                        window.location.reload(1);
-                    }
-                });
-                this.$router.push({name: 'dashboard'});
-            } else if (user.data.isAdmin == false) {
-                messages(
-                    user.status,
-                    user.data,
-                    user.message
-                );
-                this.$router.push({name: 'home'});
+            if (user.status === 200) {
+                if (user.data.isAdmin === true) {
+                    AuthService.messageSuccess(user);
+                    this.$router.push({name: 'dashboard'});
+                } else {
+                    AuthService.messageSuccess(user);
+                    this.$router.push({name: 'home'});
+                }
             } else {
                 this.errorList = user;
+                return;
             }
         },
         async oAuth(providerName) {

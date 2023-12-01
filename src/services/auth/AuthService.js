@@ -1,42 +1,42 @@
-import api from '@/server/api';
+import AuthRepository from '@/repositories/AuthRepository';
+import MessagesService from '../shared/MessagesService';
 import { setAuth, removeAuth } from '@/storages/AuthStorage';
-import { messages } from '@/utils/messages/Message';
 
 export default class AuthService {
+    static messageSuccess(user) {
+        return MessagesService.messageSuccess(user);
+    }
+
+    static messageError(flag) {
+        return MessagesService.messageError(flag);
+    }
+
     static async login(body) {
         try {
-            const response = await api.post(`/auth/login`, body);
+            const response = await AuthRepository.login(body);
             setAuth(response.data.data);
             return response.data;
         } catch (error) {
-            return messages(
-                error.response.data.status,
-                error.response.data.data,
-                error.response.data.message
-            );
+            return MessagesService.statusCode(error);
         }
     }
 
     static async logout() {
         try {
-            const response = await api.post(`/auth/logout`);
+            const response = await AuthRepository.logout();
             removeAuth();
             return response.data;
         } catch (error) {
-            return messages(
-                error.response.data.status,
-                error.response.data.data,
-                error.response.data.message
-            );
+            return MessagesService.statusCode(error);
         }
     }
 
     static async loginSocial(provider) {
         try {
-            const response = await api.get(`/auth/login/social/${provider}`);
+            const response = await AuthRepository.loginSocial(provider);
             //const response = await api.get(`/auth/login/social/${provider}/callback`);
-            window.localStorage.setItem('userAuth', JSON.stringify(response.data));
-            return response.data.message;
+            setAuth(response.data);
+            return response.data;
         } catch (error) {
             throw error;
         }
