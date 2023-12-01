@@ -44,6 +44,7 @@
                     <a href="#" class="btn btn-light border px-2 icon-hover-primary">
                         <i class="fas fa-heart fa-lg px-1 text-danger"></i>
                     </a>
+                    &nbsp;
                     <button @click="removeItem(item)" class="btn btn-light border text-danger icon-hover-danger">Remover</button>
                 </div>
             </div>
