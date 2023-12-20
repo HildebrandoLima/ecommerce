@@ -142,7 +142,7 @@
                 </span>
                 <select id="categoriaId" v-model="product.categoriaId" class="form-select" required >
                     <option value="">-- Selecione a Categoria --</option>
-                    <option v-for="category in categories" :value="category.categoriaId" :key="category">{{ category.nome }}</option>
+                    <option v-for="category in categories" :value="category.id" :key="category">{{ category.nome }}</option>
                 </select>
             </div>
             <AlertError
@@ -158,7 +158,7 @@
                 </span>
                 <select id="fornecedorId" v-model="product.fornecedorId" class="form-select" required >
                     <option value="">-- Selecione o Fornecedor --</option>
-                    <option v-for="provider in providers" :value="provider.fornecedorId" :key="provider">{{ provider.razaoSocial }}</option>
+                    <option v-for="provider in providers" :value="provider.id" :key="provider">{{ provider.razaoSocial }}</option>
                 </select>
             </div>
             <AlertError
