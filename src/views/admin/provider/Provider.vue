@@ -11,7 +11,7 @@
             </div>
 
             <div class="col-lg-12 mt-1" style="text-align: right;">
-              <button type="button" @click="registerProvider" class="btn btn-outline-success" data-toggle="modal" data-target="#registerProviderModal">
+              <button type="button" @click="registerProvider" class="btn btn-outline-success">
                 Cadastrar +
               </button>
             </div>
@@ -40,26 +40,20 @@
 </div>
 
 <ProviderEdit id="editProviderModal" :data="editedItem" />
-
-<ModalDetails :modalId="modalId" :modalTitle="modalTitle">
-    <ProviderRegister />
-</ModalDetails>
 </template>
 
 <script>
 import AlertError from '@/components/shared/AlertError.vue';
 import Banner from '@/components/fixos/Banner.vue';
 import ProviderEdit from '@/components/provider/ProviderEdit.vue';
-import ProviderRegister from '@/components/provider/ProviderRegister.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import ModalDetails from '@/components/shared/ModalDetails.vue';
 import SelectedFilter from '@/components/shared/SelectedFilter.vue';
 import Table from '@/components/shared/Table.vue';
 import ProviderService from '@/services/provider/ProviderService';
-import { PROVIDER_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
-  components: { AlertError, Banner, ProviderEdit, ProviderRegister, Pagination, ModalDetails, SelectedFilter, Table },
+  components: { AlertError, Banner, ProviderEdit, Pagination, ModalDetails, SelectedFilter, Table },
   name: 'provider',
   data() {
     return {
@@ -68,7 +62,6 @@ export default {
       errorList: '',
       providers: {},
       editedItem: {},
-      modalId: 'registerProviderModal',
       modalTitle: 'Cadastrar Fornecedor',
       providerColumns: ['razaoSocial', 'cnpj', 'email', 'dataFundacao', 'criadoEm', 'alteradoEm'],
       searchProvider: '',
@@ -107,7 +100,7 @@ export default {
       }
     },
     registerProvider() {
-      $('#registerProviderModal').modal('show');
+      this.$router.push({name: 'providerRegister'});
     },
     editItem(item) {
       ProviderService.editProviderModal(this.editedItem, item);

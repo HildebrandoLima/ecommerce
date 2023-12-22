@@ -1,7 +1,9 @@
 <template>
 <form>
     <div v-for="(phone, index) in telephones" :key="index">
+  
         <input type="hidden" id="usuarioId" v-model="phone.usuarioId" />
+        <input type="hidden" id="fornecedorId" v-model="phone.fornecedorId" />
 
         <div class="row mb-4">
             <div class="col">

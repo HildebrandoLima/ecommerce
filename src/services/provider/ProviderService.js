@@ -1,5 +1,6 @@
 import ProviderRepository from '@/repositories/ProviderRepository';
 import MessagesService from '../shared/MessagesService';
+import { setProvider } from '@/storages/EntityPersonStorage';
 
 export default class ProviderService {
   static messageSuccess(flag) {
@@ -23,6 +24,7 @@ export default class ProviderService {
   static async createProvider(body) {
     try {
         const response = await ProviderRepository.postProvider(body);
+        setProvider(response.data.data);
         return response.data;
     } catch (error) {
         return MessagesService.statusCode(error);

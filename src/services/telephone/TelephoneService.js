@@ -1,6 +1,6 @@
 import TelephoneRepository from '@/repositories/TelephoneRepository';
 import MessagesService from '../shared/MessagesService';
-import { removeUser } from '@/storages/EntityPersonStorage';
+import { removeUser, removeProvider } from '@/storages/EntityPersonStorage';
 
 export default class TelephoneService {
   static messageSuccess(flag) {
@@ -11,13 +11,18 @@ export default class TelephoneService {
     return MessagesService.messageError(flag);
   }
 
-  static addTelephone(telephones, usuarioId) {
-    telephones.push({
-      ddd: "",
+  static addTelephone(telephones, userId, providerId) {
+    const telephone = {
+      ddd: '',
       numero: '',
       tipo: '',
-      usuarioId: usuarioId,
-    });
+    };
+    if(userId !== 0) {
+      telephone.usuarioId = userId;
+    } else {
+      telephone.fornecedorId = providerId;
+    }
+    telephones.push(telephone);
   }
 
   static removeTelephone(telephones, index) {
@@ -32,6 +37,7 @@ export default class TelephoneService {
     try {
       const response = await TelephoneRepository.postTelephone(body);
       removeUser();
+      removeProvider();
       return response.data;
     } catch (error) {
       return MessagesService.statusCode(error);
