@@ -84,6 +84,7 @@ export default {
             const provider = await ProviderService.createProvider(this.provider);
             if (provider.status === 200) {
                 this.messageSuccess = provider.message;
+                window.location.reload();
                 return this.messageSuccess;
             } else {
                 this.errorList = provider;

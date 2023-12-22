@@ -63,7 +63,6 @@ export default {
         const telephones = await TelephoneService.createTelephone(this.telephones);
         if (telephones.status === 200) {
           this.messageSuccess = telephones.message;
-          window.location.reload();
           return this.messageSuccess;
         } else {
           this.errorList = telephones;

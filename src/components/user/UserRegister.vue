@@ -39,6 +39,7 @@ export default {
       const user = await UserService.createUser(this.user);
       if (user.status === 200) {
         this.messageSuccess = user.message;
+        window.location.reload();
         return this.messageSuccess;
       } else {
         this.errorList = user;
