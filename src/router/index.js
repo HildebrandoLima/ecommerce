@@ -16,6 +16,7 @@ import ProductRegister from '@/views/admin/product/ProductRegister.vue';
 import Product from '@/views/product/Product.vue';
 import ProductByCategory from '@/views/product/ProductByCategory.vue';
 import ProductDetails from '@/views/product/ProductDetails.vue';
+import ProviderRegister from '@/views/admin/provider/ProviderRegister.vue';
 import User from '@/views/admin/user/User.vue';
 import { token, userAuth, permissions } from '@/storages/AuthStorage';
 
@@ -133,6 +134,14 @@ const router = createRouter({
       path: '/productDetails/:id',
       name: 'productDetails',
       component:  ProductDetails,
+    },
+    {
+      path: '/providerRegister',
+      name: 'providerRegister',
+      component:  ProviderRegister,
+      meta: {
+        auth: true,
+      }
     },
     {
       path: '/user',

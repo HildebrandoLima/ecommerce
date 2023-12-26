@@ -15,7 +15,7 @@
 import AlertSuccess from '@/components/shared/AlertSuccess.vue';
 import AddressForm from '@/components/address/AddressForm.vue';
 import AddressService from '@/services/address/AddressService';
-import { getUser } from '@/storages/EntityPersonStorage';
+import { getUser, getProvider } from '@/storages/EntityPersonStorage';
 
 export default {
   name: 'register-address',
@@ -26,6 +26,7 @@ export default {
       errorList: {},
       cep: '',
       usuarioId: 0,
+      fornecedorId: 0,
       address: {
         logradouro: '',
         numero: '',
@@ -38,11 +39,17 @@ export default {
   },
   created() {
       const userId = getUser();
+      const providerId = getProvider();
       this.usuarioId = userId;
+      this.fornecedorId = providerId;
   },
   methods: {
     async saveAddress() {
-      this.address.usuarioId = this.usuarioId;
+      if (getUser()) {
+        this.address.usuarioId = this.usuarioId;
+      } else {
+        this.address.fornecedorId = this.fornecedorId;
+      }
       const address = await AddressService.createAddress(this.address);
       if (address.status === 200) {
         this.messageSuccess = address.message;

@@ -9,7 +9,7 @@ export default class AddressRepository {
         return api.put(`/address/edit`, body);
     }
 
-    static async viaCep(cep) {
-        return api.get(`https://viacep.com.br/ws/${cep}/json/`);
+    static async getAddress(cep) {
+        return api.get(`/address/search/${cep}`);
     }
 }
