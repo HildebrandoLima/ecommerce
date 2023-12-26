@@ -354,9 +354,9 @@ export default {
             }
         },
         async getCategories() {
-            const categories = await CategoryService.listCategories(this.currentPage, this.perPage, 1);
+            const categories = await CategoryService.listCategories(0, 0, 1);
             if (categories.status === 200) {
-                this.categories = categories.data.list;
+                this.categories = categories.data;
                 return this.categories;
             } else {
                 this.errorList = CategoryService.messageError('category');
