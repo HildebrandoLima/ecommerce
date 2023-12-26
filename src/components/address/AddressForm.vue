@@ -203,15 +203,14 @@ export default {
       }
     },
     async searchCep() {
-      const newCep = this.cep.replace('-', '');
-      if (/^\d{8}$/.test(newCep)) {
-        const viaCep = await AddressService.searchCep(newCep);
+      const cep = this.cep.replace('-', '');
+      if (/^\d{8}$/.test(cep)) {
+        const viaCep = await AddressService.searchCep(this.cep);
         if (viaCep) {
           return AddressService.toAssembleObjectAddressCep(this.numero, this.address, viaCep);
         }
       } else {
-        AddressService.alertErrorAddressCep();
-        return;
+        return AddressService.alertErrorAddressCep();
       }
     },
     async saveAddress() {

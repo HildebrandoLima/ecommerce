@@ -1,20 +1,6 @@
 import AddressRepository from '@/repositories/AddressRepository';
 import MessagesService from '../shared/MessagesService';
 
-export function createObjectAddress(response) {
-  const address = response.data;
-  const viaCep = response.data
-  address.cidade = viaCep.localidade;
-  delete viaCep.localidade;
-  delete viaCep.complemento;
-  delete viaCep.siafi;
-  delete viaCep.ibge;
-  delete viaCep.gia;
-  delete viaCep.ddd;
-  Object.assign(address, viaCep); 
-  return viaCep;
-}
-
 export default class AddressService {
   static messageSuccess(user) {
     return MessagesService.messageSuccess(user);
@@ -47,8 +33,8 @@ export default class AddressService {
 
   static async searchCep(cep) {
     try {
-      const response = await AddressRepository.viaCep(cep);
-      return createObjectAddress(response);
+      const response = await AddressRepository.getAddress(cep);
+      return response.data.data;
     } catch (error) {
       return error;
     }
