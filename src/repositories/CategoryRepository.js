@@ -9,8 +9,8 @@ export default class CategoryRepository {
         return api.put(`/category/edit`, body);
     }
 
-    static async getCategories(page, perPage, ativo) {
-        return api.get(`/category/list?page=${page}&perPage=${perPage}&active=${ativo}`);
+    static async getCategories(params) {
+        return api.get(`/category/` + params);
     }
 
     static async getSearchCategory(page, perPage, category) {

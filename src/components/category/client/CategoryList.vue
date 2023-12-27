@@ -4,7 +4,7 @@
     :errorList="errorList"
   />
 
-  <li v-for="(category, index) in categories.list" :key="index">
+  <li v-for="(category, index) in categories" :key="index">
     <RouterLink class="dropdown-item" :to="{ name: 'productByCategory', params: { id: category.id }}">
       {{ category.nome }}
     </RouterLink>
@@ -22,8 +22,6 @@ export default {
     return {
       errorList: '',
       categories: {},
-      currentPage: 1,
-      perPage: 10,
     };
   },
   created() {
@@ -31,7 +29,7 @@ export default {
   },
   methods: {
     async getCategories() {
-      const categories = await CategoryService.listCategories(this.currentPage, this.perPage, 1);
+      const categories = await CategoryService.listCategories(0, 0, 1);
       if (categories.status === 200) {
         this.categories = categories.data;
         return this.categories;

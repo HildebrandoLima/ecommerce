@@ -1,5 +1,6 @@
 import CategoryRepository from '@/repositories/CategoryRepository';
 import MessagesService from '../shared/MessagesService';
+import UrlParamsService from '../shared/UrlParamsService';
 
 export default class CategoryService {
     static messageSuccess(flag) {
@@ -35,9 +36,10 @@ export default class CategoryService {
         }
     }
 
-    static async listCategories(page, perPage, ativo) {
+    static async listCategories(page, perPage, active) {
         try {
-            const response = await CategoryRepository.getCategories(page, perPage, ativo);
+            const queryParams = UrlParamsService.paginated(page, perPage, active);
+            const response = await CategoryRepository.getCategories(queryParams);
             return response.data;
         } catch (error) {
             return MessagesService.statusCode(error);

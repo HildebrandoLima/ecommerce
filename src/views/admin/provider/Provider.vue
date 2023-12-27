@@ -77,7 +77,7 @@ export default {
   methods: {
     handlePageChange(newPage) {
       this.currentPage = newPage;
-      this.getProduct();
+      this.getProviders();
     },
     getSearchProvider() {
       this.searchProvider = this.$route.query;
@@ -91,7 +91,7 @@ export default {
       this.getProviders();
     },
     async getProviders() {
-      const providers = await ProviderService.listProviders(this.currentPage, this.perPage, '', 0, this.selectedFilter);
+      const providers = await ProviderService.listProviders(this.currentPage, this.perPage, this.selectedFilter);
       if (providers.status === 200) {
         this.providers = providers.data;
         this.totalItems = providers.data.total;
