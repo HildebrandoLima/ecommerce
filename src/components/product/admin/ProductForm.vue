@@ -347,10 +347,9 @@ export default {
             this.characterCount = characterCount;
         },
         handleFileChange(event) {
-            const files = event.target.files;
-            for (let position = 0; position <= files.length; position++) {
-                const file = files[position];
-                this.product.imagens.push(file);
+            let files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                this.product.imagens.push(files[i]);
             }
         },
         async getCategories() {
@@ -360,7 +359,7 @@ export default {
                 return this.categories;
             } else {
                 this.errorList = CategoryService.messageError('category');
-                return;
+                return this.errorList;
             }
         },
         async getProviders() {
@@ -370,7 +369,7 @@ export default {
                 return this.providers;
             } else {
                 this.errorList = ProviderService.messageError('provider');
-                return;
+                return this.errorList;
             }
         },
         async saveProduct() {
