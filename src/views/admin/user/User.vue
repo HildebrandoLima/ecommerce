@@ -29,7 +29,6 @@ import Banner from '@/components/fixos/Banner.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import Table from '@/components/shared/Table.vue';
 import UserService from '@/services/user/UserService';
-import { USER_NOT_FOUND_MESSAGE } from '@//utils/defaultMessages/DefaultMessage';
 
 export default {
   components: { AlertError, Banner, Pagination, Table },
@@ -48,12 +47,12 @@ export default {
     };
   },
   created() {
-      this.getUser();
+      this.getUsers();
   },
   methods: {
     handlePageChange(newPage) {
       this.currentPage = newPage;
-      this.getProduct();
+      this.getUsers();
     },
     getSearchUser() {
       this.searchUser = this.$route.query;
@@ -62,7 +61,7 @@ export default {
       }
       return this.search;
     },
-    async getUser() {
+    async getUsers() {
       const users = await UserService.listUsers(this.currentPage, this.perPage, '', 0);
       if (users.status === 200) {
         this.users = users.data;
