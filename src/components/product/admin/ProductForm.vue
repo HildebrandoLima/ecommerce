@@ -290,8 +290,6 @@ export default {
         return {
             errorList: {},
             characterCount: 0,
-            currentPage: 1,
-            perPage: 10,
             categories: [],
             providers: [],
         };
@@ -364,9 +362,9 @@ export default {
             }
         },
         async getProviders() {
-            const providers = await ProviderService.listProviders(this.currentPage, this.perPage, '', 0, 1);
+            const providers = await ProviderService.listProviders(0, 0, 1);
             if (providers.status === 200) {
-                this.providers = providers.data.list;
+                this.providers = providers.data;
                 return this.providers;
             } else {
                 this.errorList = ProviderService.messageError('provider');

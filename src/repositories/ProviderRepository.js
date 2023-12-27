@@ -9,7 +9,7 @@ export default class ProviderRepository {
         return api.put(`/provider/edit`, body);
     }
 
-    static async getProviders(page, perPage, search, id, ativo) {
-        return api.get(`/provider/list?page=${page}&perPage=${perPage}&search=${search}&id=${id}&active=${ativo}`);
+    static async getProviders(params) {
+        return api.get(`/provider/` + params);
     }
 }

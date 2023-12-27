@@ -1,5 +1,6 @@
 import ProviderRepository from '@/repositories/ProviderRepository';
 import MessagesService from '../shared/MessagesService';
+import UrlParamsService from '../shared/UrlParamsService';
 import { setProvider } from '@/storages/EntityPersonStorage';
 
 export default class ProviderService {
@@ -40,9 +41,10 @@ export default class ProviderService {
     }
   }
 
-  static async listProviders(page, perPage, search, id, ativo) {
+  static async listProviders(page, perPage, active) {
     try {
-      const response = await ProviderRepository.getProviders(page, perPage, search, id, ativo);
+      const queryParams = UrlParamsService.paginated(page, perPage, active);
+      const response = await ProviderRepository.getProviders(queryParams);
       return response.data;
     } catch (error) {
       return MessagesService.statusCode(error);
